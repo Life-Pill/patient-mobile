@@ -180,8 +180,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 16),
 
                 SignInButton(
+                  buttonSize: ButtonSize.small,
                     buttonType: ButtonType.google,
-                    btnText: 'Continue with Google',
+                    btnText: 'Sign in with Google',
                     onPressed: () {
                       print('click');
                     }),

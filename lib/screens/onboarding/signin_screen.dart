@@ -172,7 +172,7 @@ class _SignInPageState extends State<SignInPage> {
 
                 SignInButton(
                     buttonType: ButtonType.google,
-                    btnText: 'Continue with Google',
+                    btnText: 'Sign in with Google',
                     onPressed: () {
                       print('click');
                     }),
