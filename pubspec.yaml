@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  bloc:
+  flutter_bloc:
 
   flutter_svg: ^2.0.9
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
+import 'features/onboarding/signin/ui/signin_screen.dart';
 import 'features/onboarding/signup/ui/signup_screen.dart';
 import 'features/onboarding/home/ui/home_screen.dart';
 import 'features/onboarding/splash/ui/splash_screen.dart';
@@ -26,9 +27,9 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
-      home: SplashScreen()
+      //home: SplashScreen()
       //home: HomeScreen(),
-      //home: SignUpPage(),
+      home: SignUpPage(),
       //home: SignInPage(),
     );
   }

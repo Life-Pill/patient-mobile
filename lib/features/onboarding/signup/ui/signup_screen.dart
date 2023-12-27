@@ -85,6 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                 // Confirm Password
                 TextFormField(
+                  obscureText: _obscureConfirmPassword,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: OutlineInputBorder(
