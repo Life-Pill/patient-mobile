@@ -40,6 +40,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
   sign_button: ^2.0.6
+  onscreen_num_keyboard: ^1.0.4
 
 dev_dependencies:
   flutter_test:

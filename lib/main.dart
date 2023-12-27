@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:patientmobileapplication/features/onboarding/otp/ui/otp.dart';
 
 
 import 'features/onboarding/signin/ui/signin_screen.dart';
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
       //home: SplashScreen()
       //home: HomeScreen(),
-      home: SignUpPage(),
+      //home: SignUpPage(),
       //home: SignInPage(),
+      home:OTPScreen(),
     );
   }
 }
