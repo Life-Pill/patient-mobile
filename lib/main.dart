@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:patientmobileapplication/screens/onboarding/signin_screen.dart';
-import 'package:patientmobileapplication/screens/onboarding/signup_screen.dart';
-import 'package:patientmobileapplication/screens/onboarding/splash_screen.dart';
 
-import 'screens/onboarding/home_screen.dart';
+
+import 'features/onboarding/signup/ui/signup_screen.dart';
+import 'features/onboarding/home/ui/home_screen.dart';
+import 'features/onboarding/splash/ui/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
-      //home: SplashScreen()
+      home: SplashScreen()
       //home: HomeScreen(),
-      home: SignUpPage(),
+      //home: SignUpPage(),
       //home: SignInPage(),
     );
   }

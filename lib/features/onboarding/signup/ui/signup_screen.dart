@@ -2,18 +2,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 
-import '../../utilities/styles.dart';
-import 'signup_screen.dart';
+import '../../../../utilities/styles.dart';
+import '../../signin/ui/signin_screen.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpPageState extends State<SignUpPage> {
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+  bool _agreedToTerms = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _SignInPageState extends State<SignInPage> {
               children: [
                 // Title
                 Text(
-                  "Welcome Back",
+                  "Create Account",
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
@@ -37,7 +39,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
 
                 // tagline
-                Text("Sign in to locate your hope with us ..."),
+                Text("Create an account to locate your hope with us ..."),
 
                 const SizedBox(height: 16),
 
@@ -81,21 +83,28 @@ class _SignInPageState extends State<SignInPage> {
 
                 const SizedBox(height: 16),
 
-                // forgot password
-                Row(
-                  children: [
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        // Implement logic for Forgot Password
-                        print("Forgot Password");
-                      },
-                      child: const Text(
-                        'Forgot Password?',
-                      ),
+                // Confirm Password
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
                     ),
-                  ],
+                    filled: true,
+                    fillColor: Color(0xFFF1F4FF),
+                    labelText: 'Confirm Password',
+                    suffixIcon: IconButton(
+                        icon: Icon(_obscureConfirmPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        }),
+                  ),
                 ),
+
                 const SizedBox(height: 16),
 
                 // Button
@@ -107,7 +116,7 @@ class _SignInPageState extends State<SignInPage> {
                     },
                     style: AppStyles.signInButton,
                     child: Text(
-                      'Sign In',
+                      'Sign Up',
                       style: AppStyles.buttonTextStyle,
                     ),
                   ),
@@ -118,13 +127,13 @@ class _SignInPageState extends State<SignInPage> {
                 // Text
                 RichText(
                     text: TextSpan(
-                        text: "Don't have an account? ",
+                        text: 'Already have an account? ',
                         style: TextStyle(
                           color: Colors.black54,
                         ),
                         children: [
                       TextSpan(
-                        text: 'Sign Up',
+                        text: 'Sign In',
                         style: TextStyle(
                           color: Colors.blue,
                         ),
@@ -135,7 +144,7 @@ class _SignInPageState extends State<SignInPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignUpPage(),
+                                builder: (context) => SignInPage(),
                               ),
                             );
                           },
@@ -171,11 +180,58 @@ class _SignInPageState extends State<SignInPage> {
                 const SizedBox(height: 16),
 
                 SignInButton(
+                  buttonSize: ButtonSize.small,
                     buttonType: ButtonType.google,
                     btnText: 'Sign in with Google',
                     onPressed: () {
                       print('click');
                     }),
+
+                const SizedBox(height: 16),
+
+                // Checkbox with Terms of Service and Privacy Policy
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _agreedToTerms,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _agreedToTerms = value ?? false;
+                        });
+                      },
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          print("Show Policies");
+                        },
+                        child: RichText(
+                          text: const TextSpan(
+                            text: 'I agree to the ',
+                            style: TextStyle(color: Colors.black),
+                            children: [
+                              TextSpan(
+                                text: 'Terms of Service',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                              TextSpan(text: ' and '),
+                              TextSpan(
+                                text: 'Privacy Policy',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
