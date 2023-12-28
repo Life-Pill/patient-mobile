@@ -5,6 +5,7 @@ import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/
 import 'package:patientmobileapplication/features/onboarding/otp/ui/otp.dart';
 import 'package:patientmobileapplication/features/onboarding/password_changed/ui/password_changed.dart';
 import 'package:patientmobileapplication/features/onboarding/reset_password/ui/reset_password.dart';
+import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
 
 import 'features/onboarding/signin/ui/signin_screen.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
       //home:CheckEmail(),
       //home:OTPScreen(),
       //home:ResetPassword(),
-      home: PasswordChanged(),
+     // home: PasswordChanged(),
+      home:SearchResults(),
 
     );
   }
