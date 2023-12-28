@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:patientmobileapplication/features/onboarding/check_email/ui/check_email_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/forgot_password_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/otp/ui/otp.dart';
 
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
       //home: HomeScreen(),
       //home: SignUpPage(),
       //home: SignInPage(),
-      home: ForgotPassword(),
+      //home: ForgotPassword(),
+      home:CheckEmail(),
       //home:OTPScreen(),
 
     );
