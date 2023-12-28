@@ -5,8 +5,8 @@ import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_sc
 
 import '../../components/top_app_bar.dart';
 
-class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({super.key});
+class ResetPassword extends StatelessWidget {
+  const ResetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ForgotPassword extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Forgot password?",
+                          "Reset password?",
                           style: GoogleFonts.poppins(
                               fontSize: 30.0,
                               fontWeight: FontWeight.w700,
@@ -41,20 +41,20 @@ class ForgotPassword extends StatelessWidget {
                       height: 15.0,
                     ),
                     Text(
-                      "Don’t worry! It happens. Please enter the email associated with your account",
+                      "Please type something you'll remember",
                       style: GoogleFonts.poppins(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFF61677D)),
                     ),
                     SizedBox(
-                      height: 60.0,
+                      height: 40.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Email address",
+                          "New password",
                           style: GoogleFonts.poppins(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w400,
@@ -68,7 +68,28 @@ class ForgotPassword extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Enter your email address',
+                        hintText: 'Enter new password',
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Confirm new password",
+                          style: GoogleFonts.poppins(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF61677D)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Re-enter new password',
                       ),
                     ),
                     SizedBox(
@@ -80,7 +101,7 @@ class ForgotPassword extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {},
                         child: Text(
-                          "Send code",
+                          "Reset password",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -100,37 +121,34 @@ class ForgotPassword extends StatelessWidget {
                   ],
                 ),
                 Column(
-                  children:[RichText(
-                      text: TextSpan(
-                          text: "Remember password? ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0
-
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                            text: "Remember password? ",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.0),
+                            children: [
+                          TextSpan(
+                            text: 'Log in',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigate to the Log In screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignInPage(),
+                                  ),
+                                );
+                              },
                           ),
-                          children: [
-                        TextSpan(
-                          text: 'Log in',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-
-                              // Navigate to the Log In screen
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignInPage(),
-                                ),
-                              );
-                            },
-                        ),
-                      ])),
-      ],
+                        ])),
+                  ],
                 )
               ],
             ),
