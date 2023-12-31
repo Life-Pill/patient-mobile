@@ -43,8 +43,9 @@ class MyApp extends StatelessWidget {
       //home:OTPScreen(),
       //home:ResetPassword(),
      // home: PasswordChanged(),
-     // home:SearchResults(),
-      home: ViewProfile(),
+      home:SearchResults(),
+
+     // home: ViewProfile(),
 
     );
   }

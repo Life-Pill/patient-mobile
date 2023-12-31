@@ -14,19 +14,14 @@ class SearchResults extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              // Adjust the height as needed
-              height: 180.0,
-              padding: EdgeInsets.all(20.0),
+              height: 80.0,
+              padding: EdgeInsets.only(top:30.0,right: 20.0,left: 20.0,bottom: 0.0),
               decoration: BoxDecoration(
                 color: Colors.blue,
                 border: Border(
                   bottom: BorderSide(
                     color: Colors.blue,
                   ),
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(36.0),
-                  bottomRight: Radius.circular(36.0),
                 ),
               ),
               child: Column(
@@ -53,10 +48,10 @@ class SearchResults extends StatelessWidget {
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),
+
             Expanded(
               child: SearchTabs(),
             ),
