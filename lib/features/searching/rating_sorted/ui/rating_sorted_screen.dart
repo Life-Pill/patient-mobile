@@ -9,6 +9,7 @@ class RatingSorted extends StatelessWidget {
     return  Scaffold(
       body: ListView(
         children: [
+          //TODO: Add cards according to the data received
           ResultsCard(shopOpen: true),
           ResultsCard(shopOpen: false),
 
