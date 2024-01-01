@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:patientmobileapplication/features/searching/rating_sorted/ui/rating_sorted_screen.dart';
+import 'package:patientmobileapplication/features/searching/results_card/ui/results_card_ui.dart';
 
 class SearchTabs extends StatelessWidget {
   const SearchTabs({Key? key});
@@ -11,12 +13,15 @@ class SearchTabs extends StatelessWidget {
         appBar: AppBar(
 
           shape: RoundedRectangleBorder(
+
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20.0),
               bottomRight: Radius.circular(20.0),
             ),
           ),
           title: TabBar(
+
+
             dividerHeight: 0.0,
             labelPadding: EdgeInsets.all(0.0),
             indicatorSize: TabBarIndicatorSize.tab,
@@ -54,7 +59,7 @@ class SearchTabs extends StatelessWidget {
         body: TabBarView(
           children: [
             // TODO: get the pages to display here
-            Icon(Icons.directions_car),
+            RatingSorted(),
             Icon(Icons.directions_transit),
             Icon(Icons.directions_bike),
             Icon(Icons.directions_bike),
