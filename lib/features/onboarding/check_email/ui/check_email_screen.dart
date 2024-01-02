@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onscreen_num_keyboard/onscreen_num_keyboard.dart';
+import 'package:patientmobileapplication/features/onboarding/reset_password/ui/reset_password.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import '../../components/top_app_bar.dart';
@@ -160,7 +161,12 @@ class _CheckEmailState extends State<CheckEmail> {
                       height: 56.0,
                       width: double.maxFinite,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResetPassword(),
+                          ),
+                        );},
                         child: Text(
                           "Verify",
                           style: TextStyle(

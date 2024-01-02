@@ -41,6 +41,7 @@ dependencies:
   google_fonts: ^6.1.0
   sign_button: ^2.0.6
   onscreen_num_keyboard: ^1.0.4
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:

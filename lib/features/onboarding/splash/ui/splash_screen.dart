@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import '../../home/ui/home_screen.dart';
 
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (_) => const SignInPage(),
         ),
       );
     });
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
             WidgetsBinding.instance!.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (_) => const HomeScreen(),
+                  builder: (_) => const SignInPage(),
                 ),
               );
             });
