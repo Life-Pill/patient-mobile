@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/forgot_password_screen.dart';
+import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../../../utilities/styles.dart';
@@ -87,7 +89,12 @@ class _SignInPageState extends State<SignInPage> {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        // Implement logic for Forgot Password
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPassword(),
+                          ),
+                        );
                         print("Forgot Password");
                       },
                       child: const Text(
@@ -103,7 +110,12 @@ class _SignInPageState extends State<SignInPage> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Implement your button logic here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchResults(),
+                        ),
+                      );
                     },
                     style: AppStyles.signInButton,
                     child: Text(

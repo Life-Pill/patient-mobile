@@ -34,7 +34,9 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
-      //home: SplashScreen()
+      home: SplashScreen()
+
+
       //home: HomeScreen(),
       //home: SignUpPage(),
       //home: SignInPage(),
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
       //home:OTPScreen(),
       //home:ResetPassword(),
      // home: PasswordChanged(),
-      home:SearchResults(),
+      //home:SearchResults(),
 
      // home: ViewProfile(),
 
