@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/forgot_password_screen.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 import 'package:sign_button/sign_button.dart';
@@ -30,7 +31,7 @@ class _SignInPageState extends State<SignInPage> {
               children: [
                 // Title
                 Text(
-                  "Welcome Back",
+                  "Welcome",
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
@@ -89,12 +90,8 @@ class _SignInPageState extends State<SignInPage> {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPassword(),
-                          ),
-                        );
+                        Get.to(ForgotPassword());
+
                         print("Forgot Password");
                       },
                       child: const Text(
@@ -110,12 +107,8 @@ class _SignInPageState extends State<SignInPage> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SearchResults(),
-                        ),
-                      );
+                      Get.to(SearchResults());
+
                     },
                     style: AppStyles.signInButton,
                     child: Text(
@@ -144,12 +137,8 @@ class _SignInPageState extends State<SignInPage> {
                           ..onTap = () {
                             // TODO: Implement the Sign In logic here
                             // Navigate to the Sign In screen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignUpPage(),
-                              ),
-                            );
+                            Get.to(SignUpPage());
+
                           },
                       ),
                     ])),

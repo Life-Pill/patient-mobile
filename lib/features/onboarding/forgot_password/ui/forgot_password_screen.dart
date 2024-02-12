@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/onboarding/check_email/ui/check_email_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/otp/ui/otp.dart';
@@ -80,12 +81,9 @@ class ForgotPassword extends StatelessWidget {
                       height: 56.0,
                       width: double.maxFinite,
                       child: ElevatedButton(
-                        onPressed: () {Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CheckEmail(),
-                          ),
-                        );},
+                        onPressed: () {
+                          Get.to(CheckEmail());
+                        },
                         child: Text(
                           "Send code",
                           style: TextStyle(
@@ -128,12 +126,8 @@ class ForgotPassword extends StatelessWidget {
                             ..onTap = () {
 
                               // Navigate to the Log In screen
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignInPage(),
-                                ),
-                              );
+                              Get.to(SignInPage());
+
                             },
                         ),
                       ])),

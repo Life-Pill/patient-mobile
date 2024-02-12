@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../../../utilities/styles.dart';
@@ -142,12 +143,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           ..onTap = () {
                             // TODO: Implement the Sign In logic here
                             // Navigate to the Sign In screen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignInPage(),
-                              ),
-                            );
+                            Get.to(SignInPage());
+
                           },
                       ),
                     ])),
