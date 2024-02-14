@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import '../../home/ui/home_screen.dart';
@@ -24,11 +25,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => const SignInPage(),
-        ),
-      );
+      Get.to(SignInPage());
+
     });
   }
 
@@ -49,11 +47,8 @@ class _SplashScreenState extends State<SplashScreen>
           if (snapshot.connectionState == ConnectionState.done) {
             // Navigate to the home screen after the delay
             WidgetsBinding.instance!.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => const SignInPage(),
-                ),
-              );
+              Get.to(SignInPage());
+
             });
           }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/onboarding/password_changed/ui/password_changed.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
@@ -100,12 +101,8 @@ class ResetPassword extends StatelessWidget {
                       height: 56.0,
                       width: double.maxFinite,
                       child: ElevatedButton(
-                        onPressed: () {Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PasswordChanged(),
-                          ),
-                        );},
+                        onPressed: () {
+                          Get.to(PasswordChanged());},
                         child: Text(
                           "Reset password",
                           style: TextStyle(
@@ -145,12 +142,8 @@ class ResetPassword extends StatelessWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 // Navigate to the Log In screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignInPage(),
-                                  ),
-                                );
+                                Get.to(SignInPage());
+
                               },
                           ),
                         ])),

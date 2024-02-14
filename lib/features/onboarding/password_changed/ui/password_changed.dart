@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../signin/ui/signin_screen.dart';
@@ -50,12 +51,8 @@ class PasswordChanged extends StatelessWidget {
                 width: double.maxFinite,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignInPage(),
-                      ),
-                    );
+                    Get.to(SignInPage());
+
                   },
                   child: Text(
                     "Back to login",
