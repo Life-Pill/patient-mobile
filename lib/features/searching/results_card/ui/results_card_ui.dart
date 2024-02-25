@@ -130,23 +130,26 @@ class _ResultsCardState extends State<ResultsCard> {
                         ),
                       ],
                     ),
-                    //Interactive rating bar
-                    RatingBar.builder(
-                      itemSize: 20.0,
-                      initialRating: 3,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
+                    //Interactive rating bar, Ignorepointer added to avoid user changing rating in this screen
+                    IgnorePointer(
+                      ignoring: true,
+                      child: RatingBar.builder(
+                        itemSize: 20.0,
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          //TODO: Rating update code
+                          print(rating);
+                        },
                       ),
-                      onRatingUpdate: (rating) {
-                        //TODO: Rating update code
-                        print(rating);
-                      },
                     ),
                   ],
                 ),
