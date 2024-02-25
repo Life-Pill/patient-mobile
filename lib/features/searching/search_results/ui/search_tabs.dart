@@ -13,7 +13,7 @@ class SearchTabs extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-
+          automaticallyImplyLeading: false,
           shape: RoundedRectangleBorder(
 
             borderRadius: BorderRadius.only(
