@@ -4,16 +4,29 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ResultsCard extends StatefulWidget {
-  final bool shopOpen;
-  final Color blueColor = Color(0xFF277CF4);
 
-   ResultsCard({super.key, required this.shopOpen});
+
+  final Color blueColor = Color(0xFF277CF4);
+  final String name;
+  final String logo;
+  final bool isOpen;
+  final double price;
+  final String unit;
+  final double rating;
+  final String address;
+  final String phone;
+
+
+
+   ResultsCard({super.key, required this.isOpen, required this.name, required this.logo, required this.price, required this.unit, required this.rating, required this.address, required this.phone});
 
   @override
   State<ResultsCard> createState() => _ResultsCardState();
 }
 
 class _ResultsCardState extends State<ResultsCard> {
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +46,7 @@ class _ResultsCardState extends State<ResultsCard> {
                   children: [
                     //TODO: Add the pharmacy image here inside circle avatar
                     CircleAvatar(
-                      child: Icon(Icons.apartment),
+                      backgroundImage: AssetImage(widget.logo),
                       radius: 50.0,
                     ),
                     SizedBox(
@@ -44,7 +57,7 @@ class _ResultsCardState extends State<ResultsCard> {
                         //TODO: Enter relavant pharmacy details below
                         children: [
                           Text(
-                            "Pharmacy name",
+                            widget.name,
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 19.0,
@@ -59,7 +72,7 @@ class _ResultsCardState extends State<ResultsCard> {
                             width: MediaQuery.of(context).size.width -
                                 200.0, // Set the width to the screen width
                             child: Text(
-                              "Pharmacy address should be given in this text widget",
+                              widget.address,
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 11.0,
@@ -75,7 +88,7 @@ class _ResultsCardState extends State<ResultsCard> {
                             height: 25.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
-                              color: widget.shopOpen
+                              color: widget.isOpen
                                   ? Colors.green.shade100
                                   : Colors.red.shade100,
                             ),
@@ -86,18 +99,18 @@ class _ResultsCardState extends State<ResultsCard> {
                                 children: [
                                   Icon(Icons.home,
                                       size: 20.0,
-                                      color: widget.shopOpen
+                                      color: widget.isOpen
                                           ? Color(0xFF30C04F)
                                           : Color(0xFFC03030)),
                                   SizedBox(
                                     width: 5.0,
                                   ),
                                   Text(
-                                    widget.shopOpen ? "Open" : "Closed",
+                                    widget.isOpen ? "Open" : "Closed",
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 11.0,
-                                        color: widget.shopOpen
+                                        color: widget.isOpen
                                             ? Color(0xFF30C04F)
                                             : Color(0xFFC03030)),
                                   ),
@@ -115,14 +128,14 @@ class _ResultsCardState extends State<ResultsCard> {
                       children: [
                         Text(
                           //TODO: set price here
-                          "Rs. 150",
+                          "Rs. ${widget.price}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w700,
                               fontSize: 20.0,
                               color: Colors.black),
                         ),
                         Text(
-                          "/per tablet",
+                          "/per ${widget.unit}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 15.0,
@@ -130,23 +143,26 @@ class _ResultsCardState extends State<ResultsCard> {
                         ),
                       ],
                     ),
-                    //Interactive rating bar
-                    RatingBar.builder(
-                      itemSize: 20.0,
-                      initialRating: 3,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
+                    //Interactive rating bar, Ignorepointer added to avoid user changing rating in this screen
+                    IgnorePointer(
+                      ignoring: true,
+                      child: RatingBar.builder(
+                        itemSize: 20.0,
+                        initialRating: widget.rating,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (ratingval) {
+
+                         /// print("${widget.name} --> ${widget.rating}");
+                        },
                       ),
-                      onRatingUpdate: (rating) {
-                        //TODO: Rating update code
-                        print(rating);
-                      },
                     ),
                   ],
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
 
@@ -29,10 +30,13 @@ class SearchResults extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image(
-                        image: AssetImage("assets/images/app_back_btn.png"),
-                        width: 40.0,
-                        height: 40.0,
+                      GestureDetector(
+                        child: Image(
+                          image: AssetImage("assets/images/app_back_btn.png"),
+                          width: 40.0,
+                          height: 40.0,
+                        ),
+                        onTap: Get.back,
                       ),
                       Text(
                         "Search results",

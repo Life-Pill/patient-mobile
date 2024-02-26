@@ -4,9 +4,9 @@ import 'package:patientmobileapplication/features/searching/results_card/ui/resu
 
 import '../../../Data/pharmacy_results_data.dart';
 
-class RatingSorted extends StatelessWidget {
-   RatingSorted({super.key});
-  List<Pharmacy> sortedResults = sortSearchResults(searchResults, "rating");
+class OpenSorted extends StatelessWidget {
+   OpenSorted({super.key});
+  List<Pharmacy> sortedResults = sortSearchResults(searchResults, "open");
 
   @override
   Widget build(BuildContext context) {

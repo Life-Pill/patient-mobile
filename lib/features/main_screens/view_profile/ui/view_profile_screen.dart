@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:patientmobileapplication/features/profile/components/account_option_btn.dart';
+
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
+
+import '../../components/account_option_btn.dart';
 
 class ViewProfile extends StatefulWidget {
 
@@ -12,12 +14,7 @@ class ViewProfile extends StatefulWidget {
 }
 
 class _ViewProfileState extends State<ViewProfile> {
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,23 +168,7 @@ class _ViewProfileState extends State<ViewProfile> {
               ),
             ),
           ),
-          BottomNavigationBar(items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),label: "Cart"),
-            BottomNavigationBarItem(icon: Icon(Icons.camera_alt),label: 'Camera'),
-            BottomNavigationBarItem(icon: Icon(Icons.people),label: 'People'),
-            BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profile'),
 
-
-
-          ],
-            elevation: 5.0,
-            showSelectedLabels: false,
-            currentIndex:_selectedIndex,
-            selectedItemColor: Colors.blue[800],
-            onTap: _onItemTapped,
-            unselectedItemColor: Colors.lightBlue[100],
-          ),
 
         ],
 
