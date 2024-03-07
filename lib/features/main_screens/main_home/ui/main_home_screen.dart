@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:patientmobileapplication/features/main_screens/home_tab/home_tab_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
 
-import '../../view_profile/ui/view_profile_screen.dart';
+import '../../view_profile_tab/ui/view_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,10 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
               index: _selectedIndex,
               children: [
                 // Home Tab
-                Container(
-                  alignment: Alignment.center,
-                  child: Text('Home Tab'),
-                ),
+                Home(),
                 // Cart Tab
                 Container(
                   alignment: Alignment.center,
@@ -52,17 +49,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('People Tab'),
                 ),
                 // Profile Tab
-                ViewProfile(), 
+                ViewProfile(),
               ],
             ),
           ),
           BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-              BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: 'Camera'),
-              BottomNavigationBarItem(icon: Icon(Icons.people), label: 'People'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home_filled), label: 'Home'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart), label: "Cart"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.camera_alt), label: 'Camera'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.people), label: 'People'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: 'Profile'),
             ],
             elevation: 5.0,
             showSelectedLabels: false,

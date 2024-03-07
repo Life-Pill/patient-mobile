@@ -10,7 +10,7 @@ import 'package:patientmobileapplication/features/onboarding/reset_password/ui/r
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
 
-import 'features/main_screens/home/ui/home_screen.dart';
+import 'features/main_screens/main_home/ui/main_home_screen.dart';
 import 'features/onboarding/signin/ui/signin_screen.dart';
 import 'features/onboarding/signup/ui/signup_screen.dart';
 
