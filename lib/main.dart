@@ -39,10 +39,10 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
 
 
-        home: SplashScreen()
+        //home: SplashScreen()
 
 
-      //home: HomeScreen(),
+      home: HomeScreen(),
       //home: SignUpPage(),
       //home: SignInPage(),
       //home: ForgotPassword(),
