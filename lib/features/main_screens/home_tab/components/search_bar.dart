@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// Flutter code sample for [SearchBar].
 
@@ -14,7 +15,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
 
   void _openCamera(BuildContext context) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       // Do something with the picked image
@@ -23,7 +24,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
       print('No image selected.');
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = ThemeData(brightness: Brightness.light);
