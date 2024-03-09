@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/components/account_option_btn.dart';
+import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
 import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
@@ -108,7 +109,7 @@ class _HomeState extends State<Home> {
                                   width: 15.0,
                                 ),
                                 Icon(
-                                  Icons.notifications_none,
+                                  Icons.notification_add_outlined,
                                   size: 25.0,
                                   color: Colors.white,
                                 ),
@@ -116,6 +117,10 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        HomeSearchBar(),
                       ],
                     ),
                   ),
