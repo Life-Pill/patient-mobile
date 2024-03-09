@@ -34,6 +34,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
           builder: (BuildContext context, SearchController controller) {
         return SearchBar(
           controller: controller,
+          hintText: "Search Medicine...",
           onTap: () {
             controller.openView();
           },
@@ -43,13 +44,10 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
           leading: const Icon(Icons.search),
           trailing: <Widget>[
             Tooltip(
-              message: 'Change brightness mode',
+              message: 'Open Camera',
               child: IconButton(
                 onPressed: () {
                   _openCamera(context);
-                  setState(() {
-                    isDark = !isDark;
-                  });
                 },
                 icon: const Icon(Icons.camera),
               ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/components/account_option_btn.dart';
+import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
 import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
 
@@ -31,7 +32,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   Container(
-                    height: 275.0,
+                    height: 200.0,
                     padding:
                         EdgeInsets.only(top: 40.0, right: 20.0, left: 20.0),
                     decoration: BoxDecoration(
@@ -128,53 +129,45 @@ class _HomeState extends State<Home> {
                     height: 30.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "My Account",
-                          style: GoogleFonts.roboto(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
+                        HomeTile(
+                          icon: Icons.shopping_cart_outlined,
+                          title: "Order History",
+                          description: "View order history",
+                          bgcolor: Colors.amber.shade200,
+                          iconColor: Colors.greenAccent.shade200,
                         ),
-                        SizedBox(
-                          height: 20.0,
+                        HomeTile(
+                          icon: Icons.file_copy,
+                          title: "My Reports",
+                          description: "View stored reports",
+                          bgcolor: Colors.greenAccent.shade200,
+                          iconColor: Colors.blueAccent.shade200,
                         ),
-                        AccountOptionButton(
-                            btnIcon: Icons.account_circle_outlined,
-                            btnText: "Your profile"),
-                        AccountOptionButton(
-                            btnIcon: Icons.credit_card,
-                            btnText: "Payment methods"),
-                        AccountOptionButton(
-                            btnIcon: Icons.password,
-                            btnText: "Change Password"),
-                        AccountOptionButton(
-                            btnIcon: Icons.settings, btnText: "Settings"),
-                        Text(
-                          "General",
-                          style: GoogleFonts.roboto(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
+                        HomeTile(
+                          icon: Icons.medical_information_outlined,
+                          title: "Prescriptions",
+                          description: "View stored prescriptions",
+                          bgcolor: Colors.lightBlue.shade200,
+                          iconColor: Colors.orangeAccent.shade200,
                         ),
-                        SizedBox(
-                          height: 20.0,
+                        HomeTile(
+                          icon: Icons.local_pharmacy_outlined,
+                          title: "Nearby Pharmacies",
+                          description: "View nearby pharmacies",
+                          bgcolor: Colors.orangeAccent.shade200,
+                          iconColor: Colors.greenAccent.shade200,
                         ),
-                        AccountOptionButton(
-                            btnIcon: Icons.account_circle_outlined,
-                            btnText: "Terms & Conditions"),
-                        AccountOptionButton(
-                            btnIcon: Icons.credit_card,
-                            btnText: "Privacy Policy"),
-                        AccountOptionButton(
-                            btnIcon: Icons.call, btnText: "Customer Services"),
-                        AccountOptionButton(
-                            btnIcon: Icons.logout_outlined, btnText: "Logout"),
+                        HomeTile(
+                          icon: Icons.notifications_active_outlined,
+                          title: "Remind Me",
+                          description: "Set reminders",
+                          bgcolor: Colors.yellow.shade200,
+                          iconColor: Colors.greenAccent.shade200,
+                        ),
                       ],
                     ),
                   ),
