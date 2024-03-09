@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,11 +7,33 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/onboarding/check_email/ui/check_email_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/otp/ui/otp.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
+import 'package:patientmobileapplication/global/global.dart';
 
 import '../../components/top_app_bar.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
+
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  final emailTextEditingController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  void _submit() {
+    firebaseAuth
+        .sendPasswordResetEmail(email: emailTextEditingController.text.trim())
+        .then((value) {
+      Get.to(CheckEmail());
+    }).onError(
+      (error, stackTrace) {
+        SnackBar(
+          content: Text("Error Occured: \n ${error.toString()}"),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +92,38 @@ class ForgotPassword extends StatelessWidget {
                     SizedBox(
                       height: 5.0,
                     ),
-                    TextField(
+                    TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Enter your email address',
                       ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          SnackBar(
+                            content: Text("Email can't be empty"),
+                          );
+                          return "";
+                        }
+                        if (EmailValidator.validate(text) == true) {
+                          return null;
+                        }
+                        if (text.length < 2) {
+                           SnackBar(
+                            content: Text("Please enter a valid Email"),
+                          );
+                          return "";
+                        }
+                        if (text.length > 99) {
+                           SnackBar(
+                            content: Text("Email cannot be more than 100 letters"),
+                          );
+                          return "";
+                        }
+                      },
+                      onChanged: (text) => setState(() {
+                        emailTextEditingController.text = text;
+                      }),
                     ),
                     SizedBox(
                       height: 60.0,
@@ -82,7 +133,7 @@ class ForgotPassword extends StatelessWidget {
                       width: double.maxFinite,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.to(CheckEmail());
+                          _submit();
                         },
                         child: Text(
                           "Send code",
@@ -105,33 +156,29 @@ class ForgotPassword extends StatelessWidget {
                   ],
                 ),
                 Column(
-                  children:[RichText(
-                      text: TextSpan(
-                          text: "Remember password? ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0
-
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                            text: "Remember password? ",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.0),
+                            children: [
+                          TextSpan(
+                            text: 'Log in',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigate to the Log In screen
+                                Get.to(SignInPage());
+                              },
                           ),
-                          children: [
-                        TextSpan(
-                          text: 'Log in',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-
-                              // Navigate to the Log In screen
-                              Get.to(SignInPage());
-
-                            },
-                        ),
-                      ])),
-      ],
+                        ])),
+                  ],
                 )
               ],
             ),

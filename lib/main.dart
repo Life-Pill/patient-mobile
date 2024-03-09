@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,7 @@ import 'package:patientmobileapplication/features/onboarding/password_changed/ui
 import 'package:patientmobileapplication/features/onboarding/reset_password/ui/reset_password.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
+import 'package:patientmobileapplication/firebase_options.dart';
 
 
 import 'features/main_screens/main_home/ui/main_home_screen.dart';
@@ -17,7 +19,12 @@ import 'features/onboarding/signup/ui/signup_screen.dart';
 import 'features/onboarding/splash/ui/splash_screen.dart';
 
 
-void main() {
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+ await Firebase.initializeApp(
+   options: DefaultFirebaseOptions.currentPlatform,
+ );
+
   runApp(const MyApp());
 }
 
@@ -42,9 +49,9 @@ class MyApp extends StatelessWidget {
         //home: SplashScreen()
 
 
-      home: HomeScreen(),
+      //home: HomeScreen(),
       //home: SignUpPage(),
-      //home: SignInPage(),
+      home: SignInPage(),
       //home: ForgotPassword(),
       //home:CheckEmail(),
       //home:OTPScreen(),

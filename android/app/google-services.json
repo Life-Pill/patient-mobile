@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "138613565833",
+    "project_id": "lifepill-mobile-app",
+    "storage_bucket": "lifepill-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138613565833:android:3d058eb1ac554f5b4d1958",
+        "android_client_info": {
+          "package_name": "com.example.patientmobileapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOSPcOD3MfG_Ezj8h3D1zhtY_iN1drov8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
