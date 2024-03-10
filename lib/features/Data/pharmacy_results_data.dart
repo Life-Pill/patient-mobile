@@ -1,5 +1,5 @@
 import '../Repository/search_results_sorted.dart';
-//TODO: Add real
+//TODO: Add real data
 List<Pharmacy> searchResults = [
 Pharmacy(
 name: 'Pharmacy A',

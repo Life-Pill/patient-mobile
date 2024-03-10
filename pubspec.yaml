@@ -43,6 +43,11 @@ dependencies:
   onscreen_num_keyboard: ^1.0.4
   flutter_rating_bar: ^4.0.1
   get: ^4.6.6
+  image_picker: ^1.0.7
+  email_validator: ^2.1.17
+  firebase_auth: ^4.17.8
+  firebase_core: ^2.27.0
+  firebase_ui_auth: ^1.13.1
 
 dev_dependencies:
   flutter_test:
