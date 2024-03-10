@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
+import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
 
@@ -11,6 +14,8 @@ import '../../components/account_option_btn.dart';
 
 class ViewProfile extends StatefulWidget {
   const ViewProfile({Key? key}) : super(key: key);
+
+  
 
   @override
   State<ViewProfile> createState() => _ViewProfileState();
@@ -160,8 +165,15 @@ class _ViewProfileState extends State<ViewProfile> {
                             btnText: "Privacy Policy"),
                         AccountOptionButton(
                             btnIcon: Icons.call, btnText: "Customer Services"),
-                        AccountOptionButton(
-                            btnIcon: Icons.logout_outlined, btnText: "Logout"),
+                        GestureDetector(
+                          onTap: () {
+                            _logout(
+                                context); // Call logout function when the button is tapped
+                          },
+                          child: AccountOptionButton(
+                              btnIcon: Icons.logout_outlined,
+                              btnText: "Logout"),
+                        ),
                       ],
                     ),
                   ),
@@ -172,5 +184,10 @@ class _ViewProfileState extends State<ViewProfile> {
         ],
       ),
     );
+  }
+  
+  void _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut(); // Sign out the user
+    Get.to(SignInPage());
   }
 }

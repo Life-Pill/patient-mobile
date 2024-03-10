@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/forgot_password_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/def_signin.dart';
+import 'package:patientmobileapplication/features/onboarding/signin/ui/prsignin.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 
@@ -18,7 +19,7 @@ class AuthGate extends StatelessWidget {
        if (!snapshot.hasData) {
          return const SignInPage();
        }
-       return const SignInPage();
+       return const HomeScreen();
      },
    );
  }
