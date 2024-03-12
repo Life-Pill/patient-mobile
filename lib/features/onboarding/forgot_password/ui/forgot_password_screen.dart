@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/onboarding/check_email/ui/check_email_screen.dart';
@@ -11,36 +12,41 @@ import 'package:patientmobileapplication/global/global.dart';
 
 import '../../components/top_app_bar.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final emailTextEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   void _submit() {
     firebaseAuth
         .sendPasswordResetEmail(email: emailTextEditingController.text.trim())
         .then((value) {
-      Get.to(CheckEmail());
+      Get.snackbar('We have sent you an email to recover password', 'Please check email',
+            backgroundColor: Colors.green.shade200);
     }).onError(
       (error, stackTrace) {
-        SnackBar(
-          content: Text("Error Occured: \n ${error.toString()}"),
-        );
+        Get.snackbar('Error Occured', error.toString(),
+            backgroundColor: Colors.red.shade200);
+      
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Center(
+
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Center(
           child: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
@@ -93,6 +99,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       height: 5.0,
                     ),
                     TextFormField(
+                       inputFormatters: [
+                                LengthLimitingTextInputFormatter(100)
+                              ],
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Enter your email address',
@@ -100,26 +109,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (text) {
                         if (text == null || text.isEmpty) {
-                          SnackBar(
-                            content: Text("Email can't be empty"),
-                          );
-                          return "";
+                          
+                          return "Email can't be empty";
                         }
                         if (EmailValidator.validate(text) == true) {
                           return null;
                         }
                         if (text.length < 2) {
-                           SnackBar(
-                            content: Text("Please enter a valid Email"),
-                          );
-                          return "";
+                          
+                          return "Please enter a valid Email";
                         }
                         if (text.length > 99) {
-                           SnackBar(
-                            content: Text("Email cannot be more than 100 letters"),
-                          );
-                          return "";
+                          
+                        
+                          return "Email cannot be more than 100 letters";
                         }
+                          return "Please enter a valid Email";
                       },
                       onChanged: (text) => setState(() {
                         emailTextEditingController.text = text;
@@ -136,14 +141,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           _submit();
                         },
                         child: Text(
-                          "Send code",
+                          "Send reset password link",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: 16.0),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue, // Set the background color
+                          backgroundColor: Colors.blue, // Set the background color
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           shape: RoundedRectangleBorder(

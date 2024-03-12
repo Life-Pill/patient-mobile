@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/components/account_option_btn.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
 import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
+import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
 
@@ -133,6 +135,17 @@ class _HomeState extends State<Home> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        GestureDetector(
+                          onTap:(){Get.to(SearchResults());},
+                          child:HomeTile(
+                            icon: Icons.shopping_cart_outlined,
+                            title: "Search results",
+                            description: "View Search results page",
+                            bgcolor: Colors.green.shade200,
+                            iconColor: Colors.redAccent.shade200,
+                          ),
+                        ),
+
                         HomeTile(
                           icon: Icons.shopping_cart_outlined,
                           title: "Order History",

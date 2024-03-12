@@ -37,17 +37,17 @@ class _SignInPageState extends State<SignInPage> {
           .then((auth) async {
         currentUser = auth.user;
 
-             Get.snackbar('Logged in Successfully', 'Welcome',
-          backgroundColor: Colors.green.shade200);
+        Get.snackbar('Logged in Successfully', 'Welcome',
+            backgroundColor: Colors.green.shade200);
         Get.to(HomeScreen());
       }).catchError(
         (errorMessage) {
           print("Error occured: \n $errorMessage");
-          Get.snackbar('Invalid Credentials', 'Try again with valid credentials',
-          backgroundColor: Colors.red.shade200);
+          Get.snackbar(
+              'Invalid Credentials', 'Try again with valid credentials',
+              backgroundColor: Colors.red.shade200);
         },
       );
-      
     }
   }
 
@@ -168,7 +168,7 @@ class _SignInPageState extends State<SignInPage> {
                         Spacer(),
                         GestureDetector(
                           onTap: () {
-                            Get.to(ForgotPassword());
+                            Get.to(ForgotPasswordScreen());
                           },
                           child: const Text(
                             'Forgot Password?',

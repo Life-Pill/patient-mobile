@@ -11,6 +11,7 @@ class AccountOptionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.transparent,
       height: 50.0,
 
       child: Column(
