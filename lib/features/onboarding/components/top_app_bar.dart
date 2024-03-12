@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {onBackTap!();},
           child: Container(
             width: 40.0,
             height: 40.0,

@@ -28,9 +28,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         .then((value) {
       Get.snackbar('We have sent you an email to recover password', 'Please check email',
             backgroundColor: Colors.green.shade200);
+      Get.to(SignInPage());
     }).onError(
       (error, stackTrace) {
-        Get.snackbar('Error Occured', error.toString(),
+        print(error.toString());
+        Get.snackbar('Error Occured', 'Try again',
             backgroundColor: Colors.red.shade200);
       
       },
@@ -54,7 +56,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Column(
                   children: [
-                    TopAppBar(onBackTap: () {}),
+                    TopAppBar(onBackTap: () {Get.to(SignInPage());}),
                     SizedBox(
                       height: 40.0,
                     ),
