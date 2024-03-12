@@ -70,7 +70,7 @@ class _SignInPageState extends State<SignInPage> {
                   children: [
                     // Title
                     Text(
-                      "Welcome Back",
+                      "Welcome",
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
