@@ -31,7 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void _submit() async {
     print('---- within submit function ----');
 
-   if (_formKey.currentState == null || _formKey.currentState!.validate()) {
+   if (_formKey.currentState == null || _formKey.currentState!.validate() ) {
 
       print(
           '---- within if _formKey.currentState!.validate() in submit function ----');

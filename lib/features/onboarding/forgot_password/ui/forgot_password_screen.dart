@@ -23,25 +23,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final emailTextEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   void _submit() {
-    firebaseAuth
-        .sendPasswordResetEmail(email: emailTextEditingController.text.trim())
-        .then((value) {
-      Get.snackbar('We have sent you an email to recover password', 'Please check email',
+    if (_formKey.currentState == null || _formKey.currentState!.validate()) {
+      firebaseAuth
+          .sendPasswordResetEmail(email: emailTextEditingController.text.trim())
+          .then((value) {
+        Get.snackbar('We have sent you an email to recover password',
+            'Please check email',
             backgroundColor: Colors.green.shade200);
-      Get.to(SignInPage());
-    }).onError(
-      (error, stackTrace) {
-        print(error.toString());
-        Get.snackbar('Error Occured', 'Try again',
-            backgroundColor: Colors.red.shade200);
-      
-      },
-    );
+        Get.to(SignInPage());
+      }).onError(
+        (error, stackTrace) {
+          print(error.toString());
+          Get.snackbar('Error Occured', 'Try again',
+              backgroundColor: Colors.red.shade200);
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -56,7 +57,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Column(
                   children: [
-                    TopAppBar(onBackTap: () {Get.to(SignInPage());}),
+                    TopAppBar(onBackTap: () {
+                      Get.to(SignInPage());
+                    }),
                     SizedBox(
                       height: 40.0,
                     ),
@@ -101,9 +104,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       height: 5.0,
                     ),
                     TextFormField(
-                       inputFormatters: [
-                                LengthLimitingTextInputFormatter(100)
-                              ],
+                      inputFormatters: [LengthLimitingTextInputFormatter(100)],
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Enter your email address',
@@ -111,22 +112,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (text) {
                         if (text == null || text.isEmpty) {
-                          
                           return "Email can't be empty";
                         }
                         if (EmailValidator.validate(text) == true) {
                           return null;
                         }
                         if (text.length < 2) {
-                          
                           return "Please enter a valid Email";
                         }
                         if (text.length > 99) {
-                          
-                        
                           return "Email cannot be more than 100 letters";
                         }
-                          return "Please enter a valid Email";
+                        return "Please enter a valid Email";
                       },
                       onChanged: (text) => setState(() {
                         emailTextEditingController.text = text;
@@ -150,7 +147,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               fontSize: 16.0),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue, // Set the background color
+                          backgroundColor:
+                              Colors.blue, // Set the background color
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           shape: RoundedRectangleBorder(
