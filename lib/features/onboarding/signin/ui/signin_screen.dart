@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/forgot_password_screen.dart';
 import 'package:patientmobileapplication/global/global.dart';
+import 'package:patientmobileapplication/services/auth_services.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../../../utilities/styles.dart';
@@ -249,9 +250,8 @@ class _SignInPageState extends State<SignInPage> {
                     SignInButton(
                         buttonType: ButtonType.google,
                         btnText: 'Sign in with Google',
-                        onPressed: () {
-                          print('click google signin');
-                        }),
+                        onPressed: () =>AuthService().signInWithGoogle(),
+                    ),
                   ],
                 ),
               ),
