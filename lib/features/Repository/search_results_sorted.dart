@@ -1,6 +1,7 @@
 import '../Data/pharmacy_results_data.dart';
 
 class Pharmacy {
+  String pharmacy_id;
   String name;
   bool isOpen;
   String logo;
@@ -11,6 +12,7 @@ class Pharmacy {
   String phoneNumber;
 
   Pharmacy({
+    required this.pharmacy_id,
     required this.name,
     required this.logo,
     required this.isOpen,
