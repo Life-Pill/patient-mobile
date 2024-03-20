@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientmobileapplication/features/Data/medicine_data.dart';
+import 'package:patientmobileapplication/features/Data/pharmacy_results_data.dart';
+import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
 class HomeSearchBar extends StatefulWidget {
   const HomeSearchBar({Key? key}) : super(key: key);
@@ -13,7 +16,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   bool isDark = false;
   late TextEditingController _textEditingController;
   List<String> _filteredSuggestions = [];
-
+String searchedText = "";
   @override
   void initState() {
     super.initState();
@@ -21,6 +24,8 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     _textEditingController.addListener(_onTextChanged);
     // Initialize suggestion list with all medicines in alphabetical order
     _filteredSuggestions = getAllMedicineNames();
+    
+     
   }
 
   @override
@@ -40,6 +45,10 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
       print('No image selected.');
     }
   }
+  void _clickedSearch(String enteredText) {
+    print('======================Search clicked with text: $enteredText=============');
+    Get.to(SearchResults());
+  }
 
   void _onTextChanged() {
     final text = _textEditingController.text.toLowerCase();
@@ -53,7 +62,8 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
 
   List<String> _getAutocompleteSuggestions(String text) {
     return medicineData
-        .where((medicine) => medicine.name.toLowerCase().contains(text.toLowerCase()))
+        .where((medicine) =>
+            medicine.name.toLowerCase().contains(text.toLowerCase()))
         .map((medicine) => medicine.name)
         .toList();
   }
@@ -66,6 +76,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = ThemeData(brightness: Brightness.light);
+   
 
     return Container(
       child: SearchAnchor(
@@ -76,12 +87,22 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             onTap: () {
               controller.openView();
             },
+            
             onChanged: (text) {
-              // Update suggestions when text changes
+                // Update suggestions when text changes
               _textEditingController.text = text;
+              searchedText = text;
               _onTextChanged();
             },
-            leading: const Icon(Icons.search),
+            leading: Tooltip(
+              message: 'Search',
+              child: IconButton(
+                onPressed: () {
+                  print("00000000000000000000  Suggested text at the tooltip: $searchedText");
+                  _clickedSearch(searchedText);              },
+                icon: const Icon(Icons.search),
+              ),
+            ),
             trailing: <Widget>[
               Tooltip(
                 message: 'Open Camera',
@@ -91,17 +112,22 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                   },
                   icon: const Icon(Icons.camera),
                 ),
-              )
+              ),
             ],
           );
         },
-        suggestionsBuilder: (BuildContext context, SearchController controller) {
+        suggestionsBuilder:
+            (BuildContext context, SearchController controller) {
           return _filteredSuggestions.map((suggestion) {
             return ListTile(
               title: Text(suggestion),
               onTap: () {
+                 
                 setState(() {
+                  
                   controller.closeView(suggestion);
+                  searchedText = suggestion;
+                  print("00000000000000000000  Suggested text: $searchedText");
                 });
               },
             );
