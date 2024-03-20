@@ -46,8 +46,7 @@ String searchedText = "";
     }
   }
   void _clickedSearch(String enteredText) {
-    print('======================Search clicked with text: $enteredText=============');
-    Get.to(SearchResults());
+    Get.to(SearchResults(searchedText: enteredText.toLowerCase(),));
   }
 
   void _onTextChanged() {

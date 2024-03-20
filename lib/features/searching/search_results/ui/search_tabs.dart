@@ -5,7 +5,8 @@ import 'package:patientmobileapplication/features/searching/rating_sorted/ui/rat
 import 'package:patientmobileapplication/features/searching/results_card/ui/results_card_ui.dart';
 
 class SearchTabs extends StatelessWidget {
-  const SearchTabs({Key? key});
+  final String searchedText;
+  const SearchTabs({Key? key, required this.searchedText});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class SearchTabs extends StatelessWidget {
         body: TabBarView(
           children: [
             // TODO: get the pages to display here
-            RatingSorted(),
+            RatingSorted(searchedMedicine: searchedText,),
             PriceSorted(),
             OpenSorted(),
             Icon(Icons.directions_bike),

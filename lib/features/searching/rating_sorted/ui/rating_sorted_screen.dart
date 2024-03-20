@@ -5,7 +5,8 @@ import 'package:patientmobileapplication/features/searching/results_card/ui/resu
 import '../../../Data/pharmacy_results_data.dart';
 
 class RatingSorted extends StatelessWidget {
-   RatingSorted({super.key});
+  final String searchedMedicine;
+   RatingSorted({super.key, required this.searchedMedicine});
   List<Pharmacy> sortedResults = sortSearchResults(searchResults, "rating");
 
   @override
