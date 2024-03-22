@@ -40,7 +40,7 @@ class SearchResults extends StatelessWidget {
                         onTap: Get.back,
                       ),
                       Text(
-                        "Search results",
+                        searchedText,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.manrope(
                           fontSize: 24.0,
