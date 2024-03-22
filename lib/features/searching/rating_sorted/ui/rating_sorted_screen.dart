@@ -7,11 +7,12 @@ import '../../../Data/pharmacy_results_data.dart';
 class RatingSorted extends StatelessWidget {
   final String searchedMedicine;
    RatingSorted({super.key, required this.searchedMedicine});
-  List<Pharmacy> sortedResults = sortSearchResults(searchResults, "rating");
+  List<Pharmacy> sortedResults = [];
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    sortedResults = sortSearchResults(pharmacyData, "rating", searchedMedicine);
+    return Scaffold(
       body: ListView.builder(
         itemCount: sortedResults.length,
         itemBuilder: (context, index) {
@@ -31,7 +32,7 @@ class RatingSorted extends StatelessWidget {
         },
       ),
     );
-
-
   }
+
+
 }

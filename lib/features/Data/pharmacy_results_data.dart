@@ -1,6 +1,6 @@
 import '../Repository/search_results_sorted.dart';
 //TODO: Add real data
-List<Pharmacy> searchResults = [
+List<Pharmacy> pharmacyData = [
 Pharmacy(
   pharmacy_id:"ph1",
 name: 'Pharmacy A',
@@ -11,6 +11,7 @@ unit: 'Tablet',
 rating: 4.5,
 address: '123 Main St',
 phoneNumber: '555-1234',
+medicines: ['Aspirin', 'Tylenol', 'Advil']
 ),
 Pharmacy(
     pharmacy_id:"ph2",
@@ -22,6 +23,7 @@ unit: 'Bottle',
 rating: 4,
 address: '456 Elm St',
 phoneNumber: '555-5678',
+medicines: ['Aspirin', 'Amoxicillin', 'Cetricine']
 ),
 Pharmacy(
     pharmacy_id:"ph3",
@@ -33,6 +35,7 @@ unit: 'Tablet',
 rating: 4,
 address: '321 Pine St',
 phoneNumber: '555-1357',
+medicines: ['Omeprazole','Paracetamol','Metformin']
 ),
 Pharmacy(
     pharmacy_id:"ph4",
@@ -44,6 +47,7 @@ unit: 'Bottle',
 rating: 3,
 address: '101 Cedar St',
 phoneNumber: '555-9876',
+medicines: ['Aspirin', 'Amoxicillin', 'Cetricine']
 ),
 Pharmacy(
     pharmacy_id:"ph5",
@@ -55,6 +59,7 @@ unit: 'Bottle',
 rating: 4,
 address: '567 Maple St',
 phoneNumber: '555-4321',
+medicines: ['Omeprazole','Paracetamol','Metformin']
 ),
 Pharmacy(
     pharmacy_id:"ph6",
@@ -66,6 +71,7 @@ unit: 'Tablet',
 rating: 2,
 address: '654 Birch St',
 phoneNumber: '555-8765',
+medicines: ['Aspirin', 'Amoxicillin', 'Cetricine']
 ),
 Pharmacy(
     pharmacy_id:"ph7",
@@ -77,6 +83,7 @@ unit: 'Bottle',
 rating: 1,
 address: '222 Pine St',
 phoneNumber: '555-1111',
+medicines: ['Ibuprofen', 'Atorvastatin', 'Loratadine']
 ),
 Pharmacy(
     pharmacy_id:"ph8",
@@ -88,6 +95,7 @@ unit: 'Tablet',
 rating: 5,
 address: '777 Elm St',
 phoneNumber: '555-9999',
+medicines: ['Ibuprofen', 'Atorvastatin', 'Loratadine']
 ),
 Pharmacy(
     pharmacy_id:"ph9",
@@ -99,6 +107,7 @@ unit: 'Bottle',
 rating: 5,
 address: '444 Oak St',
 phoneNumber: '555-7777',
+medicines: ['Hydrocodone', 'Azithromycin', 'Cephalexin']
 ),
 Pharmacy(
     pharmacy_id:"ph10",
@@ -110,6 +119,7 @@ unit: 'Bottle',
 rating: 4,
 address: '888 Cedar St',
 phoneNumber: '555-3333',
+medicines: ['Hydrocodone', 'Azithromycin', 'Cephalexin']
 ),
 Pharmacy(
     pharmacy_id:"ph11",
@@ -121,5 +131,6 @@ unit: 'Tablet',
 rating: 3,
 address: '999 Maple St',
 phoneNumber: '555-0000',
+medicines: ['Aspirin', 'Amoxicillin', 'Cetricine']
 ),
 ];

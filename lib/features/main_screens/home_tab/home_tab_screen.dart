@@ -136,7 +136,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          onTap:(){Get.to(SearchResults());},
+                          onTap:(){Get.to(SearchResults(searchedText: "",));},
                           child:HomeTile(
                             icon: Icons.shopping_cart_outlined,
                             title: "Search results",
