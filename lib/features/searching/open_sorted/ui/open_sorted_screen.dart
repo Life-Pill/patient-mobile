@@ -5,12 +5,14 @@ import 'package:patientmobileapplication/features/searching/results_card/ui/resu
 import '../../../Data/pharmacy_results_data.dart';
 
 class OpenSorted extends StatelessWidget {
-   OpenSorted({super.key});
-  List<Pharmacy> sortedResults = sortSearchResults(searchResults, "open");
+   final String searchedMedicine;
+  OpenSorted({super.key, required this.searchedMedicine});
+  List<Pharmacy> sortedResults = [];
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    sortedResults = sortSearchResults(pharmacyData, "open", searchedMedicine);
+    return Scaffold(
       body: ListView.builder(
         itemCount: sortedResults.length,
         itemBuilder: (context, index) {
@@ -30,7 +32,5 @@ class OpenSorted extends StatelessWidget {
         },
       ),
     );
-
-
   }
 }

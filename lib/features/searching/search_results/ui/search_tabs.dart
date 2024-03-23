@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:patientmobileapplication/features/searching/open_sorted/ui/rating_sorted_screen.dart';
-import 'package:patientmobileapplication/features/searching/price_sorted/ui/rating_sorted_screen.dart';
+import 'package:patientmobileapplication/features/searching/open_sorted/ui/open_sorted_screen.dart';
+import 'package:patientmobileapplication/features/searching/price_sorted/ui/price_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/rating_sorted/ui/rating_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/results_card/ui/results_card_ui.dart';
 
 class SearchTabs extends StatelessWidget {
-  const SearchTabs({Key? key});
+  final String searchedText;
+  const SearchTabs({Key? key, required this.searchedText});
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +62,9 @@ class SearchTabs extends StatelessWidget {
         body: TabBarView(
           children: [
             // TODO: get the pages to display here
-            RatingSorted(),
-            PriceSorted(),
-            OpenSorted(),
+            RatingSorted(searchedMedicine: searchedText,),
+            PriceSorted(searchedMedicine: searchedText),
+            OpenSorted(searchedMedicine: searchedText),
             Icon(Icons.directions_bike),
           ],
         ),

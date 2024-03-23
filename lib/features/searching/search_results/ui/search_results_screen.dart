@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
 
 class SearchResults extends StatelessWidget {
-  const SearchResults({Key? key}) : super(key: key);
+  final String searchedText;
+  const SearchResults({Key? key, required this.searchedText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class SearchResults extends StatelessWidget {
                         onTap: Get.back,
                       ),
                       Text(
-                        "Search results",
+                        searchedText,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.manrope(
                           fontSize: 24.0,
@@ -57,7 +58,7 @@ class SearchResults extends StatelessWidget {
             ),
 
             Expanded(
-              child: SearchTabs(),
+              child: SearchTabs(searchedText: searchedText,),
             ),
           ],
         ),

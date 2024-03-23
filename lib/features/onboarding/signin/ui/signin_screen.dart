@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/forgot_password/ui/forgot_password_screen.dart';
 import 'package:patientmobileapplication/global/global.dart';
+import 'package:patientmobileapplication/services/auth_services.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../../../utilities/styles.dart';
@@ -37,17 +38,17 @@ class _SignInPageState extends State<SignInPage> {
           .then((auth) async {
         currentUser = auth.user;
 
-             Get.snackbar('Logged in Successfully', 'Welcome',
-          backgroundColor: Colors.green.shade200);
+        Get.snackbar('Logged in Successfully', 'Welcome',
+            backgroundColor: Colors.green.shade200);
         Get.to(HomeScreen());
       }).catchError(
         (errorMessage) {
           print("Error occured: \n $errorMessage");
-          Get.snackbar('Invalid Credentials', 'Try again with valid credentials',
-          backgroundColor: Colors.red.shade200);
+          Get.snackbar(
+              'Invalid Credentials', 'Try again with valid credentials',
+              backgroundColor: Colors.red.shade200);
         },
       );
-      
     }
   }
 
@@ -70,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
                   children: [
                     // Title
                     Text(
-                      "Welcome Back",
+                      "Welcome",
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -168,7 +169,7 @@ class _SignInPageState extends State<SignInPage> {
                         Spacer(),
                         GestureDetector(
                           onTap: () {
-                            Get.to(ForgotPassword());
+                            Get.to(ForgotPasswordScreen());
                           },
                           child: const Text(
                             'Forgot Password?',
@@ -249,9 +250,8 @@ class _SignInPageState extends State<SignInPage> {
                     SignInButton(
                         buttonType: ButtonType.google,
                         btnText: 'Sign in with Google',
-                        onPressed: () {
-                          print('click google signin');
-                        }),
+                        onPressed: () =>AuthService().signInWithGoogle(),
+                    ),
                   ],
                 ),
               ),
