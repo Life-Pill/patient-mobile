@@ -16,7 +16,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   bool isDark = false;
   late TextEditingController _textEditingController;
   List<String> _filteredSuggestions = [];
-String searchedText = "";
+  String searchedText = "";
   @override
   void initState() {
     super.initState();
@@ -24,8 +24,6 @@ String searchedText = "";
     _textEditingController.addListener(_onTextChanged);
     // Initialize suggestion list with all medicines in alphabetical order
     _filteredSuggestions = getAllMedicineNames();
-    
-     
   }
 
   @override
@@ -45,8 +43,11 @@ String searchedText = "";
       print('No image selected.');
     }
   }
+
   void _clickedSearch(String enteredText) {
-    Get.to(SearchResults(searchedText: enteredText.toLowerCase(),));
+    Get.to(SearchResults(
+      searchedText: enteredText,
+    ));
   }
 
   void _onTextChanged() {
@@ -75,7 +76,6 @@ String searchedText = "";
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = ThemeData(brightness: Brightness.light);
-   
 
     return Container(
       child: SearchAnchor(
@@ -86,9 +86,8 @@ String searchedText = "";
             onTap: () {
               controller.openView();
             },
-            
             onChanged: (text) {
-                // Update suggestions when text changes
+              // Update suggestions when text changes
               _textEditingController.text = text;
               searchedText = text;
               _onTextChanged();
@@ -97,8 +96,10 @@ String searchedText = "";
               message: 'Search',
               child: IconButton(
                 onPressed: () {
-                  print("00000000000000000000  Suggested text at the tooltip: $searchedText");
-                  _clickedSearch(searchedText);              },
+                  print(
+                      "00000000000000000000  Suggested text at the tooltip: $searchedText");
+                  _clickedSearch(searchedText);
+                },
                 icon: const Icon(Icons.search),
               ),
             ),
@@ -121,9 +122,7 @@ String searchedText = "";
             return ListTile(
               title: Text(suggestion),
               onTap: () {
-                 
                 setState(() {
-                  
                   controller.closeView(suggestion);
                   searchedText = suggestion;
                   print("00000000000000000000  Suggested text: $searchedText");

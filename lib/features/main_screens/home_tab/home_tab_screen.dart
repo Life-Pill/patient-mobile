@@ -135,17 +135,6 @@ class _HomeState extends State<Home> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap:(){Get.to(SearchResults(searchedText: "",));},
-                          child:HomeTile(
-                            icon: Icons.shopping_cart_outlined,
-                            title: "Search results",
-                            description: "View Search results page",
-                            bgcolor: Colors.green.shade200,
-                            iconColor: Colors.redAccent.shade200,
-                          ),
-                        ),
-
                         HomeTile(
                           icon: Icons.shopping_cart_outlined,
                           title: "Order History",

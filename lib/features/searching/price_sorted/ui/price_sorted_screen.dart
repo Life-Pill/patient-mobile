@@ -5,11 +5,14 @@ import 'package:patientmobileapplication/features/searching/results_card/ui/resu
 import '../../../Data/pharmacy_results_data.dart';
 
 class PriceSorted extends StatelessWidget {
-  PriceSorted({super.key});
-  List<Pharmacy> sortedResults = sortSearchResults(pharmacyData, "price","");
+   final String searchedMedicine;
+  PriceSorted({super.key, required this.searchedMedicine});
+//  List<Pharmacy> sortedResults = sortSearchResults(pharmacyData, "price","");
+    List<Pharmacy> sortedResults = [];
 
   @override
   Widget build(BuildContext context) {
+    sortedResults = sortSearchResults(pharmacyData, "price", searchedMedicine);
     return Scaffold(
       body: ListView.builder(
         itemCount: sortedResults.length,
