@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("In Home Screen");
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
