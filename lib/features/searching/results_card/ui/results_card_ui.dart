@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultsCard extends StatefulWidget {
@@ -54,55 +55,55 @@ class _ResultsCardState extends State<ResultsCard> {
                     SizedBox(
                       width: 24.0,
                     ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        //TODO: Enter relavant pharmacy details below
-                        children: [
-                          Text(
-                            widget.name,
-                            style: GoogleFonts.poppins(
+                    Expanded(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          //TODO: Enter relavant pharmacy details below
+                          children: [
+                            Text(
+                              widget.name,
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 19.0,
+                                  color: Colors.black),
+                            ),
+                            const Divider(
+                              height: 5,
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              widget.address,
+                              style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
-                                fontSize: 19.0,
-                                color: Colors.black),
-                          ),
-                          const Divider(
-                            height: 5,
-                            thickness: 5,
-                            color: Colors.black,
-                          ),
-                          Text(
-                            widget.address,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 11.0,
-                              color: Colors.black45,
+                                fontSize: 11.0,
+                                color: Colors.black45,
+                              ),
+                              softWrap: true,
                             ),
-                            softWrap: true,
-                          ),
-                          Text(
-                            widget.phone,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 11.0,
-                              color: Colors.black45,
+                            Text(
+                              widget.phone,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11.0,
+                                color: Colors.black45,
+                              ),
+                              softWrap: true,
                             ),
-                            softWrap: true,
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Container(
-                            height: 25.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: widget.isOpen
-                                  ? Colors.green.shade100
-                                  : Colors.red.shade100,
+                            SizedBox(
+                              height: 5.0,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10.0, right: 10.0),
+                            Container(
+                              height: 25.0,
+                              width: 80.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: widget.isOpen
+                                    ? Colors.green.shade100
+                                    : Colors.red.shade100,
+                              ),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.home,
                                       size: 20.0,
@@ -123,9 +124,9 @@ class _ResultsCardState extends State<ResultsCard> {
                                   ),
                                 ],
                               ),
-                            ),
-                          )
-                        ])
+                            )
+                          ]),
+                    )
                   ],
                 ),
                 Row(
@@ -196,12 +197,16 @@ class _ResultsCardState extends State<ResultsCard> {
                             SizedBox(
                               width: 5.0,
                             ),
-                            Text(
-                              "Directions",
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11.0,
-                                color: Colors.white,
+                            GestureDetector(
+                              onTap: () =>
+                                  MapsLauncher.launchQuery(widget.address),
+                              child: Text(
+                                "Directions",
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 11.0,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
