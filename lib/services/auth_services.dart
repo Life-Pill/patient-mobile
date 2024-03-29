@@ -13,5 +13,6 @@ class AuthService {
     final credential = GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
     return await FirebaseAuth.instance.signInWithCredential(credential);
+    
   }
 }
