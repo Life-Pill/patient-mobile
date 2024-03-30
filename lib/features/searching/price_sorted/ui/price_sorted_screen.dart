@@ -21,6 +21,7 @@ class PriceSorted extends StatelessWidget {
           Pharmacy pharmacy = sortedResults[index];
           // Return a ResultsCard widget populated with the pharmacy data
           return ResultsCard(
+            medicine_name: searchedMedicine,
             isOpen: pharmacy.isOpen,
             name: pharmacy.name,
             logo: pharmacy.logo,

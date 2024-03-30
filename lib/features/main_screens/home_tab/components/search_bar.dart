@@ -45,6 +45,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   }
 
   void _clickedSearch(String enteredText) {
+    if (enteredText.isEmpty) return;
     Get.to(SearchResults(
       searchedText: enteredText,
     ));
@@ -96,8 +97,6 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
               message: 'Search',
               child: IconButton(
                 onPressed: () {
-                  print(
-                      "00000000000000000000  Suggested text at the tooltip: $searchedText");
                   _clickedSearch(searchedText);
                 },
                 icon: const Icon(Icons.search),

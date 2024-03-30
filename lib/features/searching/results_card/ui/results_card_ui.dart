@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultsCard extends StatefulWidget {
   final Color blueColor = Color(0xFF277CF4);
+  final String medicine_name;
   final String name;
   final String logo;
   final bool isOpen;
@@ -17,6 +20,7 @@ class ResultsCard extends StatefulWidget {
 
   ResultsCard(
       {super.key,
+      required this.medicine_name,
       required this.isOpen,
       required this.name,
       required this.logo,
@@ -255,34 +259,38 @@ class _ResultsCardState extends State<ResultsCard> {
                     SizedBox(
                       width: 10.0,
                     ),
-                    Container(
-                      height: 25.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: widget.blueColor),
-                        color: Colors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.share,
-                              size: 20.0,
-                              color: widget.blueColor,
-                            ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              "Share",
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11.0,
+                    GestureDetector(
+                      onTap: () => _sharePharmacyDetails(),
+                      child: Container(
+                        height: 25.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color: widget.blueColor),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.share,
+                                size: 20.0,
                                 color: widget.blueColor,
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                "Share",
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 11.0,
+                                  color: widget.blueColor,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -302,5 +310,20 @@ class _ResultsCardState extends State<ResultsCard> {
       path: phoneNumber,
     );
     await launchUrl(launchUri);
+  }
+
+  Future<void> _sharePharmacyDetails() async {
+    
+    final String text = '''
+    The medicine ${widget.medicine_name} is available at:
+    Pharmacy Name: ${widget.name}
+    Phone Number: ${widget.phone}
+    Medicine Price: At Rs.${widget.price} per ${widget.unit}
+    Medicine Name: ${widget.name}
+    Address: ${widget.address}
+    ''';
+
+
+    await Share.share(text, subject: "Pharmacy details for the medicine");
   }
 }
