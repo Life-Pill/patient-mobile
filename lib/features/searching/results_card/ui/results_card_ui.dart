@@ -61,75 +61,113 @@ class _ResultsCardState extends State<ResultsCard> {
                     ),
                     Expanded(
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          //TODO: Enter relavant pharmacy details below
-                          children: [
-                            Text(
-                              widget.name,
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 19.0,
-                                  color: Colors.black),
-                            ),
-                            const Divider(
-                              height: 5,
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
-                            Text(
-                              widget.address,
-                              style: GoogleFonts.poppins(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        //TODO: Enter relavant pharmacy details below
+                        children: [
+                          Text(
+                            widget.name,
+                            style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
-                                fontSize: 11.0,
-                                color: Colors.black45,
-                              ),
-                              softWrap: true,
+                                fontSize: 19.0,
+                                color: Colors.black),
+                          ),
+                          const Divider(
+                            height: 5,
+                            thickness: 2,
+                            color: Colors.black,
+                          ),
+                          Text(
+                            widget.address,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 11.0,
+                              color: Colors.black45,
                             ),
-                            Text(
-                              widget.phone,
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11.0,
-                                color: Colors.black45,
-                              ),
-                              softWrap: true,
+                            softWrap: true,
+                          ),
+                          Text(
+                            widget.phone,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 11.0,
+                              color: Colors.black45,
                             ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              height: 25.0,
-                              width: 80.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: widget.isOpen
-                                    ? Colors.green.shade100
-                                    : Colors.red.shade100,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.home,
-                                      size: 20.0,
-                                      color: widget.isOpen
-                                          ? Color(0xFF30C04F)
-                                          : Color(0xFFC03030)),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    widget.isOpen ? "Open" : "Closed",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 11.0,
+                            softWrap: true,
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 25.0,
+                                width: 80.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: widget.isOpen
+                                      ? Colors.green.shade100
+                                      : Colors.red.shade100,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.home,
+                                        size: 20.0,
                                         color: widget.isOpen
                                             ? Color(0xFF30C04F)
                                             : Color(0xFFC03030)),
-                                  ),
-                                ],
+                                    Text(
+                                      widget.isOpen ? "Open" : "Closed",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 11.0,
+                                          color: widget.isOpen
+                                              ? Color(0xFF30C04F)
+                                              : Color(0xFFC03030)),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            )
-                          ]),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Container(
+                                height: 25.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(color: widget.blueColor),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.shopping_cart,
+                                        size: 20.0,
+                                        color: widget.blueColor,
+                                      ),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(
+                                        "Add to cart",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 11.0,
+                                          color: widget.blueColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -313,7 +351,6 @@ class _ResultsCardState extends State<ResultsCard> {
   }
 
   Future<void> _sharePharmacyDetails() async {
-    
     final String text = '''
     The medicine ${widget.medicine_name} is available at:
     Pharmacy Name: ${widget.name}
@@ -322,7 +359,6 @@ class _ResultsCardState extends State<ResultsCard> {
     Medicine Name: ${widget.name}
     Address: ${widget.address}
     ''';
-
 
     await Share.share(text, subject: "Pharmacy details for the medicine");
   }

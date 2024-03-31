@@ -1,15 +1,13 @@
-
-
 import 'package:flutter/material.dart';
 
-class HomeTile extends StatelessWidget {
+class CartTabTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
   final Color bgcolor;
   final Color iconColor;
 
-  const HomeTile(
+  const CartTabTile(
       {super.key,
       required this.icon,
       required this.title,

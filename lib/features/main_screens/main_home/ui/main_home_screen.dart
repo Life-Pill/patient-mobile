@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/camera_tab_screen.dart';
+import 'package:patientmobileapplication/features/main_screens/cart_tab/cart_tab_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/home_tab_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
@@ -35,15 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Home Tab
                 Home(),
                 // Cart Tab
-                Container(
-                  alignment: Alignment.center,
-                  child: Text('Cart Tab'),
-                ),
+                CartTabScreen(),
                 // Camera Tab
-                Container(
-                  alignment: Alignment.center,
-                  child: Text('Camera Tab'),
-                ),
+                CameraTabScreen(),
                 // People Tab
                 Container(
                   alignment: Alignment.center,
