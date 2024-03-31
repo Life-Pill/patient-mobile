@@ -52,6 +52,7 @@ dependencies:
   google_sign_in: ^6.2.1
   url_launcher: ^6.2.5
   maps_launcher: ^2.2.1
+  share_plus: ^7.2.2
 
 dev_dependencies:
   flutter_test:
