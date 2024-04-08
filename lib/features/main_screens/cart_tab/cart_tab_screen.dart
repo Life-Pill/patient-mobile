@@ -141,8 +141,8 @@ class _CartTabScreenState extends State<CartTabScreen> {
                       children: [
                         CartTabTile(
                           icon: Icons.shopping_cart_outlined,
-                          title: "Order History",
-                          description: "View order history",
+                          title: "Pharmacy One",
+                          description: "Amoxicillin",
                           bgcolor: Colors.amber.shade200,
                           iconColor: Colors.greenAccent.shade200,
                         ),

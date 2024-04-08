@@ -162,10 +162,25 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Text(
+                          "Add a new report by taking a picture or selecting from your gallery",
+                          textAlign: TextAlign.justify,
+                          style: GoogleFonts.poppins(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
                         ElevatedButton(
                             onPressed: _openCamera, child: Text("Open Camera")),
+                        SizedBox(
+                          height: 20.0,
+                        ),
                         ElevatedButton(
                             onPressed: _openGallery,
                             child: Text("Open Gallery")),
