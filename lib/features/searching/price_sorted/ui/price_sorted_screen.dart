@@ -5,10 +5,10 @@ import 'package:patientmobileapplication/features/searching/results_card/ui/resu
 import '../../../Data/pharmacy_results_data.dart';
 
 class PriceSorted extends StatelessWidget {
-   final String searchedMedicine;
+  final String searchedMedicine;
   PriceSorted({super.key, required this.searchedMedicine});
 //  List<Pharmacy> sortedResults = sortSearchResults(pharmacyData, "price","");
-    List<Pharmacy> sortedResults = [];
+  List<Pharmacy> sortedResults = [];
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class PriceSorted extends StatelessWidget {
           return ResultsCard(
             medicine_name: searchedMedicine,
             isOpen: pharmacy.isOpen,
-            name: pharmacy.name,
+            pharmacy_name: pharmacy.name,
             logo: pharmacy.logo,
             price: pharmacy.price,
             unit: pharmacy.unit,

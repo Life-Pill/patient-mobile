@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:patientmobileapplication/features/Data/cart_data.dart';
+import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
 import 'package:patientmobileapplication/features/data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 
@@ -136,17 +138,21 @@ class _CartTabScreenState extends State<CartTabScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CartTabTile(
-                          medicine_imageUrl: 'assets/images/medicine.png',
-                          price: 20.0,
-                          unit: 'Tablet',
-                          medicine_name: 'Panadol',
-                          pharmacy_name: 'Pharmacy 1', medicine_count: 2,
-                        ),
-                      ],
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: cartItems.length,
+                      itemBuilder: (context, index) {
+                        Cart cartItem = cartItems[index];
+                        return CartTabTile(
+                          medicine_imageUrl: cartItem.pharmacy_imageUrl,
+                          price: cartItem.price,
+                          unit: cartItem.unit,
+                          medicine_name: cartItem.medicine_name,
+                          pharmacy_name: cartItem.pharmacy_name,
+                          medicine_count:
+                              2, // Replace with the actual count if available
+                        );
+                      },
                     ),
                   ),
                 ],
