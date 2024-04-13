@@ -140,11 +140,11 @@ class _CartTabScreenState extends State<CartTabScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CartTabTile(
-                          icon: Icons.shopping_cart_outlined,
-                          title: "Pharmacy One",
-                          description: "Amoxicillin",
-                          bgcolor: Colors.amber.shade200,
-                          iconColor: Colors.greenAccent.shade200,
+                          medicine_imageUrl: 'assets/images/medicine.png',
+                          price: 20.0,
+                          unit: 'Tablet',
+                          medicine_name: 'Panadol',
+                          pharmacy_name: 'Pharmacy 1', medicine_count: 2,
                         ),
                       ],
                     ),
