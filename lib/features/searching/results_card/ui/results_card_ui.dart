@@ -3,9 +3,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:item_count_number_button/item_count_number_button.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
+import 'package:patientmobileapplication/features/searching/results_card/product_counter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -109,41 +111,42 @@ class _ResultsCardState extends State<ResultsCard> {
                           SizedBox(
                             height: 5.0,
                           ),
+                          Container(
+                            height: 25.0,
+                            width: 80.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: widget.isOpen
+                                  ? Colors.green.shade100
+                                  : Colors.red.shade100,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.home,
+                                    size: 20.0,
+                                    color: widget.isOpen
+                                        ? Color(0xFF30C04F)
+                                        : Color(0xFFC03030)),
+                                Text(
+                                  widget.isOpen ? "Open" : "Closed",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.0,
+                                      color: widget.isOpen
+                                          ? Color(0xFF30C04F)
+                                          : Color(0xFFC03030)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                height: 25.0,
-                                width: 80.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: widget.isOpen
-                                      ? Colors.green.shade100
-                                      : Colors.red.shade100,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.home,
-                                        size: 20.0,
-                                        color: widget.isOpen
-                                            ? Color(0xFF30C04F)
-                                            : Color(0xFFC03030)),
-                                    Text(
-                                      widget.isOpen ? "Open" : "Closed",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 11.0,
-                                          color: widget.isOpen
-                                              ? Color(0xFF30C04F)
-                                              : Color(0xFFC03030)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
+                              ProductCounter(onCountChange:(count){}, stkCount: 100),
                               GestureDetector(
                                 onTap: () {
                                   // Create a Cart object with sample data
