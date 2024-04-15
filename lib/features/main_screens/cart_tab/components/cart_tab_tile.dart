@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CartTabTile extends StatelessWidget {
-  final double medicine_count;
+  final int medicine_count;
   final String medicine_imageUrl;
   final double price;
   final String unit;

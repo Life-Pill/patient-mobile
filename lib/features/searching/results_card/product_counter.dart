@@ -16,9 +16,10 @@ class _ProductCounterState extends State<ProductCounter> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150.0,
+      width: 120.0,
+      height: 25.0,
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Colors.blue[300],
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -26,9 +27,11 @@ class _ProductCounterState extends State<ProductCounter> {
         children: [
           IconButton(
             icon: Icon(
+              size: 15.0,
               Icons.remove,
-              color: count > 0 ? Colors.black : Colors.grey,
-            
+              color: count > 0
+                  ? Colors.black
+                  : const Color.fromARGB(255, 90, 83, 83),
             ),
             onPressed: () {
               setState(() {
@@ -40,14 +43,15 @@ class _ProductCounterState extends State<ProductCounter> {
               });
             },
           ),
-          SizedBox(width: 10),
           Text(
             count.toString(),
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 15),
           ),
-          SizedBox(width: 10),
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              size: 15.0,
+            ),
             onPressed: () {
               setState(() {
                 if (count < widget.stkCount) {

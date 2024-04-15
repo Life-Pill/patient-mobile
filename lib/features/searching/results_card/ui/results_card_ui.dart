@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:item_count_number_button/item_count_number_button.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
@@ -42,13 +41,18 @@ class ResultsCard extends StatefulWidget {
 class _ResultsCardState extends State<ResultsCard> {
   @override
   Widget build(BuildContext context) {
+    int current_count = 0;
     void addToCart(Cart cartItem) {
+      if (cartItem.count == 0) {
+        return;
+      }
       setState(() {
         cartItems.add(cartItem);
       });
       Get.snackbar("Added to cart",
-          "${cartItem.medicine_name} at ${cartItem.pharmacy_name}",
+          "${cartItem.count} ${cartItem.unit}s of ${cartItem.medicine_name} at ${cartItem.pharmacy_name}",
           backgroundColor: Colors.green.shade100);
+
     }
 
     return Padding(
@@ -143,14 +147,22 @@ class _ResultsCardState extends State<ResultsCard> {
                           SizedBox(
                             height: 5.0,
                           ),
+                          ProductCounter(
+                              onCountChange: (count) {
+                                current_count = count;
+                              },
+                              stkCount: 100),
+                          SizedBox(
+                            height: 10.0,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ProductCounter(onCountChange:(count){}, stkCount: 100),
                               GestureDetector(
                                 onTap: () {
                                   // Create a Cart object with sample data
                                   Cart newCartItem = Cart(
+                                      count: current_count,
                                       pharmacy_imageUrl: widget.logo,
                                       price: widget.price,
                                       unit: widget.unit,

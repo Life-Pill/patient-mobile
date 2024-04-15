@@ -6,9 +6,10 @@ class Cart {
   final String unit;
   final String medicine_name;
   final String pharmacy_name;
+  final int count;
 
   Cart(
-      {required this.pharmacy_imageUrl,
+      {required this.count,required this.pharmacy_imageUrl,
       required this.price,
       required this.unit,
       required this.medicine_name,
@@ -20,6 +21,6 @@ class Cart {
         price: json['price'],
         unit: json['unit'],
         medicine_name: json['name'],
-        pharmacy_name: json['pharmacy_name']);
+        pharmacy_name: json['pharmacy_name'], count: json['count']);
   }
 }

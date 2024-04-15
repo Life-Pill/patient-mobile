@@ -149,8 +149,8 @@ class _CartTabScreenState extends State<CartTabScreen> {
                           unit: cartItem.unit,
                           medicine_name: cartItem.medicine_name,
                           pharmacy_name: cartItem.pharmacy_name,
-                          medicine_count:
-                              2, // Replace with the actual count if available
+                          medicine_count:cartItem.count,
+                              
                         );
                       },
                     ),
