@@ -9,7 +9,9 @@ class Profile {
   String address = "No 2, ABC road, ABC";
   String phoneNumber = "07171717171";
   List<String> reports = [];
+  List<String> prescriptions = [];
 }
+
 
 class ProfileController extends GetxController {
   var currentUser = Profile().obs;

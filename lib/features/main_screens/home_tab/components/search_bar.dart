@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientmobileapplication/features/Data/medicine_data.dart';
 import 'package:patientmobileapplication/features/Data/pharmacy_results_data.dart';
+import 'package:patientmobileapplication/features/main_screens/profile_data/profile_data.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
 class HomeSearchBar extends StatefulWidget {
+  
   const HomeSearchBar({Key? key}) : super(key: key);
 
   @override
@@ -13,6 +15,7 @@ class HomeSearchBar extends StatefulWidget {
 }
 
 class _HomeSearchBarState extends State<HomeSearchBar> {
+      final ProfileData profileData = ProfileData();
   bool isDark = false;
   late TextEditingController _textEditingController;
   List<String> _filteredSuggestions = [];
@@ -32,17 +35,23 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     super.dispose();
   }
 
-  void _openCamera(BuildContext context) async {
+  
+
+  void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      // Do something with the picked image
+   
+        profileData.addPrescription(pickedFile.path);
+    
       print(pickedFile.path);
+      print("All prescriptions: ${profileData.currentUser.prescriptions}");
     } else {
       print('No image selected.');
     }
   }
+
 
   void _clickedSearch(String enteredText) {
     if (enteredText.isEmpty) return;
@@ -107,7 +116,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                 message: 'Open Camera',
                 child: IconButton(
                   onPressed: () {
-                    _openCamera(context);
+                    _openCamera();
                   },
                   icon: const Icon(Icons.camera),
                 ),
@@ -124,7 +133,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                 setState(() {
                   controller.closeView(suggestion);
                   searchedText = suggestion;
-                  print("00000000000000000000  Suggested text: $searchedText");
+                  print(" Suggested text: $searchedText");
                 });
               },
             );

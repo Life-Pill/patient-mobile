@@ -9,9 +9,13 @@ class ProfileData {
     address: '',
     phoneNumber: '',
     reports: [],
+    prescriptions : [],
   );
 
   void addReport(String imagePath) {
     currentUser.reports.add(imagePath);
+  }
+  void addPrescription(String imagePath) {
+    currentUser.prescriptions.add(imagePath);
   }
 }
