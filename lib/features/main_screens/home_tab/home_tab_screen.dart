@@ -7,6 +7,9 @@ import 'package:patientmobileapplication/features/data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/components/account_option_btn.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
+import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_list.dart';
+import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_screen.dart';
+import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/reports_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
@@ -142,19 +145,29 @@ class _HomeState extends State<Home> {
                           bgcolor: Colors.amber.shade200,
                           iconColor: Colors.greenAccent.shade200,
                         ),
-                        HomeTile(
-                          icon: Icons.file_copy,
-                          title: "My Reports",
-                          description: "View stored reports",
-                          bgcolor: Colors.greenAccent.shade200,
-                          iconColor: Colors.blueAccent.shade200,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => ReportsScreen());
+                          },
+                          child: HomeTile(
+                            icon: Icons.file_copy,
+                            title: "My Reports",
+                            description: "View stored reports",
+                            bgcolor: Colors.greenAccent.shade200,
+                            iconColor: Colors.blueAccent.shade200,
+                          ),
                         ),
-                        HomeTile(
-                          icon: Icons.medical_information_outlined,
-                          title: "Prescriptions",
-                          description: "View stored prescriptions",
-                          bgcolor: Colors.lightBlue.shade200,
-                          iconColor: Colors.orangeAccent.shade200,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => PrescriptionsListScreen());
+                          },
+                          child: HomeTile(
+                            icon: Icons.medical_information_outlined,
+                            title: "Prescriptions",
+                            description: "View stored prescriptions",
+                            bgcolor: Colors.lightBlue.shade200,
+                            iconColor: Colors.orangeAccent.shade200,
+                          ),
                         ),
                         HomeTile(
                           icon: Icons.local_pharmacy_outlined,

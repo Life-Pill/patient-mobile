@@ -6,7 +6,7 @@ import '../../../Data/pharmacy_results_data.dart';
 
 class RatingSorted extends StatelessWidget {
   final String searchedMedicine;
-   RatingSorted({super.key, required this.searchedMedicine});
+  RatingSorted({super.key, required this.searchedMedicine});
   List<Pharmacy> sortedResults = [];
 
   @override
@@ -22,7 +22,7 @@ class RatingSorted extends StatelessWidget {
           return ResultsCard(
             medicine_name: searchedMedicine,
             isOpen: pharmacy.isOpen,
-            name: pharmacy.name,
+            pharmacy_name: pharmacy.name,
             logo: pharmacy.logo,
             price: pharmacy.price,
             unit: pharmacy.unit,
@@ -34,6 +34,4 @@ class RatingSorted extends StatelessWidget {
       ),
     );
   }
-
-
 }

@@ -5,7 +5,7 @@ import 'package:patientmobileapplication/features/searching/results_card/ui/resu
 import '../../../Data/pharmacy_results_data.dart';
 
 class OpenSorted extends StatelessWidget {
-   final String searchedMedicine;
+  final String searchedMedicine;
   OpenSorted({super.key, required this.searchedMedicine});
   List<Pharmacy> sortedResults = [];
 
@@ -22,7 +22,7 @@ class OpenSorted extends StatelessWidget {
           return ResultsCard(
             medicine_name: searchedMedicine,
             isOpen: pharmacy.isOpen,
-            name: pharmacy.name,
+            pharmacy_name: pharmacy.name,
             logo: pharmacy.logo,
             price: pharmacy.price,
             unit: pharmacy.unit,

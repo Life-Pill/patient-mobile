@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:patientmobileapplication/features/Data/cart_data.dart';
+import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
+import 'package:patientmobileapplication/features/searching/results_card/product_counter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultsCard extends StatefulWidget {
   final Color blueColor = Color(0xFF277CF4);
   final String medicine_name;
-  final String name;
+  final String pharmacy_name;
   final String logo;
   final bool isOpen;
   final double price;
@@ -22,7 +26,7 @@ class ResultsCard extends StatefulWidget {
       {super.key,
       required this.medicine_name,
       required this.isOpen,
-      required this.name,
+      required this.pharmacy_name,
       required this.logo,
       required this.price,
       required this.unit,
@@ -37,6 +41,20 @@ class ResultsCard extends StatefulWidget {
 class _ResultsCardState extends State<ResultsCard> {
   @override
   Widget build(BuildContext context) {
+    int current_count = 0;
+    void addToCart(Cart cartItem) {
+      if (cartItem.count == 0) {
+        return;
+      }
+      setState(() {
+        cartItems.add(cartItem);
+      });
+      Get.snackbar("Added to cart",
+          "${cartItem.count} ${cartItem.unit}s of ${cartItem.medicine_name} at ${cartItem.pharmacy_name}",
+          backgroundColor: Colors.green.shade100);
+
+    }
+
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -65,7 +83,7 @@ class _ResultsCardState extends State<ResultsCard> {
                         //TODO: Enter relavant pharmacy details below
                         children: [
                           Text(
-                            widget.name,
+                            widget.pharmacy_name,
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 19.0,
@@ -97,70 +115,93 @@ class _ResultsCardState extends State<ResultsCard> {
                           SizedBox(
                             height: 5.0,
                           ),
+                          Container(
+                            height: 25.0,
+                            width: 80.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: widget.isOpen
+                                  ? Colors.green.shade100
+                                  : Colors.red.shade100,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.home,
+                                    size: 20.0,
+                                    color: widget.isOpen
+                                        ? Color(0xFF30C04F)
+                                        : Color(0xFFC03030)),
+                                Text(
+                                  widget.isOpen ? "Open" : "Closed",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.0,
+                                      color: widget.isOpen
+                                          ? Color(0xFF30C04F)
+                                          : Color(0xFFC03030)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          ProductCounter(
+                              onCountChange: (count) {
+                                current_count = count;
+                              },
+                              stkCount: 100),
+                          SizedBox(
+                            height: 10.0,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                height: 25.0,
-                                width: 80.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: widget.isOpen
-                                      ? Colors.green.shade100
-                                      : Colors.red.shade100,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.home,
-                                        size: 20.0,
-                                        color: widget.isOpen
-                                            ? Color(0xFF30C04F)
-                                            : Color(0xFFC03030)),
-                                    Text(
-                                      widget.isOpen ? "Open" : "Closed",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 11.0,
-                                          color: widget.isOpen
-                                              ? Color(0xFF30C04F)
-                                              : Color(0xFFC03030)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Container(
-                                height: 25.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(color: widget.blueColor),
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10.0),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_cart,
-                                        size: 20.0,
-                                        color: widget.blueColor,
-                                      ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        "Add to cart",
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 11.0,
+                              GestureDetector(
+                                onTap: () {
+                                  // Create a Cart object with sample data
+                                  Cart newCartItem = Cart(
+                                      count: current_count,
+                                      pharmacy_imageUrl: widget.logo,
+                                      price: widget.price,
+                                      unit: widget.unit,
+                                      medicine_name: widget.medicine_name,
+                                      pharmacy_name: widget.pharmacy_name);
+
+                                  addToCart(
+                                      newCartItem); // Add the new cart item to the cart
+                                },
+                                child: Container(
+                                  height: 25.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(color: widget.blueColor),
+                                    color: Colors.white,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10.0, right: 10.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_cart,
+                                          size: 20.0,
                                           color: widget.blueColor,
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          width: 5.0,
+                                        ),
+                                        Text(
+                                          "Add to cart",
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 11.0,
+                                            color: widget.blueColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -353,10 +394,10 @@ class _ResultsCardState extends State<ResultsCard> {
   Future<void> _sharePharmacyDetails() async {
     final String text = '''
     The medicine ${widget.medicine_name} is available at:
-    Pharmacy Name: ${widget.name}
+    Pharmacy Name: ${widget.pharmacy_name}
     Phone Number: ${widget.phone}
     Medicine Price: At Rs.${widget.price} per ${widget.unit}
-    Medicine Name: ${widget.name}
+    Medicine Name: ${widget.pharmacy_name}
     Address: ${widget.address}
     ''';
 

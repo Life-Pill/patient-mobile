@@ -1,13 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientmobileapplication/features/data/profile_data.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
+import 'package:patientmobileapplication/features/main_screens/profile_data/profile_data.dart';
 
 class CameraTabScreen extends StatefulWidget {
   const CameraTabScreen({Key? key}) : super(key: key);
@@ -17,13 +21,17 @@ class CameraTabScreen extends StatefulWidget {
 }
 
 class _CameraTabScreenState extends State<CameraTabScreen> {
+  final ProfileData profileData = ProfileData();
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      // Do something with the picked image
+      setState(() {
+        profileData.addReport(pickedFile.path);
+      });
       print(pickedFile.path);
+      print("All reports: ${profileData.currentUser.reports}");
     } else {
       print('No image selected.');
     }
@@ -34,8 +42,11 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      // Do something with the picked image
+      setState(() {
+        profileData.addReport(pickedFile.path);
+      });
       print(pickedFile.path);
+      print("All reports: ${profileData.currentUser.reports}");
     } else {
       print('No image selected.');
     }
@@ -160,7 +171,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                     height: 30.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -176,14 +187,41 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        ElevatedButton(
-                            onPressed: _openCamera, child: Text("Open Camera")),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: _openCamera,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.camera_alt), // Icon added here
+                                  SizedBox(
+                                      width: 10), // Space between icon and text
+                                  Text("Open\nCamera"),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: _openGallery,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons
+                                      .photo_size_select_actual_rounded), // Icon added here
+                                  SizedBox(
+                                      width: 10), // Space between icon and text
+                                  Text("Open\nGallery"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height: 20.0,
                         ),
-                        ElevatedButton(
-                            onPressed: _openGallery,
-                            child: Text("Open Gallery")),
+                        ReportPhotosList(
+                            reports: profileData.currentUser.reports),
                       ],
                     ),
                   ),
