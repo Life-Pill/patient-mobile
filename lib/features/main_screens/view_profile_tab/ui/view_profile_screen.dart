@@ -10,13 +10,12 @@ import 'package:patientmobileapplication/features/main_screens/profile_data/curr
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
+import 'package:patientmobileapplication/features/sub_screens/profile_edit_screen.dart';
 
 import '../../components/account_option_btn.dart';
 
 class ViewProfile extends StatefulWidget {
   const ViewProfile({Key? key}) : super(key: key);
-
-  
 
   @override
   State<ViewProfile> createState() => _ViewProfileState();
@@ -136,9 +135,14 @@ class _ViewProfileState extends State<ViewProfile> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        AccountOptionButton(
-                            btnIcon: Icons.account_circle_outlined,
-                            btnText: "Your profile"),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(ProfileEditScreen());
+                          },
+                          child: AccountOptionButton(
+                              btnIcon: Icons.account_circle_outlined,
+                              btnText: "Your profile"),
+                        ),
                         AccountOptionButton(
                             btnIcon: Icons.credit_card,
                             btnText: "Payment methods"),
@@ -186,10 +190,10 @@ class _ViewProfileState extends State<ViewProfile> {
       ),
     );
   }
-  
+
   void _logout(BuildContext context) async {
-     final GoogleSignIn googleSignIn = GoogleSignIn();
-  await googleSignIn.signOut();
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
     await FirebaseAuth.instance.signOut(); // Sign out the user
     Get.to(SignInPage());
   }
