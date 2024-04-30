@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 
 class Profile {
   String name = "default";
@@ -41,10 +42,65 @@ class ProfileController extends GetxController {
     });
   }
 
+  Future<void> updateProfileAPI({
+    required String name,
+    required String email,
+    required String dob,
+    required String gender,
+    required String addressStreet,
+    required String addressCity,
+    required String addressDistrict,
+    required String phoneNumber,
+  }) async {
+    try {
+      // Prepare the request body
+      Map<String, dynamic> requestBody = {
+        'customerFullName': name,
+        'customerEmail': email,
+        'dob': dob,
+        'gender': gender,
+        'addressStreet': addressStreet,
+        'addressCity': addressCity,
+        'addressDistrict': addressDistrict,
+        'customerMobileNumber': phoneNumber,
+      };
+
+      // Make the PUT request to update the profile
+      final response = await http.put(
+        Uri.parse(CustomerDetailsAPI),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        // If the request is successful, update the local profile data
+        updateProfile(
+          name: name,
+          email: email,
+          dob: dob,
+          gender: gender,
+          addressStreet: addressStreet,
+          addressCity: addressCity,
+          addressDistrict: addressDistrict,
+          phoneNumber: phoneNumber,
+        );
+        // Print a success message
+        print('Profile updated successfully');
+      } else {
+        // If the request fails, throw an exception
+        throw Exception('Failed to update profile: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Catch any errors that occur during the request
+      throw Exception('Failed to update profile: $error');
+    }
+  }
+
   Future<void> fetchProfileData() async {
     try {
-      final response = await http.get(Uri.parse(
-          'http://10.0.2.2:8080/customers/1')); //TODO: Replace with correct API url
+      final response = await http.get(Uri.parse(CustomerDetailsAPI));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         updateProfile(
@@ -64,7 +120,8 @@ class ProfileController extends GetxController {
         print('Email: ${currentUser.value.email}');
         print('Date of Birth: ${currentUser.value.dob}');
         print('Gender: ${currentUser.value.gender}');
-        print('Address: ${currentUser.value.addressStreet}, ${currentUser.value.addressCity} ,${currentUser.value.addressDistrict}');
+        print(
+            'Address: ${currentUser.value.addressStreet}, ${currentUser.value.addressCity} ,${currentUser.value.addressDistrict}');
         print('Phone Number: ${currentUser.value.phoneNumber}');
       } else {
         throw Exception('Failed to load profile data');
@@ -73,7 +130,8 @@ class ProfileController extends GetxController {
       throw Exception('Failed to load profile data: $error');
     }
   }
-    void addReport(String imagePath) {
+
+  void addReport(String imagePath) {
     currentUser.value.reports.add(imagePath);
   }
 
