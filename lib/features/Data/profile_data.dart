@@ -8,7 +8,9 @@ class Profile {
   String img = "assets/images/defaultProfilePic.png";
   String dob = "";
   String gender = "male";
-  String address = "";
+  String addressStreet = "";
+  String addressCity = "";
+  String addressDistrict = "";
   String phoneNumber = "";
   List<String> reports = [];
   List<String> prescriptions = [];
@@ -22,7 +24,9 @@ class ProfileController extends GetxController {
     required String email,
     required String dob,
     required String gender,
-    required String address,
+    required String addressStreet,
+    required String addressCity,
+    required String addressDistrict,
     required String phoneNumber,
   }) {
     currentUser.update((val) {
@@ -30,7 +34,9 @@ class ProfileController extends GetxController {
       val?.email = email;
       val?.dob = dob;
       val?.gender = gender;
-      val?.address = address;
+      val?.addressStreet = addressStreet;
+      val?.addressCity = addressCity;
+      val?.addressDistrict = addressDistrict;
       val?.phoneNumber = phoneNumber;
     });
   }
@@ -47,18 +53,18 @@ class ProfileController extends GetxController {
           dob: '', // Fill with appropriate value if available in your API
           gender:
               'male', // Fill with appropriate value if available in your API
-          address: jsonData['customerAddressStreet'] +
-              ', ' +
-              jsonData['customerAddressCity'] +
-              ', ' +
-              jsonData['customerAddressDistrict'],
+          addressStreet: jsonData['customerAddressStreet'],
+
+          addressCity: jsonData['customerAddressCity'],
+
+          addressDistrict: jsonData['customerAddressDistrict'],
           phoneNumber: jsonData['customerMobileNumber'],
         );
         print('Name: ${currentUser.value.name}');
         print('Email: ${currentUser.value.email}');
         print('Date of Birth: ${currentUser.value.dob}');
         print('Gender: ${currentUser.value.gender}');
-        print('Address: ${currentUser.value.address}');
+        print('Address: ${currentUser.value.addressStreet}, ${currentUser.value.addressCity} ,${currentUser.value.addressDistrict}');
         print('Phone Number: ${currentUser.value.phoneNumber}');
       } else {
         throw Exception('Failed to load profile data');
@@ -66,5 +72,12 @@ class ProfileController extends GetxController {
     } catch (error) {
       throw Exception('Failed to load profile data: $error');
     }
+  }
+    void addReport(String imagePath) {
+    currentUser.value.reports.add(imagePath);
+  }
+
+  void addPrescription(String imagePath) {
+    currentUser.value.prescriptions.add(imagePath);
   }
 }

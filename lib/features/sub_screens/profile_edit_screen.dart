@@ -9,7 +9,9 @@ class ProfileEditScreen extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController dobController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController addressCityController = TextEditingController();
+    TextEditingController addressStreetController = TextEditingController();
+      TextEditingController addressDistrictController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
   ProfileEditScreen() {
@@ -20,7 +22,9 @@ class ProfileEditScreen extends StatelessWidget {
     nameController.text = profileController.currentUser.value.name;
     emailController.text = profileController.currentUser.value.email;
     dobController.text = profileController.currentUser.value.dob;
-    addressController.text = profileController.currentUser.value.address;
+    addressStreetController.text = profileController.currentUser.value.addressStreet;
+      addressCityController.text = profileController.currentUser.value.addressCity;
+        addressDistrictController.text = profileController.currentUser.value.addressDistrict;
     phoneNumberController.text = profileController.currentUser.value.phoneNumber;
   }
 
@@ -62,7 +66,15 @@ class ProfileEditScreen extends StatelessWidget {
                   }).toList(),
             ),
             TextField(
-              controller: addressController,
+              controller: addressStreetController,
+              decoration: InputDecoration(labelText: 'Address'),
+            ),
+            TextField(
+              controller: addressCityController,
+              decoration: InputDecoration(labelText: 'Address'),
+            ),
+            TextField(
+              controller: addressDistrictController,
               decoration: InputDecoration(labelText: 'Address'),
             ),
             TextField(
@@ -76,7 +88,9 @@ class ProfileEditScreen extends StatelessWidget {
                   email: emailController.text,
                   dob: dobController.text,
                   gender: profileController.currentUser.value.gender,
-                  address: addressController.text,
+                  addressCity: addressCityController.text,
+                  addressStreet: addressStreetController.text,
+                  addressDistrict: addressDistrictController.text,
                   phoneNumber: phoneNumberController.text,
                 );
                 updateControllers(); // Update text controllers after profile update
