@@ -7,8 +7,8 @@ class Profile {
   String name = "default";
   String email = "";
   String img = "assets/images/defaultProfilePic.png";
-  String dob = "";
-  String gender = "male";
+ // String dob = "";
+  //String gender = "male";
   String addressStreet = "";
   String addressCity = "";
   String addressDistrict = "";
@@ -23,8 +23,8 @@ class ProfileController extends GetxController {
   void updateProfile({
     required String name,
     required String email,
-    required String dob,
-    required String gender,
+    // required String dob,
+    //required String gender,
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
@@ -33,8 +33,8 @@ class ProfileController extends GetxController {
     currentUser.update((val) {
       val?.name = name;
       val?.email = email;
-      val?.dob = dob;
-      val?.gender = gender;
+      //  val?.dob = dob;
+      // val?.gender = gender;
       val?.addressStreet = addressStreet;
       val?.addressCity = addressCity;
       val?.addressDistrict = addressDistrict;
@@ -45,29 +45,24 @@ class ProfileController extends GetxController {
   Future<void> updateProfileAPI({
     required String name,
     required String email,
-    required String dob,
-    required String gender,
+    required String phoneNumber,
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
-    required String phoneNumber,
   }) async {
     try {
-      // Prepare the request body
+      // Prepare the request body with only the required fields
       Map<String, dynamic> requestBody = {
         'customerFullName': name,
         'customerEmail': email,
-        'dob': dob,
-        'gender': gender,
-        'addressStreet': addressStreet,
-        'addressCity': addressCity,
-        'addressDistrict': addressDistrict,
         'customerMobileNumber': phoneNumber,
+        'customerAddressStreet': addressStreet,
+        'customerAddressCity': addressCity,
+        'customerAddressDistrict': addressDistrict,
       };
 
-      // Make the PUT request to update the profile
       final response = await http.put(
-        Uri.parse(CustomerDetailsAPI),
+        Uri.parse('http://10.0.2.2:8080/customers/1'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -79,21 +74,16 @@ class ProfileController extends GetxController {
         updateProfile(
           name: name,
           email: email,
-          dob: dob,
-          gender: gender,
+          phoneNumber: phoneNumber,
           addressStreet: addressStreet,
           addressCity: addressCity,
           addressDistrict: addressDistrict,
-          phoneNumber: phoneNumber,
         );
-        // Print a success message
         print('Profile updated successfully');
       } else {
-        // If the request fails, throw an exception
         throw Exception('Failed to update profile: ${response.statusCode}');
       }
     } catch (error) {
-      // Catch any errors that occur during the request
       throw Exception('Failed to update profile: $error');
     }
   }
@@ -106,9 +96,9 @@ class ProfileController extends GetxController {
         updateProfile(
           name: jsonData['customerFullName'],
           email: jsonData['customerEmail'],
-          dob: '', // Fill with appropriate value if available in your API
-          gender:
-              'male', // Fill with appropriate value if available in your API
+          // dob: '', // Fill with appropriate value if available in your API
+          // gender:
+          //     'male', // Fill with appropriate value if available in your API
           addressStreet: jsonData['customerAddressStreet'],
 
           addressCity: jsonData['customerAddressCity'],
@@ -118,8 +108,8 @@ class ProfileController extends GetxController {
         );
         print('Name: ${currentUser.value.name}');
         print('Email: ${currentUser.value.email}');
-        print('Date of Birth: ${currentUser.value.dob}');
-        print('Gender: ${currentUser.value.gender}');
+     //   print('Date of Birth: ${currentUser.value.dob}');
+       // print('Gender: ${currentUser.value.gender}');
         print(
             'Address: ${currentUser.value.addressStreet}, ${currentUser.value.addressCity} ,${currentUser.value.addressDistrict}');
         print('Phone Number: ${currentUser.value.phoneNumber}');

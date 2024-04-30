@@ -20,7 +20,7 @@ class ProfileEditScreen extends StatelessWidget {
   void updateControllers() {
     nameController.text = profileController.currentUser.value.name;
     emailController.text = profileController.currentUser.value.email;
-    dobController.text = profileController.currentUser.value.dob;
+    //dobController.text = profileController.currentUser.value.dob;
     addressStreetController.text =
         profileController.currentUser.value.addressStreet;
     addressCityController.text =
@@ -49,27 +49,27 @@ class ProfileEditScreen extends StatelessWidget {
               controller: emailController,
               decoration: InputDecoration(labelText: 'Email'),
             ),
-            TextField(
-              controller: dobController,
-              decoration: InputDecoration(labelText: 'Date of Birth'),
-            ),
+            // TextField(
+            //   controller: dobController,
+            //   decoration: InputDecoration(labelText: 'Date of Birth'),
+            // ),
             SizedBox(height: 10), // Add some space between fields (optional
             Text("Gender"),
-            DropdownButton<String>(
-              value: profileController.currentUser.value.gender,
-              onChanged: (String? newValue) {
-                profileController.currentUser.update((val) {
-                  val?.gender = newValue!;
-                });
-              },
-              items: <String>['male', 'female', 'other']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+            // DropdownButton<String>(
+            //   value: profileController.currentUser.value.gender,
+            //   onChanged: (String? newValue) {
+            //     profileController.currentUser.update((val) {
+            //       val?.gender = newValue!;
+            //     });
+            //   },
+            //   items: <String>['male', 'female', 'other']
+            //       .map<DropdownMenuItem<String>>((String value) {
+            //     return DropdownMenuItem<String>(
+            //       value: value,
+            //       child: Text(value),
+            //     );
+            //   }).toList(),
+            // ),
             SizedBox(height: 10), // Add some space between fields (optional
             Text("Address"),
             TextField(
@@ -90,11 +90,11 @@ class ProfileEditScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                profileController.updateProfile(
+                profileController.updateProfileAPI(
                   name: nameController.text,
                   email: emailController.text,
-                  dob: dobController.text,
-                  gender: profileController.currentUser.value.gender,
+                  //    dob: dobController.text,
+                  //    gender: profileController.currentUser.value.gender,
                   addressCity: addressCityController.text,
                   addressStreet: addressStreetController.text,
                   addressDistrict: addressDistrictController.text,

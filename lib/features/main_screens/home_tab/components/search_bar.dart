@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientmobileapplication/features/Data/medicine_data.dart';
 import 'package:patientmobileapplication/features/Data/pharmacy_results_data.dart';
-import 'package:patientmobileapplication/features/main_screens/profile_data/profile_data.dart';
+import 'package:patientmobileapplication/features/Data/profile_data.dart';
+
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
 class HomeSearchBar extends StatefulWidget {
@@ -15,7 +16,7 @@ class HomeSearchBar extends StatefulWidget {
 }
 
 class _HomeSearchBarState extends State<HomeSearchBar> {
-      final ProfileData profileData = ProfileData();
+      final Profile profileData = Profile();
   bool isDark = false;
   late TextEditingController _textEditingController;
   List<String> _filteredSuggestions = [];
@@ -43,10 +44,10 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
 
     if (pickedFile != null) {
    
-        profileData.addPrescription(pickedFile.path);
+        profileData.prescriptions.add(pickedFile.path);
     
       print(pickedFile.path);
-      print("All prescriptions: ${profileData.currentUser.prescriptions}");
+      print("All prescriptions: ${profileData.prescriptions}");
     } else {
       print('No image selected.');
     }

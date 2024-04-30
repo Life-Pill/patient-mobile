@@ -11,7 +11,7 @@ import 'package:patientmobileapplication/features/main_screens/cart_tab/componen
 
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
-import 'package:patientmobileapplication/features/main_screens/profile_data/profile_data.dart';
+
 
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class ReportsScreen extends StatefulWidget {
 }
 
 class _ReportsScreenState extends State<ReportsScreen> {
-  final ProfileData profileData = ProfileData();
+  final Profile profileData = Profile();
 
   Profile current_user = new Profile();
 
@@ -39,7 +39,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               child: Column(
                 children: [
                   Text("data"),
-                  ReportPhotosList(reports: profileData.currentUser.reports),
+                  ReportPhotosList(reports: profileData.reports),
                 ],
               ),
             ),
