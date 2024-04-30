@@ -3,17 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:patientmobileapplication/features/data/profile_data.dart';
-import 'package:patientmobileapplication/features/main_screens/components/account_option_btn.dart';
+
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
-import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_list.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/reports_screen.dart';
-import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
-import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 
-import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
+import '../../Data/profile_data.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -23,6 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final ProfileController profileController = Get.put(ProfileController());
   Profile current_user = new Profile();
 
   @override
@@ -37,7 +34,6 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   Container(
-                    height: 200.0,
                     padding:
                         EdgeInsets.only(top: 40.0, right: 20.0, left: 20.0),
                     decoration: BoxDecoration(
@@ -80,24 +76,35 @@ class _HomeState extends State<Home> {
                                           size: 15.0,
                                           color: Colors.white,
                                         ),
-                                        Text(
-                                          " ${current_user.address}",
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xFFFDFDFC),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              200.0,
+                                          child: Text(
+                                            " ${profileController.currentUser.value.address}",
+                                            softWrap: true,
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFFFDFDFC),
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      "Hello, ${current_user.name}",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFFFDFDFC),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          200.0,
+                                      child: Text(
+                                        "Hello, ${profileController.currentUser.value.name}",
+                                        textAlign: TextAlign.left,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFFFDFDFC),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -127,6 +134,9 @@ class _HomeState extends State<Home> {
                           height: 20.0,
                         ),
                         HomeSearchBar(),
+                        SizedBox(
+                          height: 20.0,
+                        ),
                       ],
                     ),
                   ),

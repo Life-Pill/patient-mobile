@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/AuthGate.dart';
+import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/splash/ui/splash_screen.dart';
 import 'package:patientmobileapplication/firebase_options.dart';
@@ -13,6 +14,13 @@ void main() async {
  await Firebase.initializeApp(
    options: DefaultFirebaseOptions.currentPlatform,
  );
+   // Create an instance of ProfileController to fetch profile data
+  final profileController = Get.put(ProfileController());
+  
+  // Fetch profile data
+  print('Fetching profile data...');
+  await profileController.fetchProfileData();
+  print('Profile data fetched successfully!');
 
   runApp(const MyApp());
 }
