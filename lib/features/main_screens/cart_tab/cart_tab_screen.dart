@@ -32,6 +32,7 @@ class _CartTabScreenState extends State<CartTabScreen> {
               child: Column(
                 children: [
                   TopNavBar(
+                    NeedSearchBar: false,
                     TabName: "Your Cart",
                   ),
                   Padding(

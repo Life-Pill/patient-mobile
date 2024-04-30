@@ -5,10 +5,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
+import 'dart:convert' as convert;
 
+import 'package:http/http.dart' as http;
 
 class CameraTabScreen extends StatefulWidget {
   const CameraTabScreen({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
+        await _uploadImage(File(pickedFile.path));
     } else {
       print('No image selected.');
     }
@@ -44,11 +48,28 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
+        await _uploadImage(File(pickedFile.path));
     } else {
       print('No image selected.');
     }
   }
+  Future<void> _uploadImage(File imageFile) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(CustomerPrescriptionsAPI));
+    request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
 
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully');
+      } else {
+        print('Failed to upload image');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
   Profile current_user = new Profile();
 
   @override
@@ -63,6 +84,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
               child: Column(
                 children: [
                    TopNavBar(
+                    NeedSearchBar: false,
                       TabName: "Your Cart",
                      ),
                 

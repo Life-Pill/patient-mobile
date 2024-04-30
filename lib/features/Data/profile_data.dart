@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
@@ -13,6 +14,7 @@ class Profile {
   String addressCity = "";
   String addressDistrict = "";
   String phoneNumber = "";
+
   List<String> reports = [];
   List<String> prescriptions = [];
 }
@@ -29,6 +31,7 @@ class ProfileController extends GetxController {
     required String addressCity,
     required String addressDistrict,
     required String phoneNumber,
+
   }) {
     currentUser.update((val) {
       val?.name = name;
@@ -49,6 +52,7 @@ class ProfileController extends GetxController {
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
+
   }) async {
     try {
       // Prepare the request body with only the required fields
@@ -60,7 +64,7 @@ class ProfileController extends GetxController {
         'customerAddressStreet': addressStreet,
         'customerAddressCity': addressCity,
         'customerAddressDistrict': addressDistrict,
-        "customerNIC": "123456789"//TODO: Change this to the actual NIC
+
       };
 
       final response = await http.put(
@@ -80,13 +84,19 @@ class ProfileController extends GetxController {
           addressStreet: addressStreet,
           addressCity: addressCity,
           addressDistrict: addressDistrict,
+
         );
         print('Profile updated successfully');
+         Get.snackbar("Successful", "Profile Details Changed",
+                    backgroundColor: Colors.green.shade200);
       } else {
         throw Exception('Failed to update profile: ${response.statusCode}');
       }
     } catch (error) {
+             Get.snackbar('Error Occured', 'Try again',
+              backgroundColor: Colors.red.shade200);
       throw Exception('Failed to update profile: $error');
+      
     }
   }
 
@@ -107,6 +117,7 @@ class ProfileController extends GetxController {
 
           addressDistrict: jsonData['customerAddressDistrict'],
           phoneNumber: jsonData['customerMobileNumber'],
+
         );
         print('Name: ${currentUser.value.name}');
         print('Email: ${currentUser.value.email}');

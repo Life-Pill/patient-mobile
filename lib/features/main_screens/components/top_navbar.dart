@@ -8,8 +8,10 @@ class TopNavBar extends StatelessWidget {
   final ProfileController profileController = Get.put(ProfileController());
   Profile current_user = new Profile();
   final String TabName;
+  final bool NeedSearchBar;
   TopNavBar({
     super.key,
+    required this.NeedSearchBar,
     required this.TabName,
   });
 
@@ -106,7 +108,7 @@ class TopNavBar extends StatelessWidget {
           SizedBox(
             height: 20.0,
           ),
-          TabName == "Home"
+          NeedSearchBar
               ? HomeSearchBar()
               : Text(
                   TabName,

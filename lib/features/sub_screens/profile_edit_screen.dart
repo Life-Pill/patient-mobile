@@ -12,6 +12,7 @@ class ProfileEditScreen extends StatelessWidget {
   TextEditingController addressStreetController = TextEditingController();
   TextEditingController addressDistrictController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController nicController = TextEditingController();
 
   ProfileEditScreen() {
     updateControllers();
@@ -88,6 +89,10 @@ class ProfileEditScreen extends StatelessWidget {
               controller: phoneNumberController,
               decoration: InputDecoration(labelText: 'Phone Number'),
             ),
+               TextField(
+              controller: nicController,
+              decoration: InputDecoration(labelText: 'NIC Number'),
+            ),
             ElevatedButton(
               onPressed: () {
                 profileController.updateProfileAPI(
@@ -99,9 +104,11 @@ class ProfileEditScreen extends StatelessWidget {
                   addressStreet: addressStreetController.text,
                   addressDistrict: addressDistrictController.text,
                   phoneNumber: phoneNumberController.text,
+ 
                 );
                 updateControllers(); // Update text controllers after profile update
                 Get.back();
+              
               },
               child: Text('Save Changes'),
             ),

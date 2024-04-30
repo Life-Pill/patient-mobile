@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  TopNavBar(TabName: "Home"),
+                  TopNavBar(TabName: "Home",NeedSearchBar: true,),
                   SizedBox(
                     height: 30.0,
                   ),
