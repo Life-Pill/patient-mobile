@@ -56,9 +56,11 @@ class ProfileController extends GetxController {
         'customerFullName': name,
         'customerEmail': email,
         'customerMobileNumber': phoneNumber,
+         "customerPassword": "pwd", // TODO: Change this to the actual password
         'customerAddressStreet': addressStreet,
         'customerAddressCity': addressCity,
         'customerAddressDistrict': addressDistrict,
+        "customerNIC": "123456789"//TODO: Change this to the actual NIC
       };
 
       final response = await http.put(
