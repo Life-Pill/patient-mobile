@@ -52,6 +52,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
       await _uploadImage(File(pickedFile.path));
+        await _saveImageInHive(File(pickedFile.path)); 
     } else {
       print('No image selected.');
     }
