@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
@@ -22,6 +23,24 @@ class CameraTabScreen extends StatefulWidget {
 
 class _CameraTabScreenState extends State<CameraTabScreen> {
   final Profile profileData = Profile();
+     late Box<List<int>> imageBox;
+
+    @override
+  void initState() {
+    super.initState();
+    _openImageBox();
+  }
+
+   Future<void> _openImageBox() async {
+    imageBox =  Hive.box('prescriptionsBox');
+  }
+
+    Future<void> _saveImageInHive(File imageFile) async {
+    List<int> bytes = await imageFile.readAsBytes();
+    await imageBox.add(bytes);
+    print('Image saved in Hive');
+  }
+
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
@@ -49,6 +68,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
       await _uploadImage(File(pickedFile.path));
+       await _saveImageInHive(File(pickedFile.path)); 
     } else {
       print('No image selected.');
     }

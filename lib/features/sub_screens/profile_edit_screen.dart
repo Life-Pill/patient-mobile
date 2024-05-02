@@ -95,6 +95,7 @@ class ProfileEditScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
+                   Get.back();
                 profileController.updateProfileAPI(
                   name: nameController.text,
                   email: emailController.text,
@@ -107,7 +108,7 @@ class ProfileEditScreen extends StatelessWidget {
  
                 );
                 updateControllers(); // Update text controllers after profile update
-                Get.back();
+             
               
               },
               child: Text('Save Changes'),

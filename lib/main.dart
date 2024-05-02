@@ -2,12 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:patientmobileapplication/AuthGate.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/splash/ui/splash_screen.dart';
 import 'package:patientmobileapplication/firebase_options.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,22 @@ void main() async {
   print('Fetching profile data...');
   await profileController.fetchProfileData();
   print('Profile data fetched successfully!');
+ 
+  // Initialize Hive
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+
+  // Check if the box exists
+  final bool prescriptionsBoxExists = await Hive.boxExists('prescriptionsBox');
+
+   // Open the box or create it if it doesn't exist
+  Box<List<int>> imageBox;
+  if (prescriptionsBoxExists) {
+    imageBox = await Hive.openBox<List<int>>('prescriptionsBox');
+  } else {
+    imageBox = await Hive.openBox<List<int>>('prescriptionsBox');
+  }
+
 
   runApp(const MyApp());
 }
