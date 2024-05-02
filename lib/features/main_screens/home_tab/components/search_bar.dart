@@ -1,14 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/medicine_data.dart';
 import 'package:patientmobileapplication/features/Data/pharmacy_results_data.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
+import 'package:http/http.dart' as http;
 
 class HomeSearchBar extends StatefulWidget {
-  
   const HomeSearchBar({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +19,7 @@ class HomeSearchBar extends StatefulWidget {
 }
 
 class _HomeSearchBarState extends State<HomeSearchBar> {
-      final Profile profileData = Profile();
+  final Profile profileData = Profile();
   bool isDark = false;
   late TextEditingController _textEditingController;
   List<String> _filteredSuggestions = [];
@@ -35,24 +38,45 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     _textEditingController.dispose();
     super.dispose();
   }
+Future<void> _uploadImage(File imageFile) async {
+  var request = http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
+  request.files.add(
+    http.MultipartFile(
+      'file',  // Use 'file' as the key
+      imageFile.openRead(),  // Use openRead to get a stream of the file content
+      imageFile.lengthSync(),  // Provide file length
+      filename: imageFile.path.split('/').last,  // Provide filename
+    ),
+  );
 
-  
+  try {
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    if (response.statusCode == 200) {
+      print('Image uploaded successfully');
+    } else {
+      print('Failed to upload image ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error uploading image: $e');
+  }
+}
+
 
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-   
-        profileData.prescriptions.add(pickedFile.path);
-    
+      profileData.prescriptions.add(pickedFile.path);
+
       print(pickedFile.path);
+      await _uploadImage(File(pickedFile.path));
       print("All prescriptions: ${profileData.prescriptions}");
     } else {
       print('No image selected.');
     }
   }
-
 
   void _clickedSearch(String enteredText) {
     if (enteredText.isEmpty) return;
