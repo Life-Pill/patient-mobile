@@ -32,7 +32,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
-        await _uploadImage(File(pickedFile.path));
+      await _uploadImage(File(pickedFile.path));
     } else {
       print('No image selected.');
     }
@@ -48,15 +48,17 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
-        await _uploadImage(File(pickedFile.path));
+      await _uploadImage(File(pickedFile.path));
     } else {
       print('No image selected.');
     }
   }
+
   Future<void> _uploadImage(File imageFile) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(CustomerPrescriptionsAPI));
-    request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
 
     try {
       var streamedResponse = await request.send();
@@ -64,12 +66,13 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       if (response.statusCode == 200) {
         print('Image uploaded successfully');
       } else {
-        print('Failed to upload image');
+        print('Failed to upload image ${response.statusCode}');
       }
     } catch (e) {
       print('Error uploading image: $e');
     }
   }
+
   Profile current_user = new Profile();
 
   @override
@@ -83,11 +86,10 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                   TopNavBar(
+                  TopNavBar(
                     NeedSearchBar: false,
-                      TabName: "Your Cart",
-                     ),
-                
+                    TabName: "Your Cart",
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: Column(
@@ -138,8 +140,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        ReportPhotosList(
-                            reports: profileData.reports),
+                        ReportPhotosList(reports: profileData.reports),
                       ],
                     ),
                   ),
