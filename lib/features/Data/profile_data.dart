@@ -20,6 +20,9 @@ class Profile {
 }
 
 class ProfileController extends GetxController {
+    final http.Client? httpClient;
+
+  ProfileController({http.Client? httpClient}) : this.httpClient = httpClient;
   var currentUser = Profile().obs;
 
   void updateProfile({
