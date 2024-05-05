@@ -12,7 +12,7 @@ import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
-import 'dart:convert' as convert;
+
 
 import 'package:http/http.dart' as http;
 
@@ -44,15 +44,39 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
     await presBox.add(bytes);
     print('Image saved in Hive');
   }
+
   Future<void> _openFileBox() async {
     reportsBox = Hive.box('reportsBox');
   }
 
-  Future<void> _saveFileInHive(File imageFile) async {
-    List<int> bytes = await imageFile.readAsBytes();
-    await reportsBox.add(bytes);
-    print('Image saved in Hive');
+  Future<void> _resetHiveBoxes() async {
+    // Close existing boxes if they are open
+    if (presBox.isOpen) await presBox.close();
+    if (reportsBox.isOpen) await reportsBox.close();
+
+    // Delete existing Hive database files from disk
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    final hiveDirectory = Directory(appDocumentDir.path);
+    hiveDirectory.deleteSync(recursive: true);
+
+    // Open new Hive boxes
+    presBox = await Hive.openBox<List<int>>('prescriptionsBox');
+    reportsBox = await Hive.openBox<List<int>>('reportsBox');
+    print('Hive boxes reset');
   }
+
+  Future<void> _saveFileInHive(File file) async {
+    try {
+      final appDocumentDir = await getApplicationDocumentsDirectory();
+      final hiveBox = await Hive.openBox<List<int>>('filesBox');
+      List<int> bytes = await file.readAsBytes();
+      await hiveBox.put(file.path, bytes);
+      print('File saved in Hive successfully');
+    } catch (e) {
+      print('Error saving file in Hive: $e');
+    }
+  }
+
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
@@ -134,18 +158,6 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       }
     } catch (e) {
       print('Error uploading file: $e');
-    }
-  }
-
-  Future<void> _saveFileInHive(File file) async {
-    try {
-      final appDocumentDir = await getApplicationDocumentsDirectory();
-      final hiveBox = await Hive.openBox<List<int>>('filesBox');
-      List<int> bytes = await file.readAsBytes();
-      await hiveBox.put(file.path, bytes);
-      print('File saved in Hive successfully');
-    } catch (e) {
-      print('Error saving file in Hive: $e');
     }
   }
 
@@ -244,6 +256,22 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                               SizedBox(
                                   width: 10), // Space between icon and text
                               Text("Open\nFiles"),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40.0,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                          ),
+                          onPressed: _resetHiveBoxes,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Space between icon and text
+                              Text("Reset Hive Boxes"),
                             ],
                           ),
                         ),

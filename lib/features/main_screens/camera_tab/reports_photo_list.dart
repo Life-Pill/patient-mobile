@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ReportPhotosList extends StatefulWidget {
   final List<String> reports;
@@ -13,8 +15,8 @@ class ReportPhotosList extends StatefulWidget {
 }
 
 class _ReportPhotosListState extends State<ReportPhotosList> {
-  late Box<List<int>> imageBox;
-  List<Image> imageList = [];
+  late Box<List<dynamic>> imageBox;
+  List<Widget> widgetList = [];
 
   @override
   void initState() {
@@ -23,7 +25,7 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
   }
 
   Future<void> _openImageBox() async {
-    imageBox = await Hive.openBox<List<int>>('prescriptionsBox');
+    imageBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
     _loadImages();
     imageBox.watch().listen((event) {
       _loadImages();
@@ -31,26 +33,42 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
   }
 
   Future<void> _loadImages() async {
-    final List<List<int>> imageDataList = imageBox.values.toList();
-    final List<Image> images = [];
+    final List<List<dynamic>> imageDataList = imageBox.values.toList();
+    final List<Widget> widgets = [];
     for (final imageData in imageDataList) {
-      final image = Image.memory(
-        Uint8List.fromList(imageData),
-        fit: BoxFit.fitWidth,
-      );
-      images.add(image);
+      final firstByte = imageData.first;
+      if (firstByte is int) {
+        final image = Image.memory(
+          Uint8List.fromList(imageData.cast<int>()),
+          fit: BoxFit.fitWidth,
+        );
+        widgets.add(image);
+      // } else if (firstByte is String && firstByte == 'pdf') {
+      //   final pdfData = imageData.last;
+      //   final tempDir = await getTemporaryDirectory();
+      //   final file = File('${tempDir.path}/temp.pdf');
+      //   await file.writeAsBytes(pdfData.cast<int>());
+      //   final pdfViewer = await PDFDocument.fromFile(file);
+      //   final pdfWidget = PDFViewer(
+      //     document: pdfViewer,
+      //     lazyLoad: false, // Preload all pages
+      //     scrollDirection: Axis.vertical, // Scroll vertically
+      //   );
+      //   widgets.add(pdfWidget);
+       }
     }
     setState(() {
-      imageList = images;
+      widgetList = widgets;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
-        children: imageList.map((image) {
+        children: widgetList.map((widget) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -64,7 +82,7 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
-                child: image,
+                child: widget,
               ),
             ),
           );

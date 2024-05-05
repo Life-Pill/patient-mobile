@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//TODO: Remove
+// import 'package:firebase_auth/firebase_auth.dart';
 
 
-final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-User? currentUser;
+// final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+// User? currentUser;
 
-// UserModel? userModelCurrentInfo;
+// // UserModel? userModelCurrentInfo;

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
