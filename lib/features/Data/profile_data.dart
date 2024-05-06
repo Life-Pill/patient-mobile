@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
+import 'package:patientmobileapplication/features/main_screens/components/custom_snackBar.dart';
 
 class Profile {
   String name = "default";
@@ -87,14 +88,12 @@ class ProfileController extends GetxController {
           addressDistrict: addressDistrict,
         );
         print('Profile updated successfully');
-        Get.snackbar("Successful", "Profile Details Changed",
-            backgroundColor: Colors.green.shade200);
+       CustomSnackBar(true,"Successful", "Profile Details Changed");
       } else {
         throw Exception('Failed to update profile: ${response.statusCode}');
       }
     } catch (error) {
-      Get.snackbar('Error Occured', 'Try again',
-          backgroundColor: Colors.red.shade200);
+      CustomSnackBar(false,'Error Occured', 'Try again');
       throw Exception('Failed to update profile: $error');
     }
   }

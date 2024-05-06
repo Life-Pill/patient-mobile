@@ -31,21 +31,21 @@ void main() async {
   final bool prescriptionsBoxExists = await Hive.boxExists('prescriptionsBox');
 
    // Open the box or create it if it doesn't exist
-  Box<List<int>> presBox;
+  Box<List<dynamic>> presBox;
   if (prescriptionsBoxExists) {
-    presBox = await Hive.openBox<List<int>>('prescriptionsBox');
+    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
   } else {
-    presBox = await Hive.openBox<List<int>>('prescriptionsBox');
+    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
   }
   // Check if the box exists
   final bool reportsBoxExists = await Hive.boxExists('reportsBox');
 
    // Open the box or create it if it doesn't exist
-  Box<List<int>> reportsBox;
+  Box<List<dynamic>> reportsBox;
   if (prescriptionsBoxExists) {
-    reportsBox = await Hive.openBox<List<int>>('reportsBox');
+    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
   } else {
-    reportsBox = await Hive.openBox<List<int>>('reportsBox');
+    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
   }
 
 

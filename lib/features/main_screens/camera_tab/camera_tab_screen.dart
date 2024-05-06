@@ -25,8 +25,8 @@ class CameraTabScreen extends StatefulWidget {
 
 class _CameraTabScreenState extends State<CameraTabScreen> {
   final Profile profileData = Profile();
-  late Box<List<int>> presBox;
-  late Box<List<int>> reportsBox;
+  late Box<List<dynamic>> presBox;
+  late Box<List<dynamic>> reportsBox;
 
   @override
   void initState() {
@@ -60,15 +60,15 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
     hiveDirectory.deleteSync(recursive: true);
 
     // Open new Hive boxes
-    presBox = await Hive.openBox<List<int>>('prescriptionsBox');
-    reportsBox = await Hive.openBox<List<int>>('reportsBox');
+    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
+    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
     print('Hive boxes reset');
   }
 
   Future<void> _saveFileInHive(File file) async {
     try {
       final appDocumentDir = await getApplicationDocumentsDirectory();
-      final hiveBox = await Hive.openBox<List<int>>('filesBox');
+      final hiveBox = await Hive.openBox<List<dynamic>>('filesBox');
       List<int> bytes = await file.readAsBytes();
       await hiveBox.put(file.path, bytes);
       print('File saved in Hive successfully');
@@ -87,7 +87,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
-      await _uploadImage(File(pickedFile.path));
+    //  await _uploadImage(File(pickedFile.path));
       await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');
@@ -104,7 +104,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
-      await _uploadImage(File(pickedFile.path));
+    //  await _uploadImage(File(pickedFile.path));
       await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');

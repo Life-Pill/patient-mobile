@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
+import 'package:patientmobileapplication/features/main_screens/components/custom_snackBar.dart';
 import 'package:patientmobileapplication/features/searching/results_card/product_counter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -49,9 +50,8 @@ class _ResultsCardState extends State<ResultsCard> {
       setState(() {
         cartItems.add(cartItem);
       });
-      Get.snackbar("Added to cart",
-          "${cartItem.count} ${cartItem.unit}s of ${cartItem.medicine_name} at ${cartItem.pharmacy_name}",
-          backgroundColor: Colors.green.shade100);
+      CustomSnackBar(true,"Added to cart",
+          "${cartItem.count} ${cartItem.unit}s of ${cartItem.medicine_name} at ${cartItem.pharmacy_name}");
 
     }
 

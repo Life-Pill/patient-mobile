@@ -7,6 +7,7 @@ import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/medicine_data.dart';
 import 'package:patientmobileapplication/features/Data/pharmacy_results_data.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
+import 'package:patientmobileapplication/features/main_screens/components/custom_snackBar.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 import 'package:http/http.dart' as http;
@@ -38,30 +39,52 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     _textEditingController.dispose();
     super.dispose();
   }
-Future<void> _uploadImage(File imageFile) async {
-  var request = http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
-  request.files.add(
-    http.MultipartFile(
-      'file',  // Use 'file' as the key
-      imageFile.openRead(),  // Use openRead to get a stream of the file content
-      imageFile.lengthSync(),  // Provide file length
-      filename: imageFile.path.split('/').last,  // Provide filename
-    ),
-  );
+// Future<void> _uploadImage(File imageFile) async {
+//   var request = http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
+//   request.files.add(
+//     http.MultipartFile(
+//       'file',  // Use 'file' as the key
+//       imageFile.openRead(),  // Use openRead to get a stream of the file content
+//       imageFile.lengthSync(),  // Provide file length
+//       filename: imageFile.path.split('/').last,  // Provide filename
+//     ),
+//   );
 
-  try {
-    var streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
-    if (response.statusCode == 200) {
-      print('Image uploaded successfully');
-    } else {
-      print('Failed to upload image ${response.statusCode}');
+//   try {
+//     var streamedResponse = await request.send();
+//     var response = await http.Response.fromStream(streamedResponse);
+//     if (response.statusCode == 200) {
+//       print('Image uploaded successfully');
+//     } else {
+//       print('Failed to upload image ${response.statusCode}');
+//     }
+//   } catch (e) {
+//     print('Error uploading image: $e');
+//   }
+// }
+  Future<void> _uploadImage(File imageFile) async {
+    var request =
+        http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
+
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully');
+
+      } else {
+        print('Failed to upload image ${response.statusCode}');
+        CustomSnackBar(true, "Successful", "Prescription uploaded successfully");
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+      CustomSnackBar(false, "Error occured", "Error uploading the prescription");
     }
-  } catch (e) {
-    print('Error uploading image: $e');
   }
-}
 
+ 
 
   void _openCamera() async {
     final picker = ImagePicker();
