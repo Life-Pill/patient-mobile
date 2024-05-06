@@ -3,10 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  desktop_webview_auth
   file_selector_windows
-  firebase_auth
-  firebase_core
   maps_launcher
   share_plus
   url_launcher_windows

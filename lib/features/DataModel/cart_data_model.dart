@@ -1,4 +1,4 @@
-import 'package:patientmobileapplication/features/Repository/search_results_sorted.dart';
+
 
 class Cart {
   final String pharmacy_imageUrl;

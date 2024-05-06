@@ -163,7 +163,7 @@ class _CheckEmailState extends State<CheckEmail> {
                       width: double.maxFinite,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.to(ResetPassword());
+                        //  Get.to(ResetPassword());
                         },
                         child: Text(
                           "Verify",

@@ -2,16 +2,19 @@
 
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:patientmobileapplication/features/data/profile_data.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:patientmobileapplication/features/Data/apiLinks.dart';
+import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
-import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
+import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
-import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
-import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
-import 'package:patientmobileapplication/features/main_screens/profile_data/profile_data.dart';
+
+import 'package:http/http.dart' as http;
 
 class CameraTabScreen extends StatefulWidget {
   const CameraTabScreen({Key? key}) : super(key: key);
@@ -21,17 +24,71 @@ class CameraTabScreen extends StatefulWidget {
 }
 
 class _CameraTabScreenState extends State<CameraTabScreen> {
-  final ProfileData profileData = ProfileData();
+  final Profile profileData = Profile();
+  late Box<List<dynamic>> presBox;
+  late Box<List<dynamic>> reportsBox;
+
+  @override
+  void initState() {
+    super.initState();
+    _openImageBox();
+    _openFileBox();
+  }
+
+  Future<void> _openImageBox() async {
+    presBox = Hive.box('prescriptionsBox');
+  }
+
+  Future<void> _saveImageInHive(File imageFile) async {
+    List<int> bytes = await imageFile.readAsBytes();
+    await presBox.add(bytes);
+    print('Image saved in Hive');
+  }
+
+  Future<void> _openFileBox() async {
+    reportsBox = Hive.box('reportsBox');
+  }
+
+  Future<void> _resetHiveBoxes() async {
+    // Close existing boxes if they are open
+    if (presBox.isOpen) await presBox.close();
+    if (reportsBox.isOpen) await reportsBox.close();
+
+    // Delete existing Hive database files from disk
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    final hiveDirectory = Directory(appDocumentDir.path);
+    hiveDirectory.deleteSync(recursive: true);
+
+    // Open new Hive boxes
+    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
+    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
+    print('Hive boxes reset');
+  }
+
+  Future<void> _saveFileInHive(File file) async {
+    try {
+      final appDocumentDir = await getApplicationDocumentsDirectory();
+      final hiveBox = await Hive.openBox<List<dynamic>>('filesBox');
+      List<int> bytes = await file.readAsBytes();
+      await hiveBox.put(file.path, bytes);
+      print('File saved in Hive successfully');
+    } catch (e) {
+      print('Error saving file in Hive: $e');
+    }
+  }
+
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       setState(() {
-        profileData.addReport(pickedFile.path);
+        profileData.reports.add(pickedFile.path);
       });
       print(pickedFile.path);
-      print("All reports: ${profileData.currentUser.reports}");
+      print("All reports: ${profileData.reports}");
+    //  await _uploadImage(File(pickedFile.path));
+      await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');
     }
@@ -43,12 +100,83 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
 
     if (pickedFile != null) {
       setState(() {
-        profileData.addReport(pickedFile.path);
+        profileData.reports.add(pickedFile.path);
       });
       print(pickedFile.path);
-      print("All reports: ${profileData.currentUser.reports}");
+      print("All reports: ${profileData.reports}");
+    //  await _uploadImage(File(pickedFile.path));
+      await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');
+    }
+  }
+
+  void _openFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: [
+        'jpg',
+        'jpeg',
+        'png',
+        'pdf'
+      ], // Specify allowed file extensions
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path!); // Get the selected file
+      setState(() {
+        profileData.reports.add(file.path);
+      });
+      print(file.path);
+      print("All reports: ${profileData.reports}");
+      //await _uploadFile(file);
+      await _saveFileInHive(file);
+    } else {
+      print('No file selected.');
+    }
+  }
+
+  Future<void> _uploadFile(File file) async {
+    var request =
+        http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
+    request.files.add(
+      http.MultipartFile(
+        'file', // Use 'file' as the key
+        file.openRead(), // Use openRead to get a stream of the file content
+        file.lengthSync(), // Provide file length
+        filename: file.path.split('/').last, // Provide filename
+      ),
+    );
+
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      if (response.statusCode == 200) {
+        print('File uploaded successfully');
+      } else {
+        print('Failed to upload file ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  Future<void> _uploadImage(File imageFile) async {
+    var request =
+        http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
+
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully');
+      } else {
+        print('Failed to upload image ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
     }
   }
 
@@ -65,110 +193,9 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    height: 200.0,
-                    padding:
-                        EdgeInsets.only(top: 40.0, right: 20.0, left: 20.0),
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.blue,
-                        ),
-                      ),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(36.0),
-                        bottomRight: Radius.circular(36.0),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage(current_user.img),
-                                      radius: 25.0,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    radius: 30.0),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.pin_drop_outlined,
-                                          size: 15.0,
-                                          color: Colors.white,
-                                        ),
-                                        Text(
-                                          " ${current_user.address}",
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xFFFDFDFC),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      "Hello, ${current_user.name}",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFFFDFDFC),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.shopping_bag_outlined,
-                                  size: 25.0,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 15.0,
-                                ),
-                                Icon(
-                                  Icons.notification_add_outlined,
-                                  size: 25.0,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          "Your Reports",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFFFDFDFC),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.0,
+                  TopNavBar(
+                    NeedSearchBar: false,
+                    TabName: "Your Reports",
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -220,8 +247,35 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        ReportPhotosList(
-                            reports: profileData.currentUser.reports),
+                        ElevatedButton(
+                          onPressed: _openFiles,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.camera_alt), // Icon added here
+                              SizedBox(
+                                  width: 10), // Space between icon and text
+                              Text("Open\nFiles"),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40.0,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                          ),
+                          onPressed: _resetHiveBoxes,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Space between icon and text
+                              Text("Reset Hive Boxes"),
+                            ],
+                          ),
+                        ),
+                        ReportPhotosList(reports: profileData.reports),
                       ],
                     ),
                   ),

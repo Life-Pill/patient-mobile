@@ -1,18 +1,53 @@
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:patientmobileapplication/AuthGate.dart';
+import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/splash/ui/splash_screen.dart';
 import 'package:patientmobileapplication/firebase_options.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-   options: DefaultFirebaseOptions.currentPlatform,
- );
+//  await Firebase.initializeApp(
+//    options: DefaultFirebaseOptions.currentPlatform,
+//  );
+   // Create an instance of ProfileController to fetch profile data
+  final profileController = Get.put(ProfileController());
+  
+  // Fetch profile data
+  print('Fetching profile data...');
+  await profileController.fetchProfileData();
+  print('Profile data fetched successfully!');
+ 
+  // Initialize Hive
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+
+  // Check if the box exists
+  final bool prescriptionsBoxExists = await Hive.boxExists('prescriptionsBox');
+
+   // Open the box or create it if it doesn't exist
+  Box<List<dynamic>> presBox;
+  if (prescriptionsBoxExists) {
+    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
+  } else {
+    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
+  }
+  // Check if the box exists
+  final bool reportsBoxExists = await Hive.boxExists('reportsBox');
+
+   // Open the box or create it if it doesn't exist
+  Box<List<dynamic>> reportsBox;
+  if (prescriptionsBoxExists) {
+    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
+  } else {
+    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
+  }
+
 
   runApp(const MyApp());
 }

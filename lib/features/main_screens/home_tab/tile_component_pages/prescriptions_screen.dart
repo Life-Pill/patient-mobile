@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_list.dart';
-import 'package:patientmobileapplication/features/main_screens/profile_data/profile_data.dart';
+
 
 class PrescriptionsListScreen extends StatelessWidget {
-  final ProfileData profileData = ProfileData();
+  final Profile profileData = Profile();
   PrescriptionsListScreen({super.key});
 
   @override
@@ -17,9 +18,9 @@ class PrescriptionsListScreen extends StatelessWidget {
           child: Column(
             children: [
               PrescriptionsList(
-                prescriptions: profileData.currentUser.prescriptions,
+                prescriptions: profileData.prescriptions,
               ),
-              Text(profileData.currentUser.prescriptions.toString()),
+              Text(profileData.prescriptions.toString()),
             ],
           ),
         ),

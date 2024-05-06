@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:patientmobileapplication/features/data/profile_data.dart';
-import 'package:patientmobileapplication/features/main_screens/profile_data/current_user.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
@@ -172,8 +171,9 @@ class _ViewProfileState extends State<ViewProfile> {
                             btnIcon: Icons.call, btnText: "Customer Services"),
                         GestureDetector(
                           onTap: () {
-                            _logout(
-                                context); // Call logout function when the button is tapped
+                            
+                          //   _logout(
+                          //       context); // Call logout function when the button is tapped
                           },
                           child: AccountOptionButton(
                               btnIcon: Icons.logout_outlined,
@@ -191,10 +191,10 @@ class _ViewProfileState extends State<ViewProfile> {
     );
   }
 
-  void _logout(BuildContext context) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut();
-    await FirebaseAuth.instance.signOut(); // Sign out the user
-    Get.to(SignInPage());
-  }
+  // void _logout(BuildContext context) async {
+  //   final GoogleSignIn googleSignIn = GoogleSignIn();
+  //   await googleSignIn.signOut();
+  //   await FirebaseAuth.instance.signOut(); // Sign out the user
+  //   Get.to(SignInPage());
+  // }
 }
