@@ -25,7 +25,7 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
   }
 
   Future<void> _openImageBox() async {
-    imageBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
+    imageBox = await Hive.openBox<List<dynamic>>('reportsImageBox');
     _loadImages();
     imageBox.watch().listen((event) {
       _loadImages();
