@@ -8,19 +8,15 @@ import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 import 'package:http/http.dart' as http;
 
-class HomeSearchBarController extends GetxController {
-  final Profile profileData = Profile();
-  TextEditingController textEditingController = TextEditingController();
-  RxList<String> filteredSuggestions = <String>[].obs;
-  RxString searchedText = ''.obs;
+class HomeSearchBar extends StatefulWidget {
+  const HomeSearchBar({Key? key}) : super(key: key);
 
   @override
-  void onInit() {
-    super.onInit();
-    textEditingController.addListener(_onTextChanged);
-    // Initialize suggestion list with all medicines in alphabetical order
-    filteredSuggestions.value = getAllMedicineNames();
-  }
+  State<HomeSearchBar> createState() => _HomeSearchBarState();
+}
+
+class _HomeSearchBarState extends State<HomeSearchBar> {
+  final Profile profileData = Profile();
 
   Future<void> uploadImage(File imageFile) async {
     var request =
@@ -56,96 +52,122 @@ class HomeSearchBarController extends GetxController {
     }
   }
 
-  void clickedSearch(String enteredText) {
-    if (enteredText.isEmpty) return;
-    Get.to(SearchResults(searchedText: enteredText));
-  }
-
-  void _onTextChanged() {
-    final text = textEditingController.text.toLowerCase();
-    // Filter suggestions based on the typed text (if needed)
-    filteredSuggestions.value = text.isEmpty
-        ? getAllMedicineNames() // Show all medicines if text is empty
-        : _getAutocompleteSuggestions(text);
-  }
-
-  List<String> _getAutocompleteSuggestions(String text) {
-    print(
-        '################################################get autocomplete: $text');
-    return medicineData
-        .where((medicine) =>
-            medicine.name.toLowerCase().startsWith(text.toLowerCase()))
-        .map((medicine) => medicine.name)
-        .toList();
-  }
-
-  List<String> getAllMedicineNames() {
-    // Get all medicine names in alphabetical order
-    return medicineData.map((medicine) => medicine.name).toList()..sort();
-  }
-}
-class HomeSearchBar extends StatelessWidget {
-  final HomeSearchBarController controller = Get.put(HomeSearchBarController());
-  final RxBool searchFocused = false.obs;
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SearchBar(
-          controller: controller.textEditingController,
-          hintText: "Search Medicine...",
-          onTap: () {
-            searchFocused.value = true;
-          },
-          onChanged: (text) {
-            controller.searchedText.value = text;
-            controller._onTextChanged();
-          },
-          leading: Tooltip(
-            message: 'Search',
-            child: IconButton(
-              onPressed: () {
-                controller.clickedSearch(controller.searchedText.value);
-              },
-              icon: const Icon(Icons.search),
-            ),
+    return Material(
+      elevation: 4.0, // Add elevation for shadow
+      borderRadius: BorderRadius.circular(30.0),
+      child: GestureDetector(
+        onTap: () {
+          // Open suggestions when tapped
+          showSearch(context: context, delegate: CustomSearchDelegate());
+        },
+        child: Container(
+          margin: EdgeInsets.all(2.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30.0),
+            color: Colors.white,
           ),
-          trailing: <Widget>[
-            Tooltip(
-              message: 'Open Camera',
-              child: IconButton(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
                 onPressed: () {
-                  controller.openCamera();
+                  // Open suggestions when search icon is clicked
+                  showSearch(
+                      context: context, delegate: CustomSearchDelegate());
                 },
-                icon: const Icon(Icons.camera),
+                icon: Icon(Icons.search),
+                color: Colors.black,
               ),
-            ),
-          ],
+              IconButton(
+                onPressed: () {
+                  openCamera();
+                },
+                icon: Icon(Icons.camera_alt),
+                color: Colors.black,
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 10),
-        // Adjust spacing if needed
-        Obx(() {
-          if (searchFocused.value) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: controller.filteredSuggestions.map((suggestion) {
-                return ListTile(
-                  title: Text(suggestion),
-                  onTap: () {
-                    controller.searchedText.value = suggestion;
-                    controller.textEditingController.text = suggestion;
-                    controller.filteredSuggestions.clear();
-                  },
-                );
-              }).toList(),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        }),
-      ],
+      ),
+    );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  List<String> searchTerms =
+      medicineData.map((medicine) => medicine.name).toList()..sort();
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var term in searchTerms) {
+      if (term.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(term);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            close(context, result);
+            // Navigate to search results page with the selected result
+            Get.to(SearchResults(searchedText: result));
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var term in searchTerms) {
+      if (term.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(term);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            close(context, result);
+            // Navigate to search results page with the selected result
+            Get.to(SearchResults(searchedText: result));
+          },
+        );
+      },
     );
   }
 }
