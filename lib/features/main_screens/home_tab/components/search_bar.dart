@@ -55,7 +55,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 4.0, // Add elevation for shadow
+      elevation: 5.0, // Add elevation for shadow
       borderRadius: BorderRadius.circular(30.0),
       child: GestureDetector(
         onTap: () {
@@ -82,11 +82,26 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                 icon: Icon(Icons.search),
                 color: Colors.black,
               ),
+              Flexible(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Search', // Add hint text
+                    border: InputBorder.none,
+                  ),
+                  readOnly:
+                      true, // Make the field read-only to prevent keyboard from popping up
+                  onTap: () {
+                    // Open suggestions when tapped
+                    showSearch(
+                        context: context, delegate: CustomSearchDelegate());
+                  },
+                ),
+              ),
               IconButton(
                 onPressed: () {
                   openCamera();
                 },
-                icon: Icon(Icons.camera_alt),
+                icon: Icon(Icons.camera),
                 color: Colors.black,
               ),
             ],
