@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 class ReportsPdfList extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class ReportsPdfList extends StatefulWidget {
 class _ReportsPdfListState extends State<ReportsPdfList> {
   late Box<List<dynamic>> pdfBox;
   List<String> pdfNames = [];
+  List<String> pdfDates = [];
 
   @override
   void initState() {
@@ -29,12 +31,18 @@ class _ReportsPdfListState extends State<ReportsPdfList> {
   Future<void> _loadPdfNames() async {
     final List<List<dynamic>> pdfDataList = pdfBox.values.toList();
     final List<String> names = [];
+    final List<String> dates = [];
     for (final pdfData in pdfDataList) {
-      final pdfFileName = pdfData[0]; // Assuming the file name is stored at index 0
+      final pdfFileName = pdfData[0]; 
       names.add(pdfFileName.toString());
+       final pdfFileDateTime = pdfData[1]; 
+          DateTime time = DateTime.parse(pdfFileDateTime);
+       String formattedTime = DateFormat('yyyy-MM-dd | HH:mm:ss').format(time);
+      dates.add(formattedTime.toString());
     }
     setState(() {
       pdfNames = names;
+      pdfDates = dates;
     });
   }
 
@@ -60,6 +68,7 @@ class _ReportsPdfListState extends State<ReportsPdfList> {
                   ),
                   child: ListTile(
                     title: Text(pdfNames[index]),
+                    subtitle: Text(pdfDates[index]),
                     // Add onTap or other functionality here if needed
                   ),
                 ),

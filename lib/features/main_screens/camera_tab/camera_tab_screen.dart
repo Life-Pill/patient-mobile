@@ -70,11 +70,13 @@ Future<void> _saveImageInHive(File imageFile) async {
 
 Future<void> _saveFileInHive(File file) async {
   try {
+
     final filename = file.path.split('/').last;
     final bytes = await file.readAsBytes();
+    String dateTime =DateTime.timestamp().toString();
 
     if (_isPdf(filename)) {
-      final data = [filename, bytes];
+      final data = [filename,dateTime, bytes];
        await reportsPdfBox.add(data);
     print('PDF file saved in reportPdfBox');
      

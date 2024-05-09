@@ -49,7 +49,7 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
       DateTime time = DateTime.parse(dateTime);
 
       // Format the DateTime object as desired
-      String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(time);
+      String formattedTime = DateFormat('yyyy-MM-dd | HH:mm:ss').format(time);
 
       final image = Image.memory(
         imageBytes,
