@@ -1,5 +1,6 @@
+import 'dart:convert' ;
 import 'dart:io';
-
+import 'package:dio/dio.dart' as diodart;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,31 +60,41 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
       });
       print(pickedFile.path);
       print("All prescriptions: ${profileData.prescriptions}");
-      //  await _uploadImage(File(pickedFile.path));
+
       await _saveImageInHive(File(pickedFile.path));
+      await _uploadImage(File(pickedFile.path));
     } else {
       print('No image selected.');
     }
   }
 
-  Future<void> _uploadImage(File imageFile) async {
-    var request =
-        http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
-    request.files
-        .add(await http.MultipartFile.fromPath('image', imageFile.path));
 
-    try {
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-      if (response.statusCode == 200) {
-        print('Image uploaded successfully');
-      } else {
-        print('Failed to upload image ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error uploading image: $e');
+
+Future<void> _uploadImage(File imageFile) async {
+  try {
+    // Create Dio instance
+    diodart.Dio dio = diodart.Dio();
+
+    final formData = diodart.FormData.fromMap({
+  'file': await diodart.MultipartFile.fromFile(
+        imageFile.path 
+      ),
+});
+final response = await dio.post(CustomerPrescriptionsAPI, data: formData);
+
+
+    // Check response status code
+    if (response.statusCode == 200) {
+      print('Image uploaded successfully ${response}');
+    } else {
+      print('Failed to upload image ${response.statusCode}');
     }
+  } catch (e) {
+    print('Error uploading image: $e');
   }
+}
+
+
 
   Future<void> _saveImageInHive(File imageFile) async {
     try {
@@ -206,7 +217,8 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        PrescriptionPhotosList(prescriptions: profileData.prescriptions),
+                        PrescriptionPhotosList(
+                            prescriptions: profileData.prescriptions),
                       ],
                     ),
                   ),
@@ -230,7 +242,6 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
               ],
             ),
           ),
-
         ],
       ),
     );
