@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ReportPhotosList extends StatefulWidget {
@@ -15,6 +16,7 @@ class ReportPhotosList extends StatefulWidget {
 }
 
 class _ReportPhotosListState extends State<ReportPhotosList> {
+  final List<String> formattedTimeList = [];
   late Box<List<dynamic>> imageBox;
   List<Widget> widgetList = [];
 
@@ -35,33 +37,33 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
   Future<void> _loadImages() async {
     final List<List<dynamic>> imageDataList = imageBox.values.toList();
     final List<Widget> widgets = [];
+
     for (final imageData in imageDataList) {
-      final firstByte = imageData.first;
-      if (firstByte is int) {
-        final image = Image.memory(
-          Uint8List.fromList(imageData.cast<int>()),
-          fit: BoxFit.fitWidth,
-        );
-        widgets.add(image);
-      // } else if (firstByte is String && firstByte == 'pdf') {
-      //   final pdfData = imageData.last;
-      //   final tempDir = await getTemporaryDirectory();
-      //   final file = File('${tempDir.path}/temp.pdf');
-      //   await file.writeAsBytes(pdfData.cast<int>());
-      //   final pdfViewer = await PDFDocument.fromFile(file);
-      //   final pdfWidget = PDFViewer(
-      //     document: pdfViewer,
-      //     lazyLoad: false, // Preload all pages
-      //     scrollDirection: Axis.vertical, // Scroll vertically
-      //   );
-      //   widgets.add(pdfWidget);
-       }
+      // Extract the date time and image bytes from the data element
+      String dateTime =
+          imageData[0].toString(); // Assuming date time is stored at index 0
+      Uint8List imageBytes = Uint8List.fromList(imageData[1]
+          .cast<int>()); // Assuming image bytes are stored at index 1
+
+      // Convert the string date and time to DateTime object
+      DateTime time = DateTime.parse(dateTime);
+
+      // Format the DateTime object as desired
+      String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(time);
+
+      final image = Image.memory(
+        imageBytes,
+        fit: BoxFit.fitWidth,
+      );
+
+      widgets.add(image); // Add image to the list
+
+      formattedTimeList.add(formattedTime); // Add formatted time to the list
     }
     setState(() {
       widgetList = widgets;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,19 +73,28 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
         children: widgetList.map((widget) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Created: ${formattedTimeList[widgetList.indexOf(widget)]}',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: widget,
-              ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: widget, // Use the widget directly
+                  ),
+                ),
+              ],
             ),
           );
         }).toList(),

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_pdf_list.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
@@ -38,11 +39,23 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
 
 
 
-  Future<void> _saveImageInHive(File imageFile) async {
+Future<void> _saveImageInHive(File imageFile) async {
+  try {
     List<int> bytes = await imageFile.readAsBytes();
-    await reportsImageBox.add(bytes);
+    
+
+    String dateTime =DateTime.timestamp().toString();
+
+    // Save the image data along with the date and time
+    final data = [dateTime, bytes];
+
+    // Save the data in the reportsImageBox
+    await reportsImageBox.add(data);
     print('Image saved in Hive');
+  } catch (e) {
+    print('Error saving image in Hive: $e');
   }
+}
 
   Future<void> _openReportImageBox() async {
     reportsImageBox = Hive.box('reportsImageBox');
@@ -60,18 +73,24 @@ Future<void> _saveFileInHive(File file) async {
     final filename = file.path.split('/').last;
     final bytes = await file.readAsBytes();
 
-    // Check if the file is a PDF based on its extension
     if (_isPdf(filename)) {
-      await reportsPdfBox.add(bytes);
-      print('PDF file saved in reportPdfBox');
+      final data = [filename, bytes];
+       await reportsPdfBox.add(data);
+    print('PDF file saved in reportPdfBox');
+     
     } else {
       // If not a PDF, save it in the existing reportsImageBox
       _saveImageInHive(file);
     }
+
+    // Save the list in the reportsPdfBox
+   
   } catch (e) {
     print('Error saving file in Hive: $e');
   }
 }
+
+
 
 bool _isPdf(String filename) {
   // Check if the filename has a .pdf extension
@@ -290,6 +309,8 @@ bool _isPdf(String filename) {
                           ),
                         ),
                         ReportPhotosList(reports: profileData.reports),
+                        SizedBox(height: 10.0,),
+                        ReportsPdfList(),
                       ],
                     ),
                   ),
