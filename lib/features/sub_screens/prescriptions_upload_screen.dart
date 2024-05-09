@@ -13,6 +13,7 @@ import 'package:patientmobileapplication/features/main_screens/components/top_na
 import 'package:http/http.dart' as http;
 import 'package:patientmobileapplication/features/main_screens/home_tab/home_tab_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
+import 'package:patientmobileapplication/features/sub_screens/prescriptions_photo_list.dart';
 
 class PrescriptionsUploadScreen extends StatefulWidget {
   const PrescriptionsUploadScreen({super.key});
@@ -205,6 +206,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
+                        PrescriptionPhotosList(prescriptions: profileData.prescriptions),
                       ],
                     ),
                   ),
@@ -228,6 +230,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
               ],
             ),
           ),
+
         ],
       ),
     );
