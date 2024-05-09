@@ -1,14 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/medicine_data.dart';
-import 'package:patientmobileapplication/features/Data/pharmacy_results_data.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
-import 'package:patientmobileapplication/features/main_screens/components/custom_snackBar.dart';
-
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_results_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,48 +17,8 @@ class HomeSearchBar extends StatefulWidget {
 
 class _HomeSearchBarState extends State<HomeSearchBar> {
   final Profile profileData = Profile();
-  bool isDark = false;
-  late TextEditingController _textEditingController;
-  List<String> _filteredSuggestions = [];
-  String searchedText = "";
-  @override
-  void initState() {
-    super.initState();
-    _textEditingController = TextEditingController();
-    _textEditingController.addListener(_onTextChanged);
-    // Initialize suggestion list with all medicines in alphabetical order
-    _filteredSuggestions = getAllMedicineNames();
-  }
 
-  @override
-  void dispose() {
-    _textEditingController.dispose();
-    super.dispose();
-  }
-// Future<void> _uploadImage(File imageFile) async {
-//   var request = http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
-//   request.files.add(
-//     http.MultipartFile(
-//       'file',  // Use 'file' as the key
-//       imageFile.openRead(),  // Use openRead to get a stream of the file content
-//       imageFile.lengthSync(),  // Provide file length
-//       filename: imageFile.path.split('/').last,  // Provide filename
-//     ),
-//   );
-
-//   try {
-//     var streamedResponse = await request.send();
-//     var response = await http.Response.fromStream(streamedResponse);
-//     if (response.statusCode == 200) {
-//       print('Image uploaded successfully');
-//     } else {
-//       print('Failed to upload image ${response.statusCode}');
-//     }
-//   } catch (e) {
-//     print('Error uploading image: $e');
-//   }
-// }
-  Future<void> _uploadImage(File imageFile) async {
+  Future<void> uploadImage(File imageFile) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(CustomerPrescriptionsAPI));
     request.files
@@ -73,121 +29,160 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == 200) {
         print('Image uploaded successfully');
-
       } else {
         print('Failed to upload image ${response.statusCode}');
-        CustomSnackBar(true, "Successful", "Prescription uploaded successfully");
       }
     } catch (e) {
       print('Error uploading image: $e');
-      CustomSnackBar(false, "Error occured", "Error uploading the prescription");
     }
   }
 
- 
-
-  void _openCamera() async {
+  void openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      profileData.prescriptions.add(pickedFile.path);
-
+      // Assuming Profile is a GetX controller or some globally accessible state
+      // profileData.prescriptions.add(pickedFile.path);
       print(pickedFile.path);
-      await _uploadImage(File(pickedFile.path));
+      await uploadImage(File(pickedFile.path));
       print("All prescriptions: ${profileData.prescriptions}");
     } else {
       print('No image selected.');
     }
   }
 
-  void _clickedSearch(String enteredText) {
-    if (enteredText.isEmpty) return;
-    Get.to(SearchResults(
-      searchedText: enteredText,
-    ));
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 5.0, // Add elevation for shadow
+      borderRadius: BorderRadius.circular(30.0),
+      child: GestureDetector(
+        onTap: () {
+          // Open suggestions when tapped
+          showSearch(context: context, delegate: CustomSearchDelegate());
+        },
+        child: Container(
+          margin: EdgeInsets.all(2.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30.0),
+            color: Colors.white,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  // Open suggestions when search icon is clicked
+                  showSearch(
+                      context: context, delegate: CustomSearchDelegate());
+                },
+                icon: Icon(Icons.search),
+                color: Colors.black,
+              ),
+              Flexible(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Search', // Add hint text
+                    border: InputBorder.none,
+                  ),
+                  readOnly:
+                      true, // Make the field read-only to prevent keyboard from popping up
+                  onTap: () {
+                    // Open suggestions when tapped
+                    showSearch(
+                        context: context, delegate: CustomSearchDelegate());
+                  },
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  openCamera();
+                },
+                icon: Icon(Icons.camera),
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+}
 
-  void _onTextChanged() {
-    final text = _textEditingController.text.toLowerCase();
-    // Filter suggestions based on the typed text (if needed)
-    setState(() {
-      _filteredSuggestions = text.isEmpty
-          ? getAllMedicineNames() // Show all medicines if text is empty
-          : _getAutocompleteSuggestions(text); // Show filtered suggestions
-    });
-  }
+class CustomSearchDelegate extends SearchDelegate {
+  List<String> searchTerms =
+      medicineData.map((medicine) => medicine.name).toList()..sort();
 
-  List<String> _getAutocompleteSuggestions(String text) {
-    return medicineData
-        .where((medicine) =>
-            medicine.name.toLowerCase().contains(text.toLowerCase()))
-        .map((medicine) => medicine.name)
-        .toList();
-  }
-
-  List<String> getAllMedicineNames() {
-    // Get all medicine names in alphabetical order
-    return medicineData.map((medicine) => medicine.name).toList()..sort();
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
   }
 
   @override
-  Widget build(BuildContext context) {
-    final ThemeData themeData = ThemeData(brightness: Brightness.light);
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
 
-    return Container(
-      child: SearchAnchor(
-        builder: (BuildContext context, SearchController controller) {
-          return SearchBar(
-            controller: controller,
-            hintText: "Search Medicine...",
-            onTap: () {
-              controller.openView();
-            },
-            onChanged: (text) {
-              // Update suggestions when text changes
-              _textEditingController.text = text;
-              searchedText = text;
-              _onTextChanged();
-            },
-            leading: Tooltip(
-              message: 'Search',
-              child: IconButton(
-                onPressed: () {
-                  _clickedSearch(searchedText);
-                },
-                icon: const Icon(Icons.search),
-              ),
-            ),
-            trailing: <Widget>[
-              Tooltip(
-                message: 'Open Camera',
-                child: IconButton(
-                  onPressed: () {
-                    _openCamera();
-                  },
-                  icon: const Icon(Icons.camera),
-                ),
-              ),
-            ],
-          );
-        },
-        suggestionsBuilder:
-            (BuildContext context, SearchController controller) {
-          return _filteredSuggestions.map((suggestion) {
-            return ListTile(
-              title: Text(suggestion),
-              onTap: () {
-                setState(() {
-                  controller.closeView(suggestion);
-                  searchedText = suggestion;
-                  print(" Suggested text: $searchedText");
-                });
-              },
-            );
-          }).toList();
-        },
-      ),
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var term in searchTerms) {
+      if (term.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(term);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            close(context, result);
+            // Navigate to search results page with the selected result
+            Get.to(SearchResults(searchedText: result));
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var term in searchTerms) {
+      if (term.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(term);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            close(context, result);
+            // Navigate to search results page with the selected result
+            Get.to(SearchResults(searchedText: result));
+          },
+        );
+      },
     );
   }
 }

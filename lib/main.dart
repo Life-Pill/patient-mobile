@@ -27,31 +27,24 @@ void main() async {
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
 
-  // Check if the box exists
-  final bool prescriptionsBoxExists = await Hive.boxExists('prescriptionsBox');
 
-   // Open the box or create it if it doesn't exist
-  Box<List<dynamic>> presBox;
-  if (prescriptionsBoxExists) {
-    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
-  } else {
-    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
-  }
-  // Check if the box exists
-  final bool reportsBoxExists = await Hive.boxExists('reportsBox');
 
-   // Open the box or create it if it doesn't exist
-  Box<List<dynamic>> reportsBox;
-  if (prescriptionsBoxExists) {
-    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
-  } else {
-    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
-  }
+//Prescriptions Box
+ final Box<List<dynamic>> presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
 
+
+  //Reports Image Box
+ final Box<List<dynamic>> reportsImageBox= await Hive.openBox<List<dynamic>>('reportsImageBox');
+  
+
+
+  //Reports Box
+ final Box<List<dynamic>> reportsPdfBox = await Hive.openBox<List<dynamic>>('reportsPdfBox');
+ 
 
   runApp(const MyApp());
-}
 
+}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

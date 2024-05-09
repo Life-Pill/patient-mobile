@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_pdf_list.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
@@ -25,58 +26,78 @@ class CameraTabScreen extends StatefulWidget {
 
 class _CameraTabScreenState extends State<CameraTabScreen> {
   final Profile profileData = Profile();
-  late Box<List<dynamic>> presBox;
-  late Box<List<dynamic>> reportsBox;
+
+  late Box<List<dynamic>> reportsImageBox;
+    late Box<List<dynamic>> reportsPdfBox;
 
   @override
   void initState() {
     super.initState();
-    _openImageBox();
-    _openFileBox();
+    _openReportImageBox();
+        _openReportPdfBox();
   }
 
-  Future<void> _openImageBox() async {
-    presBox = Hive.box('prescriptionsBox');
-  }
 
-  Future<void> _saveImageInHive(File imageFile) async {
+
+Future<void> _saveImageInHive(File imageFile) async {
+  try {
     List<int> bytes = await imageFile.readAsBytes();
-    await presBox.add(bytes);
+    
+
+    String dateTime =DateTime.timestamp().toString();
+
+    // Save the image data along with the date and time
+    final data = [dateTime, bytes];
+
+    // Save the data in the reportsImageBox
+    await reportsImageBox.add(data);
     print('Image saved in Hive');
+  } catch (e) {
+    print('Error saving image in Hive: $e');
+  }
+}
+
+  Future<void> _openReportImageBox() async {
+    reportsImageBox = Hive.box('reportsImageBox');
   }
 
-  Future<void> _openFileBox() async {
-    reportsBox = Hive.box('reportsBox');
+    Future<void> _openReportPdfBox() async {
+    reportsPdfBox = Hive.box('reportsPdfBox');
   }
 
-  Future<void> _resetHiveBoxes() async {
-    // Close existing boxes if they are open
-    if (presBox.isOpen) await presBox.close();
-    if (reportsBox.isOpen) await reportsBox.close();
 
-    // Delete existing Hive database files from disk
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    final hiveDirectory = Directory(appDocumentDir.path);
-    hiveDirectory.deleteSync(recursive: true);
 
-    // Open new Hive boxes
-    presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
-    reportsBox = await Hive.openBox<List<dynamic>>('reportsBox');
-    print('Hive boxes reset');
-  }
 
-  Future<void> _saveFileInHive(File file) async {
-    try {
-      final appDocumentDir = await getApplicationDocumentsDirectory();
-      final hiveBox = await Hive.openBox<List<dynamic>>('filesBox');
-      List<int> bytes = await file.readAsBytes();
-      await hiveBox.put(file.path, bytes);
-      print('File saved in Hive successfully');
-    } catch (e) {
-      print('Error saving file in Hive: $e');
+Future<void> _saveFileInHive(File file) async {
+  try {
+
+    final filename = file.path.split('/').last;
+    final bytes = await file.readAsBytes();
+    String dateTime =DateTime.timestamp().toString();
+
+    if (_isPdf(filename)) {
+      final data = [filename,dateTime, bytes];
+       await reportsPdfBox.add(data);
+    print('PDF file saved in reportPdfBox');
+     
+    } else {
+      // If not a PDF, save it in the existing reportsImageBox
+      _saveImageInHive(file);
     }
-  }
 
+    // Save the list in the reportsPdfBox
+   
+  } catch (e) {
+    print('Error saving file in Hive: $e');
+  }
+}
+
+
+
+bool _isPdf(String filename) {
+  // Check if the filename has a .pdf extension
+  return filename.toLowerCase().endsWith('.pdf');
+}
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
@@ -179,7 +200,21 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
       print('Error uploading image: $e');
     }
   }
+  Future<void> _resetHiveBoxes() async {
+    // Close existing boxes if they are open
+    if (reportsImageBox.isOpen) await reportsImageBox.close();
+    if (reportsPdfBox.isOpen) await reportsPdfBox.close();
 
+    // Delete existing Hive database files from disk
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    final hiveDirectory = Directory(appDocumentDir.path);
+    hiveDirectory.deleteSync(recursive: true);
+
+    // Open new Hive boxes
+    reportsImageBox = await Hive.openBox<List<dynamic>>('reportsImageBox');
+     reportsPdfBox = await Hive.openBox<List<dynamic>>('reportsPdfBox');
+    print('Hive boxes reset');
+  }
   Profile current_user = new Profile();
 
   @override
@@ -276,6 +311,8 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                           ),
                         ),
                         ReportPhotosList(reports: profileData.reports),
+                        SizedBox(height: 10.0,),
+                        ReportsPdfList(),
                       ],
                     ),
                   ),
