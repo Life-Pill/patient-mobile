@@ -9,6 +9,7 @@ import 'package:patientmobileapplication/features/main_screens/home_tab/componen
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/reports_screen.dart';
+import 'package:patientmobileapplication/features/sub_screens/prescriptions_upload_screen.dart';
 
 import '../../Data/profile_data.dart';
 
@@ -34,7 +35,10 @@ class _HomeState extends State<Home> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  TopNavBar(TabName: "Home",NeedSearchBar: true,),
+                  TopNavBar(
+                    TabName: "Home",
+                    NeedSearchBar: true,
+                  ),
                   SizedBox(
                     height: 30.0,
                   ),
@@ -43,6 +47,18 @@ class _HomeState extends State<Home> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => PrescriptionsUploadScreen());
+                          },
+                          child: HomeTile(
+                            icon: Icons.file_copy,
+                            title: "Upload Prescriptions",
+                            description: "Upload your prescription here",
+                            bgcolor: Colors.greenAccent.shade200,
+                            iconColor: Colors.blueAccent.shade200,
+                          ),
+                        ),
                         HomeTile(
                           icon: Icons.shopping_cart_outlined,
                           title: "Order History",

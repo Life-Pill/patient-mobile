@@ -173,7 +173,7 @@ class _CheckEmailState extends State<CheckEmail> {
                               fontSize: 16.0),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue, // Set the background color
+                          backgroundColor: Colors.blue, // Set the background color
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           shape: RoundedRectangleBorder(
