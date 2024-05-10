@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,14 +12,14 @@ import 'package:patientmobileapplication/features/sub_screens/profile_edit_scree
 
 import '../../components/account_option_btn.dart';
 
-class ViewProfile extends StatefulWidget {
-  const ViewProfile({Key? key}) : super(key: key);
+class ViewProfileScreen extends StatefulWidget {
+  const ViewProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ViewProfile> createState() => _ViewProfileState();
+  State<ViewProfileScreen> createState() => _ViewProfileScreenState();
 }
 
-class _ViewProfileState extends State<ViewProfile> {
+class _ViewProfileScreenState extends State<ViewProfileScreen> {
   Profile current_user = new Profile();
 
   @override
@@ -171,9 +170,8 @@ class _ViewProfileState extends State<ViewProfile> {
                             btnIcon: Icons.call, btnText: "Customer Services"),
                         GestureDetector(
                           onTap: () {
-                            
-                          //   _logout(
-                          //       context); // Call logout function when the button is tapped
+                            //   _logout(
+                            //       context); // Call logout function when the button is tapped
                           },
                           child: AccountOptionButton(
                               btnIcon: Icons.logout_outlined,

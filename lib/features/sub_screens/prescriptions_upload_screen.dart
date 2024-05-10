@@ -13,7 +13,7 @@ import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:patientmobileapplication/features/main_screens/home_tab/home_tab_screen.dart';
+
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/prescriptions_photo_list.dart';
 
@@ -251,7 +251,7 @@ Future<void> _uploadImage(File imageFile) async {
               backgroundColor: Colors.greenAccent.shade200,
             ),
             onPressed: () {
-              Get.to(Home());
+              Get.to(HomeScreen());
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
