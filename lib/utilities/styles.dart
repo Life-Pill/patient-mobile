@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppStyles {
   static final ButtonStyle signInButton = ElevatedButton.styleFrom(
-    primary: Colors.blue,
-    onPrimary: Colors.white,
+    backgroundColor: Colors.blue,
+    foregroundColor: Colors.white,
     padding: const EdgeInsets.all(16),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),

@@ -30,7 +30,7 @@ void main() async {
 
 
 //Prescriptions Box
- final Box<List<dynamic>> presBox = await Hive.openBox<List<dynamic>>('prescriptionsBox');
+ final Box<List<dynamic>> prescriptionsBox = await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
 
 
   //Reports Image Box

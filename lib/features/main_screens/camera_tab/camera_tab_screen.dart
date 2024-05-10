@@ -299,7 +299,7 @@ bool _isPdf(String filename) {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
+                            backgroundColor: Colors.red,
                           ),
                           onPressed: _resetHiveBoxes,
                           child: Row(
