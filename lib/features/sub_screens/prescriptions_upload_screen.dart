@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
@@ -70,29 +71,47 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
 
 
 
+
 Future<void> _uploadImage(File imageFile) async {
   try {
     // Create Dio instance
     diodart.Dio dio = diodart.Dio();
 
-    final formData = diodart.FormData.fromMap({
-  'file': await diodart.MultipartFile.fromFile(
-        imageFile.path 
-      ),
-});
-final response = await dio.post(CustomerPrescriptionsAPI, data: formData);
-
-
-    // Check response status code
-    if (response.statusCode == 200) {
-      print('Image uploaded successfully ${response}');
-    } else {
-      print('Failed to upload image ${response.statusCode}');
+    // Determine content type based on file extension
+    MediaType mediaType = MediaType('image', 'jpeg'); // Default to JPEG
+    if (imageFile.path.toLowerCase().endsWith('.png')) {
+      mediaType = MediaType('image', 'png');
+    }else if (imageFile.path.toLowerCase().endsWith('.jpg')) {
+      mediaType = MediaType('image', 'jpg');
     }
-  } catch (e) {
-    print('Error uploading image: $e');
+
+    // Create FormData object
+    diodart.FormData formData = diodart.FormData.fromMap({
+      'file': await diodart.MultipartFile.fromFile(
+        imageFile.path,
+        filename: 'image.${mediaType.subtype}', // Specify filename with correct extension
+        contentType: mediaType, // Specify content type using MediaType
+      ),
+    });
+
+    // Send POST request with FormData
+    diodart.Response response = await dio.post(
+      CustomerPrescriptionsAPI,
+      data: formData,
+    );
+
+    // Handle response
+    if (response.statusCode == 200) {
+      print('Prescription uploaded successfully: ${response.data}');
+    } else {
+      print('Error uploading Prescription: ${response.statusCode}');
+    }
+  } catch (error) {
+    print('Error uploading Prescription: $error');
   }
 }
+
+
 
 
 
