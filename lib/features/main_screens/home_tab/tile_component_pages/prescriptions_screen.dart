@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
-import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_list.dart';
-
+import 'package:patientmobileapplication/features/sub_screens/prescriptions_photo_list.dart';
 
 class PrescriptionsListScreen extends StatelessWidget {
   final Profile profileData = Profile();
@@ -17,10 +16,7 @@ class PrescriptionsListScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PrescriptionsList(
-                prescriptions: profileData.prescriptions,
-              ),
-              Text(profileData.prescriptions.toString()),
+              PrescriptionPhotosList(prescriptions: profileData.prescriptions),
             ],
           ),
         ),

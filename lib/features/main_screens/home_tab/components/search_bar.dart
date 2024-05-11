@@ -85,8 +85,10 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
               Flexible(
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'Search', // Add hint text
+                    hintText: 'Search',
+                    
                     border: InputBorder.none,
+                    alignLabelWithHint: true,
                   ),
                   readOnly:
                       true, // Make the field read-only to prevent keyboard from popping up
@@ -97,13 +99,13 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                   },
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  openCamera();
-                },
-                icon: Icon(Icons.camera),
-                color: Colors.black,
-              ),
+              // IconButton(
+              //   onPressed: () {
+              //     openCamera();
+              //   },
+              //   icon: Icon(Icons.camera),
+              //   color: Colors.black,
+              // ),
             ],
           ),
         ),
