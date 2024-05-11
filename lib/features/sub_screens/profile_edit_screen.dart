@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 
@@ -43,19 +44,22 @@ class ProfileEditScreen extends StatelessWidget {
         child: ListView(
           children: [
             TextField(
+              key: const Key('name_field'),
               controller: nameController,
               decoration: InputDecoration(labelText: 'Name'),
             ),
             TextField(
+              key: const Key('email_field'),
               controller: emailController,
               decoration: InputDecoration(labelText: 'Email'),
             ),
+        
             // TextField(
             //   controller: dobController,
             //   decoration: InputDecoration(labelText: 'Date of Birth'),
             // ),
-            SizedBox(height: 10), // Add some space between fields (optional
-            Text("Gender"),
+            // SizedBox(height: 10), // Add some space between fields (optional
+            // Text("Gender"),
             // DropdownButton<String>(
             //   value: profileController.currentUser.value.gender,
             //   onChanged: (String? newValue) {
@@ -71,45 +75,48 @@ class ProfileEditScreen extends StatelessWidget {
             //     );
             //   }).toList(),
             // ),
-            SizedBox(height: 10), // Add some space between fields (optional
+            SizedBox(height: 10),
             Text("Address"),
             TextField(
+              key: const Key('address_street_field'),
               controller: addressStreetController,
               decoration: InputDecoration(labelText: 'Street'),
             ),
             TextField(
+              key: const Key('address_city_field'),
               controller: addressCityController,
               decoration: InputDecoration(labelText: 'City'),
             ),
             TextField(
+              key: const Key('address_district_field'),
               controller: addressDistrictController,
               decoration: InputDecoration(labelText: 'District'),
             ),
             TextField(
+              key: const Key('phone_number_field'),
               controller: phoneNumberController,
               decoration: InputDecoration(labelText: 'Phone Number'),
             ),
-               TextField(
+            TextField(
+              key: const Key('nic_field'),
               controller: nicController,
               decoration: InputDecoration(labelText: 'NIC Number'),
             ),
             ElevatedButton(
+              key: const Key('save_button'),
               onPressed: () {
-                   Get.back();
+                Get.back();
                 profileController.updateProfileAPI(
                   name: nameController.text,
                   email: emailController.text,
-                  //    dob: dobController.text,
-                  //    gender: profileController.currentUser.value.gender,
+                  // dob: dobController.text,
+                  // gender: profileController.currentUser.value.gender,
                   addressCity: addressCityController.text,
                   addressStreet: addressStreetController.text,
                   addressDistrict: addressDistrictController.text,
                   phoneNumber: phoneNumberController.text,
- 
                 );
                 updateControllers(); // Update text controllers after profile update
-             
-              
               },
               child: Text('Save Changes'),
             ),
