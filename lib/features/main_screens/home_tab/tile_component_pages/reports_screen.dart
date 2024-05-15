@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:patientmobileapplication/features/data/profile_data.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_pdf_list.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 
 class ReportsScreen extends StatefulWidget {
@@ -26,6 +27,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
         child: Column(
           children: [
             ReportPhotosList(reports: profileData.reports),
+            SizedBox(
+              height: 20.0,
+            ),
+            ReportsPdfList(),
           ],
         ),
       ),

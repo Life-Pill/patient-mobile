@@ -66,17 +66,8 @@ class MyApp extends StatelessWidget {
        // home: SplashScreen(),
 
 //home:  AuthGate(),
-      home: HomeScreen(),
-      //home: SignUpPage(),
-      //home: SignInPage(),
-      //home: ForgotPassword(),
-      //home:CheckEmail(),
-      //home:OTPScreen(),
-      //home:ResetPassword(),
-     // home: PasswordChanged(),
-      //home:SearchResults(),
+      home: const HomeScreen(),
 
-      //home: ViewProfile(),
 
     );
   }

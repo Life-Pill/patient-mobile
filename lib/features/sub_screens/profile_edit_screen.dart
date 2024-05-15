@@ -97,11 +97,11 @@ class ProfileEditScreen extends StatelessWidget {
               controller: phoneNumberController,
               decoration: InputDecoration(labelText: 'Phone Number'),
             ),
-            TextField(
-              key: const Key('nic_field'),
-              controller: nicController,
-              decoration: InputDecoration(labelText: 'NIC Number'),
-            ),
+            // TextField(
+            //   key: const Key('nic_field'),
+            //   controller: nicController,
+            //   decoration: InputDecoration(labelText: 'NIC Number'),
+            // ),
             ElevatedButton(
               key: const Key('save_button'),
               onPressed: () {
