@@ -114,7 +114,8 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
     try {
       List<int> bytes = await imageFile.readAsBytes();
 
-      String dateTime = DateTime.timestamp().toString();
+      String dateTime = DateTime.now().toString();
+
 
       // Save the image data along with the date and time
       final data = [dateTime, bytes];

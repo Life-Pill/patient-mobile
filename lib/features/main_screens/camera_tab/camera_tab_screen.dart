@@ -44,7 +44,8 @@ Future<void> _saveImageInHive(File imageFile) async {
     List<int> bytes = await imageFile.readAsBytes();
     
 
-    String dateTime =DateTime.timestamp().toString();
+    String dateTime = DateTime.now().toString();
+
 
     // Save the image data along with the date and time
     final data = [dateTime, bytes];
@@ -73,7 +74,8 @@ Future<void> _saveFileInHive(File file) async {
 
     final filename = file.path.split('/').last;
     final bytes = await file.readAsBytes();
-    String dateTime =DateTime.timestamp().toString();
+    String dateTime = DateTime.now().toString();
+
 
     if (_isPdf(filename)) {
       final data = [filename,dateTime, bytes];
