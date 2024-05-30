@@ -50,9 +50,11 @@ class _ResultsCardState extends State<ResultsCard> {
       setState(() {
         cartItems.add(cartItem);
       });
-      CustomSnackBar(true,"Added to cart",
+      CustomSnackBar(true, "Added to cart",
           "${cartItem.count} ${cartItem.unit}s of ${cartItem.medicine_name} at ${cartItem.pharmacy_name}");
-
+      print(
+          "Cart item count is ${cartItems.length} ${cartItem.medicine_name} ${cartItem.pharmacy_name} ${cartItem.price} ${cartItem.count}");
+    
     }
 
     return Padding(
