@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,
-              children: const [
+              children: [
                 // Home Tab
                 Home(),
                 // Cart Tab

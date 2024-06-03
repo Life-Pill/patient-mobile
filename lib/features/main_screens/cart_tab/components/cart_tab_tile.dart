@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 
 class CartTabTile extends StatelessWidget {
-  final int medicine_count;
-  final String medicine_imageUrl;
-  final double price;
-  final String unit;
-  final String medicine_name;
-  final String pharmacy_name;
+  final CartItem item;
+  final CartController cartController = Get.find<CartController>();
 
-  const CartTabTile(
-      {super.key,
-      required this.medicine_imageUrl,
-      required this.price,
-      required this.unit,
-      required this.medicine_name,
-      required this.pharmacy_name,
-      required this.medicine_count});
+  CartTabTile({super.key, required this.item});
+
   @override
   Widget build(BuildContext context) {
-    double total_price = price * medicine_count;
+    double total_price = item.price * item.count;
     return Padding(
       padding: const EdgeInsets.only(bottom: 25.0),
       child: Container(
@@ -36,8 +28,7 @@ class CartTabTile extends StatelessWidget {
           color: Colors.yellow.shade200,
           borderRadius: BorderRadius.circular(12.0),
         ),
-        padding:
-            EdgeInsets.only(top: 24.0, bottom: 24.0, right: 16.0, left: 16.0),
+        padding: EdgeInsets.only(top: 24.0, bottom: 24.0, right: 16.0, left: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +36,7 @@ class CartTabTile extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(medicine_imageUrl),
+                  backgroundImage: AssetImage(item.pharmacy_imageUrl),
                   radius: 30.0,
                 ),
                 SizedBox(width: 10.0),
@@ -54,7 +45,7 @@ class CartTabTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      medicine_name,
+                      item.medicine_name,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -62,7 +53,7 @@ class CartTabTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      pharmacy_name,
+                      item.pharmacy_name,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
@@ -86,7 +77,7 @@ class CartTabTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${medicine_count.toString()} ${unit}s',
+                  '${item.count.toString()} ${item.unit}s',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w400,
@@ -95,6 +86,20 @@ class CartTabTile extends StatelessWidget {
                 ),
               ],
             ),
+            GestureDetector(
+              onTap: () {
+                cartController.removeItem(item.index);
+                print("removed index ${item.index}");
+              },
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                    color: Colors.red.shade500,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: const Icon(Icons.delete),
+              ),
+            )
           ],
         ),
       ),

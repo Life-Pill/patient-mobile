@@ -1,15 +1,34 @@
 import 'package:get/get.dart';
 
-import '../../../Data/cart_data.dart' as cartValue;
+class CartItem {
+ 
+  final int count;
+  final String pharmacy_imageUrl;
+  final double price;
+  final String unit;
+  final String medicine_name;
+  final String pharmacy_name;
+  final int index;
 
+  CartItem({
+    
+    required this.count,
+    required this.pharmacy_imageUrl,
+    required this.price,
+    required this.unit,
+    required this.medicine_name,
+    required this.pharmacy_name, required this.index,
+  });
+}
 
 class CartController extends GetxController {
-var cartItems = cartValue.cartItems;
-  // Simulate fetching cart items from a data source
-  void fetchCartItems() {
-    // Replace this with your actual data fetching logic
-    var fetchedItems = cartItems;
+  var cartItems = <CartItem>[].obs;
 
-    cartItems.assignAll(fetchedItems);
+  void addItem(CartItem item) {
+    cartItems.add(item);
+  }
+
+  void removeItem(int index) {
+    cartItems.removeAt(index);
   }
 }
