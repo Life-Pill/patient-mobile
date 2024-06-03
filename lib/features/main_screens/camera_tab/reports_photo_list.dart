@@ -2,9 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/photo_opened_screen.dart';
 
 class ReportPhotosList extends StatefulWidget {
   final List<String> reports;
@@ -18,7 +20,7 @@ class ReportPhotosList extends StatefulWidget {
 class _ReportPhotosListState extends State<ReportPhotosList> {
   final List<String> formattedTimeList = [];
   late Box<List<dynamic>> imageBox;
-  List<Widget> widgetList = [];
+  List<Image> widgetList = [];
 
   @override
   void initState() {
@@ -36,7 +38,7 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
 
   Future<void> _loadImages() async {
     final List<List<dynamic>> imageDataList = imageBox.values.toList();
-    final List<Widget> widgets = [];
+    final List<Image> widgets = [];
 
     for (final imageData in imageDataList) {
       // Extract the date time and image bytes from the data element
@@ -89,9 +91,15 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
                       width: 1.0,
                     ),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: widget, // Use the widget directly
+                  child: GestureDetector(
+                    onTap: () {
+                      print("tapped on image");
+                      Get.to(PhotoOpenScreen(openedImage: widget));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: widget,
+                    ),
                   ),
                 ),
               ],
