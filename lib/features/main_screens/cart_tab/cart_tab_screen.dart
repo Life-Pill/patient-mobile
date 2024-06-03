@@ -15,7 +15,7 @@ class CartTabScreen extends StatelessWidget {
         children: [
           Obx(() => TopNavBar(
                 NeedSearchBar: false,
-                TabName: "Your Cart (${cartController.cartItems.length} items)",
+                TabName: "Your Cart",
               )),
           Expanded(
             child: Padding(
@@ -28,6 +28,20 @@ class CartTabScreen extends StatelessWidget {
                       );
                     },
                   )),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              maximumSize: Size(220, 50),
+              backgroundColor: Colors.greenAccent.shade200,
+            ),
+            onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Space between icon and text
+                Text("Checkout (${cartController.cartItems.length} items)"),
+              ],
             ),
           ),
         ],
