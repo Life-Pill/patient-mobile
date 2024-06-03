@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PDFScreen extends StatefulWidget {
   final String? path;
@@ -27,7 +28,9 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: () {},
+            onPressed: () {
+                Share.shareXFiles([XFile(widget.path ?? '')]);
+            },
           ),
         ],
       ),
