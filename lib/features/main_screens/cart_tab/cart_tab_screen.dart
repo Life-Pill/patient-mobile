@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
@@ -19,7 +20,7 @@ class CartTabScreen extends StatelessWidget {
               )),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: Obx(() => ListView.builder(
                     itemCount: cartController.cartItems.length,
                     itemBuilder: (context, index) {
@@ -30,9 +31,24 @@ class CartTabScreen extends StatelessWidget {
                   )),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Obx(
+                  () => Text(
+                    "Total: Rs. ${cartController.totalBill.toPrecision(2)}",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                  ),
+                ),
+              ],
+            ),
+          ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              maximumSize: Size(220, 50),
+              maximumSize: Size(200, 50),
               backgroundColor: Colors.greenAccent.shade200,
             ),
             onPressed: () {},
@@ -40,7 +56,10 @@ class CartTabScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Space between icon and text
-                Text("Checkout (${cartController.cartItems.length} items)"),
+                Obx(
+                  () => Text(
+                      "Checkout (${cartController.cartItems.length} items)"),
+                ),
               ],
             ),
           ),

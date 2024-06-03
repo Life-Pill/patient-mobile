@@ -12,7 +12,7 @@ class CartTabTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double total_price = item.price * item.count;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 25.0),
+      padding: const EdgeInsets.only(right: 10.0, left: 10.0, bottom: 25.0),
       child: Container(
         height: 100.0,
         width: double.maxFinite,
@@ -28,7 +28,8 @@ class CartTabTile extends StatelessWidget {
           color: Colors.yellow.shade200,
           borderRadius: BorderRadius.circular(12.0),
         ),
-        padding: EdgeInsets.only(top: 24.0, bottom: 24.0, right: 16.0, left: 16.0),
+        padding:
+            EdgeInsets.only(top: 24.0, bottom: 24.0, right: 16.0, left: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -31,4 +31,7 @@ class CartController extends GetxController {
   void removeItem(int index) {
     cartItems.removeAt(index);
   }
+    double get totalBill {
+    return cartItems.fold(0, (sum, item) => sum + (item.price * item.count));
+  }
 }
