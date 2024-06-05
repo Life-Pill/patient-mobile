@@ -9,7 +9,9 @@ import 'package:patientmobileapplication/features/main_screens/components/top_na
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
+import 'package:patientmobileapplication/features/sub_screens/privacy_policy_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/profile_edit_screen.dart';
+import 'package:patientmobileapplication/features/sub_screens/terms_and_conditions_screen.dart';
 
 import '../../components/account_option_btn.dart';
 
@@ -81,12 +83,22 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        AccountOptionButton(
-                            btnIcon: Icons.account_circle_outlined,
-                            btnText: "Terms & Conditions"),
-                        AccountOptionButton(
-                            btnIcon: Icons.credit_card,
-                            btnText: "Privacy Policy"),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(TermsnConditions());
+                          },
+                          child: AccountOptionButton(
+                              btnIcon: Icons.account_circle_outlined,
+                              btnText: "Terms & Conditions"),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(PrivacyPolicy());
+                          },
+                          child: AccountOptionButton(
+                              btnIcon: Icons.credit_card,
+                              btnText: "Privacy Policy"),
+                        ),
                         AccountOptionButton(
                             btnIcon: Icons.call, btnText: "Customer Services"),
                         GestureDetector(
