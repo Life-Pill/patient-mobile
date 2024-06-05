@@ -12,6 +12,7 @@ import 'package:patientmobileapplication/features/searching/results_card/product
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class ResultsCard extends StatefulWidget {
   final Color blueColor = Color(0xFF277CF4);
   final String medicine_name;

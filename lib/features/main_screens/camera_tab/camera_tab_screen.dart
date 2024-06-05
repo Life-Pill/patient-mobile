@@ -14,7 +14,6 @@ import 'package:patientmobileapplication/features/main_screens/camera_tab/report
 import 'package:patientmobileapplication/features/main_screens/camera_tab/reports_photo_list.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
-
 import 'package:http/http.dart' as http;
 
 class CameraTabScreen extends StatefulWidget {
@@ -28,78 +27,66 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
   final Profile profileData = Profile();
 
   late Box<List<dynamic>> reportsImageBox;
-    late Box<List<dynamic>> reportsPdfBox;
+  late Box<List<dynamic>> reportsPdfBox;
 
   @override
   void initState() {
     super.initState();
     _openReportImageBox();
-        _openReportPdfBox();
+    _openReportPdfBox();
   }
 
+  Future<void> _saveImageInHive(File imageFile) async {
+    try {
+      List<int> bytes = await imageFile.readAsBytes();
 
+      String dateTime = DateTime.now().toString();
 
-Future<void> _saveImageInHive(File imageFile) async {
-  try {
-    List<int> bytes = await imageFile.readAsBytes();
-    
+      // Save the image data along with the date and time
+      final data = [dateTime, bytes];
 
-    String dateTime = DateTime.now().toString();
-
-
-    // Save the image data along with the date and time
-    final data = [dateTime, bytes];
-
-    // Save the data in the reportsImageBox
-    await reportsImageBox.add(data);
-    print('Image saved in Hive');
-  } catch (e) {
-    print('Error saving image in Hive: $e');
+      // Save the data in the reportsImageBox
+      await reportsImageBox.add(data);
+      print('Image saved in Hive');
+    } catch (e) {
+      print('Error saving image in Hive: $e');
+    }
   }
-}
 
   Future<void> _openReportImageBox() async {
     reportsImageBox = Hive.box('reportsImageBox');
   }
 
-    Future<void> _openReportPdfBox() async {
+  Future<void> _openReportPdfBox() async {
     reportsPdfBox = Hive.box('reportsPdfBox');
   }
 
+  Future<void> _saveFileInHive(File file) async {
+    try {
+      final filename = file.path.split('/').last;
+      final bytes = await file.readAsBytes();
+      String dateTime = DateTime.now().toString();
 
+      if (_isPdf(filename)) {
+        final data = [filename, dateTime, bytes];
+        await reportsPdfBox.add(data);
+        print('PDF file saved in reportPdfBox');
+      } else {
+        // If not a PDF, save it in the existing reportsImageBox
+        _saveImageInHive(file);
+      }
 
-
-Future<void> _saveFileInHive(File file) async {
-  try {
-
-    final filename = file.path.split('/').last;
-    final bytes = await file.readAsBytes();
-    String dateTime = DateTime.now().toString();
-
-
-    if (_isPdf(filename)) {
-      final data = [filename,dateTime, bytes];
-       await reportsPdfBox.add(data);
-    print('PDF file saved in reportPdfBox');
-     
-    } else {
-      // If not a PDF, save it in the existing reportsImageBox
-      _saveImageInHive(file);
+      // Save the list in the reportsPdfBox
+    } catch (e) {
+      print('Error saving file in Hive: $e');
     }
-
-    // Save the list in the reportsPdfBox
-   
-  } catch (e) {
-    print('Error saving file in Hive: $e');
   }
-}
 
+  bool _isPdf(String filename) {
+    // Check if the filename has a .pdf extension
+    return filename.toLowerCase().endsWith('.pdf');
+  }
 
-
-bool _isPdf(String filename) {
-  // Check if the filename has a .pdf extension
-  return filename.toLowerCase().endsWith('.pdf');
-}
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
@@ -110,7 +97,7 @@ bool _isPdf(String filename) {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
-    //  await _uploadImage(File(pickedFile.path));
+      //  await _uploadImage(File(pickedFile.path));
       await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');
@@ -127,7 +114,7 @@ bool _isPdf(String filename) {
       });
       print(pickedFile.path);
       print("All reports: ${profileData.reports}");
-    //  await _uploadImage(File(pickedFile.path));
+      //  await _uploadImage(File(pickedFile.path));
       await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');
@@ -202,6 +189,7 @@ bool _isPdf(String filename) {
       print('Error uploading image: $e');
     }
   }
+
   Future<void> _resetHiveBoxes() async {
     // Close existing boxes if they are open
     if (reportsImageBox.isOpen) await reportsImageBox.close();
@@ -214,9 +202,10 @@ bool _isPdf(String filename) {
 
     // Open new Hive boxes
     reportsImageBox = await Hive.openBox<List<dynamic>>('reportsImageBox');
-     reportsPdfBox = await Hive.openBox<List<dynamic>>('reportsPdfBox');
+    reportsPdfBox = await Hive.openBox<List<dynamic>>('reportsPdfBox');
     print('Hive boxes reset');
   }
+
   Profile current_user = new Profile();
 
   @override
@@ -313,7 +302,9 @@ bool _isPdf(String filename) {
                           ),
                         ),
                         ReportPhotosList(reports: profileData.reports),
-                        SizedBox(height: 10.0,),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         ReportsPdfList(),
                       ],
                     ),

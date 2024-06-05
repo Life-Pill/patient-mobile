@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
+
 
 class CartTabScreen extends StatelessWidget {
   final CartController cartController = Get.put(CartController());
@@ -38,29 +38,29 @@ class CartTabScreen extends StatelessWidget {
               children: [
                 Obx(
                   () => Text(
-                    "Total: Rs. ${cartController.totalBill.toPrecision(2)}",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    "Total: Rs. ${cartController.totalBill.toStringAsFixed(2)}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              maximumSize: Size(200, 50),
-              backgroundColor: Colors.greenAccent.shade200,
-            ),
-            onPressed: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Space between icon and text
-                Obx(
-                  () => Text(
-                      "Checkout (${cartController.cartItems.length} items)"),
-                ),
-              ],
+          Obx(
+            () => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                maximumSize: Size(200, 50),
+                backgroundColor: Colors.greenAccent.shade200,
+              ),
+              onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Checkout (${cartController.cartItems.length} items)"),
+                ],
+              ),
             ),
           ),
         ],
