@@ -14,10 +14,10 @@ class CartTabScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          Obx(() => TopNavBar(
+          TopNavBar(
                 NeedSearchBar: false,
                 TabName: "Your Cart",
-              )),
+              ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
