@@ -1,23 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:patientmobileapplication/features/Data/cart_data.dart';
-import 'package:patientmobileapplication/features/Data/profile_data.dart';
-import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
+import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
-class CartTabScreen extends StatefulWidget {
-  const CartTabScreen({Key? key}) : super(key: key);
-
-  @override
-  State<CartTabScreen> createState() => _CartTabScreenState();
-}
-
-class _CartTabScreenState extends State<CartTabScreen> {
-  final ProfileController profileController = Get.put(ProfileController());
-  Profile current_user = new Profile();
+class CartTabScreen extends StatelessWidget {
+  final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,33 +13,67 @@ class _CartTabScreenState extends State<CartTabScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height - 60.0,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TopNavBar(
-                    NeedSearchBar: false,
-                    TabName: "Your Cart",
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cartItems.length,
-                      itemBuilder: (context, index) {
-                        Cart cartItem = cartItems[index];
-                        return CartTabTile(
-                          medicine_imageUrl: cartItem.pharmacy_imageUrl,
-                          price: cartItem.price,
-                          unit: cartItem.unit,
-                          medicine_name: cartItem.medicine_name,
-                          pharmacy_name: cartItem.pharmacy_name,
-                          medicine_count: cartItem.count,
-                        );
-                      },
+          TopNavBar(
+            NeedSearchBar: false,
+            TabName: "Your Cart",
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+              child: Obx(() {
+                if (cartController.cartItems.isEmpty) {
+                  return Center(
+                    child: Image.asset(
+                      'assets/images/empty-cart.png',
+                      width: 200,
+                      height: 200,
                     ),
-                  ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: cartController.cartItems.length,
+                    itemBuilder: (context, index) {
+                      return CartTabTile(
+                        item: cartController.cartItems[index],
+                      );
+                    },
+                  );
+                }
+              }),
+            ),
+          ),
+          Obx(() {
+            if (cartController.cartItems.isNotEmpty) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Total: Rs. ${cartController.totalBill.toStringAsFixed(2)}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+          Obx(
+            () => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                maximumSize: Size(200, 50),
+                backgroundColor: Colors.greenAccent.shade200,
+              ),
+              onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Checkout (${cartController.cartItems.length} items)"),
                 ],
               ),
             ),

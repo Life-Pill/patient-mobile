@@ -32,15 +32,15 @@ void main() async {
 //Prescriptions Box
  final Box<List<dynamic>> prescriptionsBox = await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
 
-
   //Reports Image Box
  final Box<List<dynamic>> reportsImageBox= await Hive.openBox<List<dynamic>>('reportsImageBox');
-  
-
 
   //Reports Box
  final Box<List<dynamic>> reportsPdfBox = await Hive.openBox<List<dynamic>>('reportsPdfBox');
  
+  //Reports Box
+ final Box<Map<dynamic, dynamic>> cartBox = await Hive.openBox<Map<dynamic, dynamic>>('cartBox');
+
 
   runApp(const MyApp());
 
@@ -66,17 +66,8 @@ class MyApp extends StatelessWidget {
        // home: SplashScreen(),
 
 //home:  AuthGate(),
-      home: HomeScreen(),
-      //home: SignUpPage(),
-      //home: SignInPage(),
-      //home: ForgotPassword(),
-      //home:CheckEmail(),
-      //home:OTPScreen(),
-      //home:ResetPassword(),
-     // home: PasswordChanged(),
-      //home:SearchResults(),
+      home: const HomeScreen(),
 
-      //home: ViewProfile(),
 
     );
   }

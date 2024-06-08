@@ -1,4 +1,4 @@
-import 'dart:convert' ;
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart' as diodart;
 import 'package:flutter/material.dart';
@@ -40,11 +40,12 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      setState(() {});
+      setState(() {
+        profileData.prescriptions.add(pickedFile.path);
+      });
       print(pickedFile.path);
-      var profileData;
-      print("All prescriptions: ${profileData.prescriptions}");
-      //  await _uploadImage(File(pickedFile.path));
+      print("All reports: ${profileData.prescriptions}");
+      await _uploadImage(File(pickedFile.path));
       await _saveImageInHive(File(pickedFile.path));
     } else {
       print('No image selected.');
@@ -69,57 +70,52 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
     }
   }
 
+  Future<void> _uploadImage(File imageFile) async {
+    try {
+      // Create Dio instance
+      diodart.Dio dio = diodart.Dio();
 
+      // Determine content type based on file extension
+      MediaType mediaType = MediaType('image', 'jpeg'); // Default to JPEG
+      if (imageFile.path.toLowerCase().endsWith('.png')) {
+        mediaType = MediaType('image', 'png');
+      } else if (imageFile.path.toLowerCase().endsWith('.jpg')) {
+        mediaType = MediaType('image', 'jpg');
+      }
 
+      // Create FormData object
+      diodart.FormData formData = diodart.FormData.fromMap({
+        'file': await diodart.MultipartFile.fromFile(
+          imageFile.path,
+          filename:
+              'image.${mediaType.subtype}', // Specify filename with correct extension
+          contentType: mediaType, // Specify content type using MediaType
+        ),
+      });
 
-Future<void> _uploadImage(File imageFile) async {
-  try {
-    // Create Dio instance
-    diodart.Dio dio = diodart.Dio();
+      // Send POST request with FormData
+      diodart.Response response = await dio.post(
+        CustomerPrescriptionsAPI,
+        data: formData,
+      );
 
-    // Determine content type based on file extension
-    MediaType mediaType = MediaType('image', 'jpeg'); // Default to JPEG
-    if (imageFile.path.toLowerCase().endsWith('.png')) {
-      mediaType = MediaType('image', 'png');
-    }else if (imageFile.path.toLowerCase().endsWith('.jpg')) {
-      mediaType = MediaType('image', 'jpg');
+      // Handle response
+      if (response.statusCode == 200) {
+        print('Prescription uploaded successfully: ${response.data}');
+      } else {
+        print('Error uploading Prescription: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error uploading Prescription: $error');
     }
-
-    // Create FormData object
-    diodart.FormData formData = diodart.FormData.fromMap({
-      'file': await diodart.MultipartFile.fromFile(
-        imageFile.path,
-        filename: 'image.${mediaType.subtype}', // Specify filename with correct extension
-        contentType: mediaType, // Specify content type using MediaType
-      ),
-    });
-
-    // Send POST request with FormData
-    diodart.Response response = await dio.post(
-      CustomerPrescriptionsAPI,
-      data: formData,
-    );
-
-    // Handle response
-    if (response.statusCode == 200) {
-      print('Prescription uploaded successfully: ${response.data}');
-    } else {
-      print('Error uploading Prescription: ${response.statusCode}');
-    }
-  } catch (error) {
-    print('Error uploading Prescription: $error');
   }
-}
-
-
-
-
 
   Future<void> _saveImageInHive(File imageFile) async {
     try {
       List<int> bytes = await imageFile.readAsBytes();
 
-      String dateTime = DateTime.timestamp().toString();
+      String dateTime = DateTime.now().toString();
+
 
       // Save the image data along with the date and time
       final data = [dateTime, bytes];

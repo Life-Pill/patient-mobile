@@ -2,9 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:patientmobileapplication/features/main_screens/camera_tab/photo_opened_screen.dart';
 
 class ReportPhotosList extends StatefulWidget {
   final List<String> reports;
@@ -18,7 +20,7 @@ class ReportPhotosList extends StatefulWidget {
 class _ReportPhotosListState extends State<ReportPhotosList> {
   final List<String> formattedTimeList = [];
   late Box<List<dynamic>> imageBox;
-  List<Widget> widgetList = [];
+  List<Uint8List> imageBytesList = [];
 
   @override
   void initState() {
@@ -36,14 +38,12 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
 
   Future<void> _loadImages() async {
     final List<List<dynamic>> imageDataList = imageBox.values.toList();
-    final List<Widget> widgets = [];
+    final List<Uint8List> bytesList = [];
 
     for (final imageData in imageDataList) {
       // Extract the date time and image bytes from the data element
-      String dateTime =
-          imageData[0].toString(); // Assuming date time is stored at index 0
-      Uint8List imageBytes = Uint8List.fromList(imageData[1]
-          .cast<int>()); // Assuming image bytes are stored at index 1
+      String dateTime = imageData[0].toString(); // Assuming date time is stored at index 0
+      Uint8List imageBytes = Uint8List.fromList(imageData[1].cast<int>()); // Assuming image bytes are stored at index 1
 
       // Convert the string date and time to DateTime object
       DateTime time = DateTime.parse(dateTime);
@@ -51,17 +51,12 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
       // Format the DateTime object as desired
       String formattedTime = DateFormat('yyyy-MM-dd | HH:mm:ss').format(time);
 
-      final image = Image.memory(
-        imageBytes,
-        fit: BoxFit.fitWidth,
-      );
-
-      widgets.add(image); // Add image to the list
-
+      bytesList.add(imageBytes); // Add image bytes to the list
       formattedTimeList.add(formattedTime); // Add formatted time to the list
     }
+
     setState(() {
-      widgetList = widgets;
+      imageBytesList = bytesList;
     });
   }
 
@@ -70,14 +65,14 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
-        children: widgetList.map((widget) {
+        children: imageBytesList.map((imageBytes) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Created: ${formattedTimeList[widgetList.indexOf(widget)]}',
+                  'Created: ${formattedTimeList[imageBytesList.indexOf(imageBytes)]}',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Container(
@@ -89,9 +84,18 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
                       width: 1.0,
                     ),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: widget, // Use the widget directly
+                  child: GestureDetector(
+                    onTap: () {
+                      print("tapped on image");
+                      Get.to(PhotoOpenScreen(imageBytes: imageBytes));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.memory(
+                        imageBytes,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
                   ),
                 ),
               ],

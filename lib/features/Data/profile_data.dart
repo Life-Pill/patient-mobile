@@ -58,7 +58,7 @@ class ProfileController extends GetxController {
   }) async {
     try {
       // Prepare the request body with only the required fields
-      Map<String, dynamic> requestBody = {
+      Map<dynamic, dynamic> requestBody = {
         'customerFullName': name,
         'customerEmail': email,
         'customerMobileNumber': phoneNumber,

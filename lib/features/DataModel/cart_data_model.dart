@@ -15,7 +15,7 @@ class Cart {
       required this.medicine_name,
       required this.pharmacy_name});
 
-  factory Cart.fromJson(Map<String, dynamic> json) {
+  factory Cart.fromJson(Map<dynamic, dynamic> json) {
     return Cart(
         pharmacy_imageUrl: json['imageUrl'],
         price: json['price'],

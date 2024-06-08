@@ -16,7 +16,7 @@ class Medicine {
       required this.medicine_id,
       required this.pharmacy_ids});
 
-  factory Medicine.fromJson(Map<String, dynamic> json) {
+  factory Medicine.fromJson(Map<dynamic, dynamic> json) {
     return Medicine(
         name: json['name'],
         imageUrl: json['imageUrl'],

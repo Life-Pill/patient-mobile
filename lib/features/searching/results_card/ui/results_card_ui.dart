@@ -6,10 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:patientmobileapplication/features/Data/cart_data.dart';
 import 'package:patientmobileapplication/features/DataModel/cart_data_model.dart';
+import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 import 'package:patientmobileapplication/features/main_screens/components/custom_snackBar.dart';
 import 'package:patientmobileapplication/features/searching/results_card/product_counter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class ResultsCard extends StatefulWidget {
   final Color blueColor = Color(0xFF277CF4);
@@ -43,17 +45,22 @@ class _ResultsCardState extends State<ResultsCard> {
   @override
   Widget build(BuildContext context) {
     int current_count = 0;
-    void addToCart(Cart cartItem) {
+    void addToCart(CartItem cartItem) {
+      final CartController cartController = Get.find<CartController>();
       if (cartItem.count == 0) {
         return;
       }
       setState(() {
-        cartItems.add(cartItem);
+        cartController.addItem(cartItem);
       });
-      CustomSnackBar(true,"Added to cart",
+      CustomSnackBar(true, "Added to cart",
           "${cartItem.count} ${cartItem.unit}s of ${cartItem.medicine_name} at ${cartItem.pharmacy_name}");
-
+      print(
+          "Cart item count is ${cartItems.length} ${cartItem.medicine_name} ${cartItem.pharmacy_name} ${cartItem.price} ${cartItem.count}");
+    
     }
+
+
 
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -160,8 +167,10 @@ class _ResultsCardState extends State<ResultsCard> {
                             children: [
                               GestureDetector(
                                 onTap: () {
+                                  
                                   // Create a Cart object with sample data
-                                  Cart newCartItem = Cart(
+                                  CartItem newCartItem = CartItem(
+                                    index: cartItems.length,
                                       count: current_count,
                                       pharmacy_imageUrl: widget.logo,
                                       price: widget.price,
@@ -169,8 +178,7 @@ class _ResultsCardState extends State<ResultsCard> {
                                       medicine_name: widget.medicine_name,
                                       pharmacy_name: widget.pharmacy_name);
 
-                                  addToCart(
-                                      newCartItem); // Add the new cart item to the cart
+                                  addToCart(newCartItem); // Add the new cart item to the cart
                                 },
                                 child: Container(
                                   height: 25.0,

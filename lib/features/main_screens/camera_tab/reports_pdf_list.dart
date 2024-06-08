@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:patientmobileapplication/features/sub_screens/pdf_view_screen.dart';
 
 class ReportsPdfList extends StatefulWidget {
   @override
@@ -13,6 +16,7 @@ class _ReportsPdfListState extends State<ReportsPdfList> {
   late Box<List<dynamic>> pdfBox;
   List<String> pdfNames = [];
   List<String> pdfDates = [];
+  List<String> pdfPaths = [];
 
   @override
   void initState() {
@@ -32,6 +36,7 @@ class _ReportsPdfListState extends State<ReportsPdfList> {
     final List<List<dynamic>> pdfDataList = pdfBox.values.toList();
     final List<String> names = [];
     final List<String> dates = [];
+    final List<String> paths = [];
     for (final pdfData in pdfDataList) {
       final pdfFileName = pdfData[0]; 
       names.add(pdfFileName.toString());
@@ -39,12 +44,25 @@ class _ReportsPdfListState extends State<ReportsPdfList> {
           DateTime time = DateTime.parse(pdfFileDateTime);
        String formattedTime = DateFormat('yyyy-MM-dd | HH:mm:ss').format(time);
       dates.add(formattedTime.toString());
+
+       // Get the path to the reconstructed PDF
+      final pdfPath = await _getPdfPath(pdfData[2]);
+      paths.add(pdfPath);
     }
     setState(() {
       pdfNames = names;
       pdfDates = dates;
+      pdfPaths = paths;
     });
+    
   }
+  Future<String> _getPdfPath(Uint8List pdfBytes) async {
+    final tempDir = await getTemporaryDirectory();
+    final pdfFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
+    await pdfFile.writeAsBytes(pdfBytes);
+    return pdfFile.path;
+  }
+  
 
  @override
   Widget build(BuildContext context) {
@@ -66,10 +84,24 @@ class _ReportsPdfListState extends State<ReportsPdfList> {
                       width: 1.0,
                     ),
                   ),
-                  child: ListTile(
-                    title: Text(pdfNames[index]),
-                    subtitle: Text(pdfDates[index]),
-                    // Add onTap or other functionality here if needed
+                  child: GestureDetector(
+                    
+                      onTap: () {
+                    if (pdfNames[index].isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PDFScreen(path: pdfPaths[index]),
+                        ),
+                      );
+                    }
+                  },
+                    child: ListTile(
+                      title: Text(pdfNames[index]),
+                      subtitle: Text(pdfDates[index]),
+                      // Add onTap or other functionality here if needed
+                    ),
                   ),
                 ),
               );
