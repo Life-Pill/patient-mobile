@@ -47,7 +47,7 @@ Future<List<Pharmacy>> fetchPharmacies(String medicineName) async {
     List<dynamic> data = json.decode(response.body)['data'];
     return data.map((item) => Pharmacy.fromJson(item)).toList();
   } else {
-    throw Exception('Failed to load pharmacies');
+    throw Exception('Pharmacy data not found!');
   }
 }
 
