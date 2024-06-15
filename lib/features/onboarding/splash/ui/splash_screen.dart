@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(const Duration(seconds: 3), () {
-    //  Get.to(AuthGate());
+    //  Get.to(() =>AuthGate());
 
     });
   }
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
           if (snapshot.connectionState == ConnectionState.done) {
             // Navigate to the home screen after the delay
             WidgetsBinding.instance!.addPostFrameCallback((_) {
-           //   Get.to(AuthGate());
+           //   Get.to(() =>AuthGate());
 
             });
           }

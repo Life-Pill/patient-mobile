@@ -61,7 +61,7 @@
 //             '---- within before signed in successfully snackbar submit function ----');
 //         Get.snackbar('Signed in Successfully', 'Welcome',
 //             backgroundColor: Colors.green.shade200);
-//         Get.to(HomeScreen());
+//         Get.to(() => HomeScreen());
 //         return;
 //       }).catchError(
 //         (errorMessage) {
@@ -271,7 +271,7 @@
 //                             ..onTap = () {
 //                               // TODO: Implement the Sign In logic here
 //                               // Navigate to the Sign In screen
-//                               Get.to(SignInPage());
+//                               Get.to(() =>SignInPage());
 //                             },
 //                         ),
 //                       ])),

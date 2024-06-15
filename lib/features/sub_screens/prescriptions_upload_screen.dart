@@ -172,7 +172,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                           height: 20.0,
                         ),
                         Text(
-                          "Send us your prescription to us by taking a picture or uploading it from your gallery",
+                          "Send us your prescription to us by taking a photo or uploading it from your gallery",
                           textAlign: TextAlign.justify,
                           style: GoogleFonts.poppins(
                             fontSize: 15.0,
@@ -247,7 +247,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
               backgroundColor: Colors.greenAccent.shade200,
             ),
             onPressed: () {
-              Get.to(HomeScreen());
+              Get.to(() =>HomeScreen());
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

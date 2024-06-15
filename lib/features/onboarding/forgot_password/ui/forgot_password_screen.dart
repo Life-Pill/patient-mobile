@@ -32,7 +32,7 @@
 //         Get.snackbar('We have sent you an email to recover password',
 //             'Please check email',
 //             backgroundColor: Colors.green.shade200);
-//         Get.to(SignInPage());
+//         Get.to(() =>SignInPage());
 //       }).onError(
 //         (error, stackTrace) {
 //           print(error.toString());
@@ -60,7 +60,7 @@
 //                 Column(
 //                   children: [
 //                     TopAppBar(onBackTap: () {
-//                       Get.to(SignInPage());
+//                      Get.to(() =>SignInPage());
 //                     }),
 //                     SizedBox(
 //                       height: 40.0,
@@ -181,7 +181,7 @@
 //                             recognizer: TapGestureRecognizer()
 //                               ..onTap = () {
 //                                 // Navigate to the Log In screen
-//                                 Get.to(SignInPage());
+//                           Get.to(() =>SignInPage());
 //                               },
 //                           ),
 //                         ])),

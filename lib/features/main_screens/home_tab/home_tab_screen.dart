@@ -66,6 +66,7 @@ void _openGoogleMaps() async {
                         GestureDetector(
                           onTap: () {
                             Get.to(() => PrescriptionsUploadScreen());
+                       
                           },
                           child: HomeTile(
                             icon: Icons.file_copy,

@@ -12,6 +12,7 @@ class Pharmacy {
   double rating;
   String address;
   String phoneNumber;
+  double distance;
 
   Pharmacy({
     required this.pharmacy_id,
@@ -23,6 +24,7 @@ class Pharmacy {
     required this.rating,
     required this.address,
     required this.phoneNumber,
+    this.distance = 0.0,
   });
 
   factory Pharmacy.fromJson(Map<String, dynamic> json) {

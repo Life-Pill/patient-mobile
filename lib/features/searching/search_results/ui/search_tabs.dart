@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patientmobileapplication/features/searching/distance_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/open_sorted/ui/open_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/price_sorted/ui/price_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/rating_sorted/ui/rating_sorted_screen.dart';
@@ -65,6 +66,7 @@ class SearchTabs extends StatelessWidget {
             RatingSorted(searchedMedicine: searchedText,),
             PriceSorted(searchedMedicine: searchedText),
             OpenSorted(searchedMedicine: searchedText),
+           // DistanceSorted(searchedMedicine: searchedText),
             Icon(Icons.directions_bike),
           ],
         ),

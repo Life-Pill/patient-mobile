@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
 
+
 class SearchResults extends StatelessWidget {
   final String searchedText;
   const SearchResults({Key? key, required this.searchedText}) : super(key: key);
