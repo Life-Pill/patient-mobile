@@ -110,8 +110,8 @@ void _openGoogleMaps() async {
                           onTap: _openGoogleMaps,
                           child: HomeTile(
                             icon: Icons.local_pharmacy_outlined,
-                            title: "Nearby Pharmacies",
-                            description: "View nearby pharmacies",
+                            title: "Pharmacy Locations",
+                            description: "View our registered pharmacies locations",
                             bgcolor: Colors.orangeAccent.shade200,
                             iconColor: Colors.greenAccent.shade200,
                           ),
