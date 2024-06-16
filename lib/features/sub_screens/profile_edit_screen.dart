@@ -13,7 +13,7 @@ class ProfileEditScreen extends StatelessWidget {
   TextEditingController addressStreetController = TextEditingController();
   TextEditingController addressDistrictController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController nicController = TextEditingController();
+  // TextEditingController nicController = TextEditingController();
 
   ProfileEditScreen() {
     updateControllers();
@@ -31,8 +31,8 @@ class ProfileEditScreen extends StatelessWidget {
         profileController.currentUser.value.addressDistrict;
     phoneNumberController.text =
         profileController.currentUser.value.phoneNumber;
-    nicController.text =
-        profileController.currentUser.value.nic;
+    // nicController.text =
+    //     profileController.currentUser.value.nic;
   }
 
   @override
@@ -99,11 +99,11 @@ class ProfileEditScreen extends StatelessWidget {
               controller: phoneNumberController,
               decoration: InputDecoration(labelText: 'Phone Number'),
             ),
-            TextField(
-              key: const Key('nic_field'),
-              controller: nicController,
-              decoration: InputDecoration(labelText: 'NIC Number'),
-            ),
+            // TextField(
+            //   key: const Key('nic_field'),
+            //   controller: nicController,
+            //   decoration: InputDecoration(labelText: 'NIC Number'),
+            // ),
             ElevatedButton(
               key: const Key('save_button'),
               onPressed: () {
@@ -117,7 +117,7 @@ class ProfileEditScreen extends StatelessWidget {
                   addressStreet: addressStreetController.text,
                   addressDistrict: addressDistrictController.text,
                   phoneNumber: phoneNumberController.text,
-                  nic: nicController.text,
+                  // nic: nicController.text,
                 );
                 updateControllers(); // Update text controllers after profile update
               },

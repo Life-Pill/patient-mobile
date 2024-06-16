@@ -13,7 +13,7 @@ class SearchResults extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: DefaultTabController(
-        length: 4,
+        length: 3,
         child: Column(
           children: [
             Container(

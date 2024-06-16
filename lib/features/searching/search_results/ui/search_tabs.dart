@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patientmobileapplication/features/searching/distance_sorted_screen.dart';
+import 'package:patientmobileapplication/features/searching/distance_sorted/distance_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/open_sorted/ui/open_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/price_sorted/ui/price_sorted_screen.dart';
 import 'package:patientmobileapplication/features/searching/rating_sorted/ui/rating_sorted_screen.dart';
@@ -12,7 +12,7 @@ class SearchTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -53,9 +53,7 @@ class SearchTabs extends StatelessWidget {
               Tab(
                 text: "Open",
               ),
-              Tab(
-                text: "Distance",
-              ),
+
             ],
           ),
           backgroundColor: Colors.blue,

@@ -1,51 +1,53 @@
+// import 'dart:html';
+//
 // import 'package:flutter/material.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:geolocator/geolocator.dart';
+// import 'package:location/location.dart' as loc;
+// import 'package:geocoding/geocoding.dart';
 // import 'package:http/http.dart' as http;
-// import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 // import 'dart:convert';
-
+// import 'dart:math';
+//
 // import 'package:patientmobileapplication/features/Repository/search_results_from_api.dart';
 // import 'package:patientmobileapplication/features/searching/results_card/ui/results_card_ui.dart';
-
-
+//
+//
 // class DistanceSorted extends StatelessWidget {
 //   final String searchedMedicine;
-//   final String openCageApiKey = dotenv.env['OPEN_CAGE_API_KEY']!;
-
+//
 //   DistanceSorted({super.key, required this.searchedMedicine});
-
-//   Future<Position> _getUserLocation() async {
-//     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+//
+//   Future<loc.LocationData> _getUserLocation() async {
+//     loc.Location location = loc.Location();
+//
+//     bool serviceEnabled = await location.serviceEnabled();
 //     if (!serviceEnabled) {
-//       throw 'Location services are disabled.';
+//       serviceEnabled = await location.requestService();
+//       if (!serviceEnabled) {
+//         throw 'Location services are disabled.';
+//       }
 //     }
-
-//     LocationPermission permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
+//
+//     PermissionStatus permissionGranted = await location.hasPermission();
+//     if (permissionGranted == PermissionStatus.denied) {
+//       permissionGranted = await location.requestPermission();
+//       if (permissionGranted != PermissionStatus.granted) {
 //         throw 'Location permissions are denied';
 //       }
 //     }
-
-//     if (permission == LocationPermission.deniedForever) {
-//       throw 'Location permissions are permanently denied.';
-//     }
-
-//     return await Geolocator.getCurrentPosition();
+//
+//     return await location.getLocation();
 //   }
-
+//
 //   Future<List<Pharmacy>> _sortPharmaciesByDistance(String medicineName) async {
-//     Position userLocation = await _getUserLocation();
+//     LocationData userLocation = await _getUserLocation();
 //     List<Pharmacy> pharmacies = await fetchPharmacies(medicineName);
-
+//
 //     for (var pharmacy in pharmacies) {
 //       var coordinates = await _getCoordinatesFromAddress(pharmacy.address);
 //       if (coordinates != null) {
-//         pharmacy.distance = Geolocator.distanceBetween(
-//           userLocation.latitude,
-//           userLocation.longitude,
+//         pharmacy.distance = _calculateDistance(
+//           userLocation.latitude!,
+//           userLocation.longitude!,
 //           coordinates[0],
 //           coordinates[1],
 //         );
@@ -53,26 +55,46 @@
 //         pharmacy.distance = double.infinity;
 //       }
 //     }
-
+//
 //     pharmacies.sort((a, b) => a.distance.compareTo(b.distance));
 //     return pharmacies;
 //   }
-
+//
+//   double _calculateDistance(
+//       double startLatitude,
+//       double startLongitude,
+//       double endLatitude,
+//       double endLongitude) {
+//     const double earthRadius = 6371000; // meters
+//     final double dLat = _degreeToRadian(endLatitude - startLatitude);
+//     final double dLon = _degreeToRadian(endLongitude - startLongitude);
+//
+//     final double a = (sin(dLat / 2) * sin(dLat / 2)) +
+//         (cos(_degreeToRadian(startLatitude)) *
+//             cos(_degreeToRadian(endLatitude)) *
+//             sin(dLon / 2) *
+//             sin(dLon / 2));
+//     final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+//
+//     return earthRadius * c;
+//   }
+//
+//   double _degreeToRadian(double degree) {
+//     return degree * pi / 180;
+//   }
+//
 //   Future<List<double>?> _getCoordinatesFromAddress(String address) async {
-//     final response = await http.get(
-//       Uri.parse('https://api.opencagedata.com/geocode/v1/json?q=$address&key=$openCageApiKey'),
-//     );
-
-//     if (response.statusCode == 200) {
-//       var data = json.decode(response.body);
-//       if (data['results'].isNotEmpty) {
-//         var coordinates = data['results'][0]['geometry'];
-//         return [coordinates['lat'], coordinates['lng']];
+//     try {
+//       List<Location> locations = await locationFromAddress(address);
+//       if (locations.isNotEmpty) {
+//         return [locations.first.latitude, locations.first.longitude];
 //       }
+//     } catch (e) {
+//       print('Error: $e');
 //     }
 //     return null;
 //   }
-
+//
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
