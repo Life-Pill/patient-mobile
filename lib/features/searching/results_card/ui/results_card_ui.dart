@@ -392,6 +392,7 @@ class _ResultsCardState extends State<ResultsCard> {
   }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
+    print("Call btn clicked");
     final Uri launchUri = Uri(
       scheme: 'tel',
       path: phoneNumber,
