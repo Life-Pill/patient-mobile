@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:patientmobileapplication/features/Data/apiLinks.dart';
@@ -10,7 +11,7 @@
 
 // class DistanceSorted extends StatelessWidget {
 //   final String searchedMedicine;
-//   final String openCageApiKey = openCageGeolocatorAPIKey;
+//   final String openCageApiKey = dotenv.env['OPEN_CAGE_API_KEY']!;
 
 //   DistanceSorted({super.key, required this.searchedMedicine});
 
