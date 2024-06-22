@@ -65,8 +65,8 @@ class MyApp extends StatelessWidget {
 
        // home: SplashScreen(),
 
-//home:  AuthGate(),
-      home: const HomeScreen(),
+home:  AuthGate(),
+  //    home: const HomeScreen(),
 
 
     );

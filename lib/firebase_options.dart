@@ -28,10 +28,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -68,15 +65,30 @@ class DefaultFirebaseOptions {
     messagingSenderId: '138613565833',
     projectId: 'lifepill-mobile-app',
     storageBucket: 'lifepill-mobile-app.appspot.com',
+    androidClientId: '138613565833-bnqme3odhc0tkviaqanhp5p5sc0uls81.apps.googleusercontent.com',
+    iosClientId: '138613565833-mlmh9olpd28err0rua0krt6tk9auibek.apps.googleusercontent.com',
     iosBundleId: 'com.example.patientmobileapplication',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDAnSUIoUKqZxmSHVuMRpaLIw1jFKLUE3o',
-    appId: '1:138613565833:ios:441c07ad656235264d1958',
+    appId: '1:138613565833:ios:d06a773d0149290d4d1958',
     messagingSenderId: '138613565833',
     projectId: 'lifepill-mobile-app',
     storageBucket: 'lifepill-mobile-app.appspot.com',
-    iosBundleId: 'com.example.patientmobileapplication.RunnerTests',
+    androidClientId: '138613565833-bnqme3odhc0tkviaqanhp5p5sc0uls81.apps.googleusercontent.com',
+    iosClientId: '138613565833-mlmh9olpd28err0rua0krt6tk9auibek.apps.googleusercontent.com',
+    iosBundleId: 'com.example.patientmobileapplication',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDxju8dklYBLGgr-YgT8e3JnXjgaCpqS68',
+    appId: '1:138613565833:web:cb1820a776052d264d1958',
+    messagingSenderId: '138613565833',
+    projectId: 'lifepill-mobile-app',
+    authDomain: 'lifepill-mobile-app.firebaseapp.com',
+    storageBucket: 'lifepill-mobile-app.appspot.com',
+    measurementId: 'G-H0WG4KJL4B',
+  );
+
 }
