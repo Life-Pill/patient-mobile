@@ -103,7 +103,9 @@
 //                       width: double.maxFinite,
 //                       child: ElevatedButton(
 //                         onPressed: () {
-//                           Get.to(PasswordChanged());},
+//                          Get.to(() =>PasswordChanged());
+//                        
+// },
 //                         child: Text(
 //                           "Reset password",
 //                           style: TextStyle(
@@ -143,7 +145,7 @@
 //                             recognizer: TapGestureRecognizer()
 //                               ..onTap = () {
 //                                 // Navigate to the Log In screen
-//                                 Get.to(SignInPage());
+//                                 Get.to(() =>SignInPage());
 
 //                               },
 //                           ),

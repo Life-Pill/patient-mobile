@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
@@ -15,6 +14,7 @@ class Profile {
   String addressCity = "";
   String addressDistrict = "";
   String phoneNumber = "";
+  String nic = "";
 
   List<String> reports = [];
   List<String> prescriptions = [];
@@ -35,6 +35,7 @@ class ProfileController extends GetxController {
     required String addressCity,
     required String addressDistrict,
     required String phoneNumber,
+   // required String nic,
   }) {
     currentUser.update((val) {
       val?.name = name;
@@ -45,6 +46,7 @@ class ProfileController extends GetxController {
       val?.addressCity = addressCity;
       val?.addressDistrict = addressDistrict;
       val?.phoneNumber = phoneNumber;
+     // val?.nic = nic;
     });
   }
 
@@ -55,6 +57,7 @@ class ProfileController extends GetxController {
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
+   // required String nic,
   }) async {
     try {
       // Prepare the request body with only the required fields
@@ -66,7 +69,7 @@ class ProfileController extends GetxController {
         'customerAddressStreet': addressStreet,
         'customerAddressCity': addressCity,
         'customerAddressDistrict': addressDistrict,
-        'customerNIC': '123456789V', // TODO: Change this to the actual NIC
+       // 'customerNIC':nic,
       };
 
       final response = await http.put(
@@ -86,6 +89,7 @@ class ProfileController extends GetxController {
           addressStreet: addressStreet,
           addressCity: addressCity,
           addressDistrict: addressDistrict,
+        //  nic: nic,
         );
         print('Profile updated successfully');
        CustomSnackBar(true,"Successful", "Profile Details Changed");
@@ -115,6 +119,7 @@ class ProfileController extends GetxController {
 
           addressDistrict: jsonData['customerAddressDistrict'],
           phoneNumber: jsonData['customerMobileNumber'],
+         // nic: jsonData['customerNIC'] ?? '0123456789', // TODO: NIC value is not passed in the API
         );
         print('Name: ${currentUser.value.name}');
         print('Email: ${currentUser.value.email}');

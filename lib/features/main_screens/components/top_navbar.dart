@@ -55,7 +55,7 @@ class TopNavBar extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.pin_drop_outlined,
-                            size: 30.0,
+                            size: 35.0,
                             color: Colors.white,
                           ),
                           Container(
@@ -65,8 +65,8 @@ class TopNavBar extends StatelessWidget {
                               softWrap: true,
                               textAlign: TextAlign.left,
                               style: GoogleFonts.poppins(
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.w700,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w500,
                                 color: Color(0xFFFDFDFC),
                               ),
                             ),

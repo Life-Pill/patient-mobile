@@ -58,7 +58,8 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(ProfileEditScreen());
+                               Get.to(() =>ProfileEditScreen());
+                           
                           },
                           child: AccountOptionButton(
                               btnIcon: Icons.account_circle_outlined,
@@ -85,7 +86,8 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(TermsnConditions());
+                               Get.to(() =>TermsnConditions());
+                        
                           },
                           child: AccountOptionButton(
                               btnIcon: Icons.account_circle_outlined,
@@ -93,7 +95,8 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(PrivacyPolicy());
+                              Get.to(() =>PrivacyPolicy());
+                   
                           },
                           child: AccountOptionButton(
                               btnIcon: Icons.credit_card,
@@ -126,6 +129,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   //   final GoogleSignIn googleSignIn = GoogleSignIn();
   //   await googleSignIn.signOut();
   //   await FirebaseAuth.instance.signOut(); // Sign out the user
-  //   Get.to(SignInPage());
+   // Get.to(() =>SignInPage());
+  //   
   // }
 }

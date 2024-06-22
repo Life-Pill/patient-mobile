@@ -41,7 +41,8 @@
 
 //         Get.snackbar('Logged in Successfully', 'Welcome',
 //             backgroundColor: Colors.green.shade200);
-//         Get.to(HomeScreen());
+//         Get.to(() =>HomeScreen());
+//        
 //       }).catchError(
 //         (errorMessage) {
 //           print("Error occured: \n $errorMessage");
@@ -170,7 +171,7 @@
 //                         Spacer(),
 //                         GestureDetector(
 //                           onTap: () {
-//                             Get.to(ForgotPasswordScreen());
+//                             Get.to(() => ForgotPasswordScreen());
 //                           },
 //                           child: const Text(
 //                             'Forgot Password?',
@@ -215,7 +216,7 @@
 //                               ..onTap = () {
 //                                 // TODO: Implement the Sign In logic here
 //                                 // Navigate to the Sign up screen
-//                                 Get.to(SignUpPage());
+//                                 Get.to(() => SignUpPage());
 //                               },
 //                           ),
 //                         ])),

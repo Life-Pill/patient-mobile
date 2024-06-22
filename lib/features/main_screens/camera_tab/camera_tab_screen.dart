@@ -229,7 +229,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Add a new report by taking a picture or selecting from your gallery",
+                          "Add a new report by taking a photo or selecting from your gallery",
                           textAlign: TextAlign.justify,
                           style: GoogleFonts.poppins(
                             fontSize: 15.0,

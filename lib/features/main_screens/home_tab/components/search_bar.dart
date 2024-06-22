@@ -157,7 +157,8 @@ class CustomSearchDelegate extends SearchDelegate {
           onTap: () {
             close(context, result);
             // Navigate to search results page with the selected result
-            Get.to(SearchResults(searchedText: result));
+            Get.to(() =>SearchResults(searchedText: result));
+        
           },
         );
       },
@@ -181,7 +182,7 @@ class CustomSearchDelegate extends SearchDelegate {
           onTap: () {
             close(context, result);
             // Navigate to search results page with the selected result
-            Get.to(SearchResults(searchedText: result));
+              Get.to(() =>SearchResults(searchedText: result));
           },
         );
       },

@@ -1,3 +1,5 @@
+// NOT NEEDED 
+
 import '../Data/pharmacy_results_data.dart';
 
 class Pharmacy {
@@ -27,11 +29,6 @@ class Pharmacy {
     required this.medicines,
   });
 }
-
-// List<Pharmacy> sortSearchResults(List<Pharmacy> searchResults, String criteria,String medicine_name) {
-
-
-//  List<Pharmacy> sortedResults = List.from(searchResults);
 
 
  List<Pharmacy> sortSearchResults(List<Pharmacy> searchResults, String criteria, String medicineName) {
@@ -89,14 +86,3 @@ class Pharmacy {
   
 }
 
-void main() {
-String medicineName = 'Aspirin';
-  String sortCriteria = 'price'; // You can change this to 'name', 'open', or 'rating' based on your requirements
-
-  List<Pharmacy> sortedPharmacies = sortSearchResults(pharmacyData, medicineName, sortCriteria);
-
-  // Print sorted pharmacies
-  sortedPharmacies.forEach((pharmacy) {
-    print('${pharmacy.name} - ${pharmacy.price}');
-  });
-}

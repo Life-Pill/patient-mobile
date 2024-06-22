@@ -87,7 +87,8 @@ class _ReportPhotosListState extends State<ReportPhotosList> {
                   child: GestureDetector(
                     onTap: () {
                       print("tapped on image");
-                      Get.to(PhotoOpenScreen(imageBytes: imageBytes));
+                      Get.to(() => PhotoOpenScreen(imageBytes: imageBytes));
+                    
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.0),

@@ -3,8 +3,8 @@ import 'package:patientmobileapplication/features/DataModel/medicine_data_model.
 
 List<Medicine> medicineData = [
   Medicine(
-    name: 'Paracetamol',
-    imageUrl: 'paracetamol.jpg',
+    name: 'Panadol',
+    imageUrl: 'panadol.jpg',
     price: 5.99,
     unit: 'Tablet',
     medicine_id: '1',
