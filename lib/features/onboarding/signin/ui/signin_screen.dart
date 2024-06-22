@@ -224,36 +224,36 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 16),
 
                     // Divider with line
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: const Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.black54,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text("OR",
-                                style: TextStyle(color: Colors.black54)),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   child: const Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Divider(
+                    //           color: Colors.black54,
+                    //         ),
+                    //       ),
+                    //       Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    //         child: Text("OR",
+                    //             style: TextStyle(color: Colors.black54)),
+                    //       ),
+                    //       Expanded(
+                    //         child: Divider(
+                    //           color: Colors.black54,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    //
+                    // const SizedBox(height: 16),
 
-                    const SizedBox(height: 16),
-
-                    SignInButton(
-                        buttonType: ButtonType.google,
-                        btnText: 'Sign in with Google',
-                        onPressed: () =>AuthService().signInWithGoogle(),
-                    ),
+                    // SignInButton(
+                    //     buttonType: ButtonType.google,
+                    //     btnText: 'Sign in with Google',
+                    //     onPressed: () =>AuthService().signInWithGoogle(),
+                    // ),
                   ],
                 ),
               ),

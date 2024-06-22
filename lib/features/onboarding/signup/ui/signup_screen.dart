@@ -1,14 +1,22 @@
 
+import 'dart:convert';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
+import 'package:patientmobileapplication/features/onboarding/initial_data_collect/initial_data_collect_page.dart';
+import 'package:patientmobileapplication/features/sub_screens/privacy_policy_screen.dart';
+import 'package:patientmobileapplication/features/sub_screens/terms_and_conditions_screen.dart';
 import 'package:patientmobileapplication/global/global.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../../../utilities/styles.dart';
+import '../../../Data/apiLinks.dart';
+import '../../../main_screens/components/custom_snackBar.dart';
 import '../../signin/ui/signin_screen.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -29,13 +37,12 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _agreedToTerms = false;
 
   final _formKey = GlobalKey<FormState>();
+
   void _submit() async {
     print('---- within submit function ----');
 
-   if (_formKey.currentState == null || _formKey.currentState!.validate() ) {
-
-      print(
-          '---- within if _formKey.currentState!.validate() in submit function ----');
+    if (_formKey.currentState == null || _formKey.currentState!.validate()) {
+      print('---- within if _formKey.currentState!.validate() in submit function ----');
       await firebaseAuth
           .createUserWithEmailAndPassword(
         email: emailTextEditingController.text.trim(),
@@ -46,25 +53,29 @@ class _SignUpPageState extends State<SignUpPage> {
         currentUser = auth.user;
         if (currentUser != null) {
           print('---- within currentUser != null in submit function ----');
-          Map userMap = {
+
+          // Map for Firebase Realtime Database
+          Map<String, String> userMap = {
             "id": currentUser!.uid,
             "email": emailTextEditingController.text.trim(),
           };
 
-          DatabaseReference userRef =
-              FirebaseDatabase.instance.ref().child("users");
-          userRef.child(currentUser!.uid).set(userMap);
+
+
+          // Post user data to the backend server
+          await postNewCustomer(email:emailTextEditingController.text.trim(),password:passwordTextEditingController.text.trim());
+
+          print('---- within before signed in successfully snackbar submit function ----');
+
+          Get.snackbar('Signed in Successfully', 'Welcome',
+              backgroundColor: Colors.green.shade200);
+          Get.to(() => DataCollectScreen(email: emailTextEditingController.text.trim()));
+          return;
         } else {
-           print('================User authentication failed=================');
+          print('================User authentication failed=================');
         }
-        print(
-            '---- within before signed in successfully snackbar submit function ----');
-        Get.snackbar('Signed in Successfully', 'Welcome',
-            backgroundColor: Colors.green.shade200);
-        Get.to(() => HomeScreen());
-        return;
       }).catchError(
-        (errorMessage) {
+            (errorMessage) {
           print('---- within catchError in submit function ----');
 
           Get.snackbar('Error occurred', 'Try again',
@@ -78,6 +89,49 @@ class _SignUpPageState extends State<SignUpPage> {
           backgroundColor: Colors.redAccent.shade200);
     }
   }
+
+
+
+
+
+// Function to post user data to the backend server
+  Future<void> postNewCustomer({
+  required String email,
+  required String password,
+  }) async {
+  try {
+  // Prepare the request body with the required fields
+  Map<dynamic, dynamic> requestBody = {
+  'customerFullName': "aa",
+  'customerEmail': email,
+  'customerMobileNumber': "01",
+  'customerPassword': password,
+  'customerAddressStreet': "aa",
+  'customerAddressCity': "aa",
+  'customerAddressDistrict': "aa",
+  'customerNIC': "123456798",
+  };
+
+  final response = await http.post(
+  Uri.parse(NewCustomerCreate),
+  headers: <String, String>{
+  'Content-Type': 'application/json; charset=UTF-8',
+  },
+  body: jsonEncode(requestBody),
+  );
+
+  if (response.statusCode == 200 || response.statusCode == 201) {
+  print('Customer created successfully');
+  CustomSnackBar(true, "Successful", "Customer Created Successfully");
+  } else {
+  throw Exception('Failed to create customer: ${response.statusCode}');
+  }
+  } catch (error) {
+  CustomSnackBar(false, 'Error Occured', 'Try again');
+  throw Exception('Failed to create customer: $error');
+  }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -231,19 +285,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   const SizedBox(height: 16),
 
+
+
+
                   // Button
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_agreedToTerms) {
-                          print("===========Submit btn clicked ============");
+                      onPressed:_agreedToTerms
+                          ? () {
                           _submit();
-                        } else {
-                          Get.snackbar('Please agree to the terms', 'Try again',
-                              backgroundColor: Colors.redAccent.shade200);
                         }
-                      },
+                      : null,
                       style: AppStyles.signInButton,
                       child: Text(
                         'Sign Up',
@@ -269,7 +322,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              // TODO: Implement the Sign In logic here
+
                               // Navigate to the Sign In screen
                               Get.to(() =>SignInPage());
                             },
@@ -304,15 +357,15 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   const SizedBox(height: 16),
 
-                  SignInButton(
-                      buttonSize: ButtonSize.small,
-                      buttonType: ButtonType.google,
-                      btnText: 'Sign in with Google',
-                      onPressed: () {
-                        print('click');
-                      }),
-
-                  const SizedBox(height: 16),
+                  // SignInButton(
+                  //     buttonSize: ButtonSize.small,
+                  //     buttonType: ButtonType.google,
+                  //     btnText: 'Sign in with Google',
+                  //     onPressed: () {
+                  //       print('click');
+                  //     }),
+                  //
+                  // const SizedBox(height: 16),
 
                   // Checkbox with Terms of Service and Privacy Policy
                   Row(
@@ -326,21 +379,24 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            print("Show Policies");
-                          },
+
                           child: RichText(
-                            text: const TextSpan(
+                            text:  TextSpan(
                               text: 'I agree to the ',
                               style: TextStyle(color: Colors.black),
                               children: [
+
                                 TextSpan(
-                                  text: 'Terms of Service',
+                                  text: 'Terms & Conditions',
                                   style: TextStyle(
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
                                   ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      // Navigate to the Sign In screen
+                                      Get.to(() =>TermsnConditions());
+                                    },
                                 ),
                                 TextSpan(text: ' and '),
                                 TextSpan(
@@ -349,12 +405,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
                                   ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      // Navigate to the Sign In screen
+                                      Get.to(() =>PrivacyPolicy());
+                                    },
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      ),
+
                     ],
                   ),
                 ],
