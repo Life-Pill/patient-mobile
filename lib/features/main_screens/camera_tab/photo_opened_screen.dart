@@ -35,13 +35,18 @@ class PhotoOpenScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: PhotoView(
-        imageProvider: MemoryImage(imageBytes),
-        backgroundDecoration: BoxDecoration(
-          color: Colors.transparent,
+      body: Container(
+        color: Colors.black,
+        child: PhotoView(
+          imageProvider: MemoryImage(imageBytes),
+          backgroundDecoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          minScale: PhotoViewComputedScale.contained,
+          maxScale: PhotoViewComputedScale.covered * 2,
+          initialScale: PhotoViewComputedScale.contained,
+          basePosition: Alignment.center,
         ),
-        minScale: PhotoViewComputedScale.contained * 0.8,
-        maxScale: PhotoViewComputedScale.covered * 2,
       ),
     );
   }
