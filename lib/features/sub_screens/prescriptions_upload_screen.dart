@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:patientmobileapplication/features/Data/apiLinks.dart';
@@ -35,18 +36,35 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
   late Box<List<dynamic>> prescriptionsImageBox;
   final Profile profileData = Profile();
 
+  Future<File> _convertImageToPng(File imageFile) async {
+    final bytes = await imageFile.readAsBytes();
+    img.Image? image = img.decodeImage(bytes);
+
+    if (image != null) {
+      final pngBytes = img.encodePng(image);
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.png';
+      final pngFile = File(filePath);
+      await pngFile.writeAsBytes(pngBytes);
+      return pngFile;
+    } else {
+      throw 'Failed to decode image';
+    }
+  }
+
   void _openCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
+      final pngFile = await _convertImageToPng(File(pickedFile.path));
       setState(() {
-        profileData.prescriptions.add(pickedFile.path);
+        profileData.prescriptions.add(pngFile.path);
       });
-      print(pickedFile.path);
+      print(pngFile.path);
       print("All reports: ${profileData.prescriptions}");
-      await _uploadImage(File(pickedFile.path));
-      await _saveImageInHive(File(pickedFile.path));
+      await _uploadImage(pngFile);
+      await _saveImageInHive(pngFile);
     } else {
       print('No image selected.');
     }
@@ -57,14 +75,15 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      final pngFile = await _convertImageToPng(File(pickedFile.path));
       setState(() {
-        profileData.prescriptions.add(pickedFile.path);
+        profileData.prescriptions.add(pngFile.path);
       });
-      print(pickedFile.path);
+      print(pngFile.path);
       print("All prescriptions: ${profileData.prescriptions}");
 
-      await _saveImageInHive(File(pickedFile.path));
-      await _uploadImage(File(pickedFile.path));
+      await _saveImageInHive(pngFile);
+      await _uploadImage(pngFile);
     } else {
       print('No image selected.');
     }
@@ -75,21 +94,12 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
       // Create Dio instance
       diodart.Dio dio = diodart.Dio();
 
-      // Determine content type based on file extension
-      MediaType mediaType = MediaType('image', 'jpeg'); // Default to JPEG
-      if (imageFile.path.toLowerCase().endsWith('.png')) {
-        mediaType = MediaType('image', 'png');
-      } else if (imageFile.path.toLowerCase().endsWith('.jpg')) {
-        mediaType = MediaType('image', 'jpg');
-      }
-
       // Create FormData object
       diodart.FormData formData = diodart.FormData.fromMap({
         'file': await diodart.MultipartFile.fromFile(
           imageFile.path,
-          filename:
-              'image.${mediaType.subtype}', // Specify filename with correct extension
-          contentType: mediaType, // Specify content type using MediaType
+          filename: 'image.png', // Specify filename with correct extension
+          contentType: MediaType('image', 'png'), // Specify content type as PNG
         ),
       });
 
@@ -115,7 +125,6 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
       List<int> bytes = await imageFile.readAsBytes();
 
       String dateTime = DateTime.now().toString();
-
 
       // Save the image data along with the date and time
       final data = [dateTime, bytes];
@@ -143,7 +152,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
 
     // Open new Hive boxes
     prescriptionsImageBox =
-        await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
+    await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
 
     print('Hive boxes reset');
   }
