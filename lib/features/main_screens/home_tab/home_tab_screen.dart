@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,17 +29,20 @@ class _HomeState extends State<Home> {
   final ProfileController profileController = Get.put(ProfileController());
   Profile current_user = new Profile();
 
-  void _openGoogleMaps() async {
-    String googleMapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=${_currentLocation.latitude},${_currentLocation.longitude}';
 
-    for (Pharmacy pharmacy in _pharmacies) {
-      googleMapsUrl += '&destination=${pharmacy.latitude},${pharmacy.longitude}';
-    }
-
-    if (await canLaunch(googleMapsUrl)) {
-      await launch(googleMapsUrl);
-    } else {
-      throw 'Could not launch $googleMapsUrl';
+  Future<void> _setMarkers() async {
+    for (String location in pharmacyLocations) {
+      List<Location> locations = await locationFromAddress(location);
+      Location loc = locations.first;
+      setState(() {
+        _markers.add(
+          Marker(
+            markerId: MarkerId(location),
+            position: LatLng(loc.latitude, loc.longitude),
+            infoWindow: InfoWindow(title: location),
+          ),
+        );
+      });
     }
   }
 
