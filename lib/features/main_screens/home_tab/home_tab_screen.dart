@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/Data/pharmacy_locations.dart';
+import 'package:patientmobileapplication/features/Repository/search_results_from_api.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
 
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
@@ -26,15 +27,17 @@ class _HomeState extends State<Home> {
   final ProfileController profileController = Get.put(ProfileController());
   Profile current_user = new Profile();
 
-void _openGoogleMaps() async {
-    String baseUrl = 'https://www.google.com/maps/search/?api=1';
-    String query = pharmacyLocations.map((location) => 'query=$location').join('&');
-    String url = '$baseUrl&$query';
+  void _openGoogleMaps() async {
+    String googleMapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=${_currentLocation.latitude},${_currentLocation.longitude}';
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    for (Pharmacy pharmacy in _pharmacies) {
+      googleMapsUrl += '&destination=${pharmacy.latitude},${pharmacy.longitude}';
+    }
+
+    if (await canLaunch(googleMapsUrl)) {
+      await launch(googleMapsUrl);
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch $googleMapsUrl';
     }
   }
 

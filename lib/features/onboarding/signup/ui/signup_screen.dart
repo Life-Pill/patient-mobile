@@ -113,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
   };
 
   final response = await http.post(
-  Uri.parse(NewCustomerCreate),
+  Uri.parse(CreateNewCustomer),
   headers: <String, String>{
   'Content-Type': 'application/json; charset=UTF-8',
   },
