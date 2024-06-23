@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
-
+import 'package:patientmobileapplication/features/Data/profile_data.dart';
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 
@@ -17,6 +17,7 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
+
     _initialization = Firebase.initializeApp();
   }
 
@@ -42,6 +43,7 @@ class _AuthGateState extends State<AuthGate> {
               if (!authSnapshot.hasData) {
                 return const SignInPage();
               }
+
               return const HomeScreen();
             },
           );

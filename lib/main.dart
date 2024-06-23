@@ -9,6 +9,7 @@ import 'package:patientmobileapplication/features/main_screens/main_home/ui/main
 import 'package:patientmobileapplication/features/onboarding/splash/ui/splash_screen.dart';
 import 'package:patientmobileapplication/firebase_options.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +18,12 @@ void main() async {
 //  );
    // Create an instance of ProfileController to fetch profile data
   final profileController = Get.put(ProfileController());
-  
+
   // Fetch profile data
   print('Fetching profile data...');
-  await profileController.fetchProfileData(1);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? customerId = prefs.getInt('customerId');
+  await profileController.fetchProfileDataWithId(1);
   print('Profile data fetched successfully!');
  
   // Initialize Hive
@@ -31,15 +34,14 @@ void main() async {
 
 //Prescriptions Box
  final Box<List<dynamic>> prescriptionsBox = await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
-
   //Reports Image Box
  final Box<List<dynamic>> reportsImageBox= await Hive.openBox<List<dynamic>>('reportsImageBox');
-
   //Reports Box
  final Box<List<dynamic>> reportsPdfBox = await Hive.openBox<List<dynamic>>('reportsPdfBox');
- 
   //Reports Box
  final Box<Map<dynamic, dynamic>> cartBox = await Hive.openBox<Map<dynamic, dynamic>>('cartBox');
+
+
 
 
   runApp(const MyApp());

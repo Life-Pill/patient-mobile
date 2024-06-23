@@ -12,6 +12,7 @@ import 'package:patientmobileapplication/features/onboarding/initial_data_collec
 import 'package:patientmobileapplication/features/sub_screens/privacy_policy_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/terms_and_conditions_screen.dart';
 import 'package:patientmobileapplication/global/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../../../../utilities/styles.dart';
@@ -37,6 +38,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _agreedToTerms = false;
 
   final _formKey = GlobalKey<FormState>();
+
 
   void _submit() async {
     print('---- within submit function ----');
@@ -69,7 +71,11 @@ class _SignUpPageState extends State<SignUpPage> {
           // Extract customerId from the response
           final customerId = response['customerId'];
 
-          print('---- within before signed in successfully snackbar submit function ----');
+          // Save customerId to SharedPreferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setInt('customerId', customerId);
+
+          print('---- within before signed in successfully snackbar submit function ---- customer id is $customerId');
 
           Get.snackbar('Signed in Successfully', 'Welcome',
               backgroundColor: Colors.green.shade200);
@@ -77,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
           // Pass customerId to DataCollectScreen
           Get.to(() => DataCollectScreen(
             email: emailTextEditingController.text.trim(),
-            user_id: customerId, // Pass the customerId
+            customerId: customerId, // Pass the customerId
           ));
           return;
         } else {
@@ -102,6 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
 
+
   Future<Map<String, dynamic>> postNewCustomer({
     required String email,
     required String password,
@@ -109,14 +116,14 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       // Prepare the request body with the required fields
       Map<String, String> requestBody = {
-        'customerFullName': "aa",
+        'customerFullName': "aaa",
         'customerEmail': email,
-        'customerMobileNumber': "01",
+        'customerMobileNumber': "012",
         'customerPassword': password,
-        'customerAddressStreet': "aa",
-        'customerAddressCity': "aa",
-        'customerAddressDistrict': "aa",
-        'customerNIC': "123456798",
+        'customerAddressStreet': "aaa",
+        'customerAddressCity': "aaa",
+        'customerAddressDistrict': "aaa",
+        'customerNIC': "123454798",
       };
 
       final response = await http.post(

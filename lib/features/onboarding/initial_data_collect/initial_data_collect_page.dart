@@ -8,9 +8,9 @@ import 'package:patientmobileapplication/features/main_screens/main_home/ui/main
 class DataCollectScreen extends StatefulWidget {
 
   final String email;
-  final int user_id;
+  final int customerId;
 
-  DataCollectScreen({required this.email,required this.user_id});
+  DataCollectScreen({required this.email,required this.customerId});
 
   @override
   State<DataCollectScreen> createState() => _DataCollectScreenState();
@@ -226,7 +226,6 @@ class _DataCollectScreenState extends State<DataCollectScreen> {
                   ? () {
                 Get.to(() => HomeScreen());
                 profileController.updateProfileAPI(
-                  customerId: 1,
                   name: nameController.text,
                   email: emailController.text,
                   // dob: dobController.text,
