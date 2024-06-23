@@ -60,16 +60,25 @@ class _SignUpPageState extends State<SignUpPage> {
             "email": emailTextEditingController.text.trim(),
           };
 
+          // Post user data to the backend server and get the response
+          final response = await postNewCustomer(
+            email: emailTextEditingController.text.trim(),
+            password: passwordTextEditingController.text.trim(),
+          );
 
-
-          // Post user data to the backend server
-          await postNewCustomer(email:emailTextEditingController.text.trim(),password:passwordTextEditingController.text.trim());
+          // Extract customerId from the response
+          final customerId = response['customerId'];
 
           print('---- within before signed in successfully snackbar submit function ----');
 
           Get.snackbar('Signed in Successfully', 'Welcome',
               backgroundColor: Colors.green.shade200);
-          Get.to(() => DataCollectScreen(email: emailTextEditingController.text.trim()));
+
+          // Pass customerId to DataCollectScreen
+          Get.to(() => DataCollectScreen(
+            email: emailTextEditingController.text.trim(),
+            user_id: customerId, // Pass the customerId
+          ));
           return;
         } else {
           print('================User authentication failed=================');
@@ -93,45 +102,43 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
 
-
-// Function to post user data to the backend server
-  Future<void> postNewCustomer({
-  required String email,
-  required String password,
+  Future<Map<String, dynamic>> postNewCustomer({
+    required String email,
+    required String password,
   }) async {
-  try {
-  // Prepare the request body with the required fields
-  Map<dynamic, dynamic> requestBody = {
-  'customerFullName': "aa",
-  'customerEmail': email,
-  'customerMobileNumber': "01",
-  'customerPassword': password,
-  'customerAddressStreet': "aa",
-  'customerAddressCity': "aa",
-  'customerAddressDistrict': "aa",
-  'customerNIC': "123456798",
-  };
+    try {
+      // Prepare the request body with the required fields
+      Map<String, String> requestBody = {
+        'customerFullName': "aa",
+        'customerEmail': email,
+        'customerMobileNumber': "01",
+        'customerPassword': password,
+        'customerAddressStreet': "aa",
+        'customerAddressCity': "aa",
+        'customerAddressDistrict': "aa",
+        'customerNIC': "123456798",
+      };
 
-  final response = await http.post(
-  Uri.parse(CreateNewCustomer),
-  headers: <String, String>{
-  'Content-Type': 'application/json; charset=UTF-8',
-  },
-  body: jsonEncode(requestBody),
-  );
+      final response = await http.post(
+        Uri.parse(CreateNewCustomer),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
 
-  if (response.statusCode == 200 || response.statusCode == 201) {
-  print('Customer created successfully');
-  CustomSnackBar(true, "Successful", "Customer Created Successfully");
-  } else {
-  throw Exception('Failed to create customer: ${response.statusCode}');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Customer created successfully');
+        CustomSnackBar(true, "Successful", "Customer Created Successfully");
+        return jsonDecode(response.body); // Return the parsed response body
+      } else {
+        throw Exception('Failed to create customer: ${response.statusCode}');
+      }
+    } catch (error) {
+      CustomSnackBar(false, 'Error Occurred', 'Try again');
+      throw Exception('Failed to create customer: $error');
+    }
   }
-  } catch (error) {
-  CustomSnackBar(false, 'Error Occured', 'Try again');
-  throw Exception('Failed to create customer: $error');
-  }
-  }
-
 
   @override
   Widget build(BuildContext context) {

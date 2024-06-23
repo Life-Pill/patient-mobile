@@ -110,6 +110,7 @@ class ProfileEditScreen extends StatelessWidget {
               onPressed: () {
                 Get.back();
                 profileController.updateProfileAPI(
+                  customerId:1,
                   name: nameController.text,
                   email: emailController.text,
                   // dob: dobController.text,

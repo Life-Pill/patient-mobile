@@ -21,7 +21,7 @@ class Profile {
 }
 
 class ProfileController extends GetxController {
-    final http.Client? httpClient;
+  final http.Client? httpClient;
 
   ProfileController({http.Client? httpClient}) : this.httpClient = httpClient;
   var currentUser = Profile().obs;
@@ -29,35 +29,29 @@ class ProfileController extends GetxController {
   void updateProfile({
     required String name,
     required String email,
-    // required String dob,
-    //required String gender,
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
     required String phoneNumber,
-   // required String nic,
   }) {
     currentUser.update((val) {
       val?.name = name;
       val?.email = email;
-      //  val?.dob = dob;
-      // val?.gender = gender;
       val?.addressStreet = addressStreet;
       val?.addressCity = addressCity;
       val?.addressDistrict = addressDistrict;
       val?.phoneNumber = phoneNumber;
-     // val?.nic = nic;
     });
   }
 
   Future<void> updateProfileAPI({
+    required int customerId,
     required String name,
     required String email,
     required String phoneNumber,
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
-   // required String nic,
   }) async {
     try {
       // Prepare the request body with only the required fields
@@ -65,15 +59,14 @@ class ProfileController extends GetxController {
         'customerFullName': name,
         'customerEmail': email,
         'customerMobileNumber': phoneNumber,
-        "customerPassword": "pwd", // TODO: Change this to the actual password
+        "customerPassword": "pwd",
         'customerAddressStreet': addressStreet,
         'customerAddressCity': addressCity,
         'customerAddressDistrict': addressDistrict,
-       // 'customerNIC':nic,
       };
 
       final response = await http.put(
-        Uri.parse(CustomerDetailsAPI),
+        Uri.parse('$CustomerDetailsAPI$customerId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -89,44 +82,34 @@ class ProfileController extends GetxController {
           addressStreet: addressStreet,
           addressCity: addressCity,
           addressDistrict: addressDistrict,
-        //  nic: nic,
         );
         print('Profile updated successfully');
-       CustomSnackBar(true,"Successful", "Profile Details Changed");
+        CustomSnackBar(true,"Successful", "Profile Details Changed");
       } else {
         throw Exception('Failed to update profile: ${response.statusCode}');
       }
     } catch (error) {
-      CustomSnackBar(false,'Error Occured', 'Try again');
+      CustomSnackBar(false,'Error Occurred', 'Try again');
       throw Exception('Failed to update profile: $error');
     }
   }
 
-  Future<void> fetchProfileData() async {
+  Future<void> fetchProfileData(int customerId) async {
     try {
-      final response = await http.get(Uri.parse(CustomerDetailsAPI));
+      final response = await http.get(Uri.parse('$CustomerDetailsAPI$customerId'));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         updateProfile(
           name: jsonData['customerFullName'],
           email: jsonData['customerEmail'],
-          // dob: '', // Fill with appropriate value if available in your API
-          // gender:
-          //     'male', // Fill with appropriate value if available in your API
           addressStreet: jsonData['customerAddressStreet'],
-
           addressCity: jsonData['customerAddressCity'],
-
           addressDistrict: jsonData['customerAddressDistrict'],
           phoneNumber: jsonData['customerMobileNumber'],
-         // nic: jsonData['customerNIC'] ?? '0123456789', // TODO: NIC value is not passed in the API
         );
         print('Name: ${currentUser.value.name}');
         print('Email: ${currentUser.value.email}');
-        //   print('Date of Birth: ${currentUser.value.dob}');
-        // print('Gender: ${currentUser.value.gender}');
-        print(
-            'Address: ${currentUser.value.addressStreet}, ${currentUser.value.addressCity} ,${currentUser.value.addressDistrict}');
+        print('Address: ${currentUser.value.addressStreet}, ${currentUser.value.addressCity} ,${currentUser.value.addressDistrict}');
         print('Phone Number: ${currentUser.value.phoneNumber}');
       } else {
         throw Exception('Failed to load profile data');

@@ -20,7 +20,7 @@ void main() async {
   
   // Fetch profile data
   print('Fetching profile data...');
-  await profileController.fetchProfileData();
+  await profileController.fetchProfileData(1);
   print('Profile data fetched successfully!');
  
   // Initialize Hive
