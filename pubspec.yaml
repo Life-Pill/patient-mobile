@@ -68,7 +68,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   image: ^4.2.0
   geocoding: ^3.0.0
-
+  shared_preferences: ^2.2.3
 
 
 dev_dependencies:
