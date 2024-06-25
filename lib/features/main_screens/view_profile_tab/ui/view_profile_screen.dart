@@ -12,6 +12,7 @@ import 'package:patientmobileapplication/features/main_screens/components/top_na
 import 'package:patientmobileapplication/features/onboarding/signin/ui/signin_screen.dart';
 
 import 'package:patientmobileapplication/features/searching/search_results/ui/search_tabs.dart';
+import 'package:patientmobileapplication/features/sub_screens/customer_services.dart';
 import 'package:patientmobileapplication/features/sub_screens/privacy_policy_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/profile_edit_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/terms_and_conditions_screen.dart';
@@ -108,8 +109,11 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                               btnIcon: Icons.credit_card,
                               btnText: "Privacy Policy"),
                         ),
-                        AccountOptionButton(
-                            btnIcon: Icons.call, btnText: "Customer Services"),
+                        GestureDetector(
+                          onTap: (){Get.to(()=>CustomerServicesScreen());},
+                          child: AccountOptionButton(
+                              btnIcon: Icons.call, btnText: "Customer Services"),
+                        ),
                         GestureDetector(
                           onTap: () {
                                _logout(context); // Call logout function when the button is tapped
