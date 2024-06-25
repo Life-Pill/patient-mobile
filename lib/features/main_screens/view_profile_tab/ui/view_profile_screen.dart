@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,9 +71,12 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         AccountOptionButton(
                             btnIcon: Icons.credit_card,
                             btnText: "Payment methods"),
-                        AccountOptionButton(
-                            btnIcon: Icons.password,
-                            btnText: "Change Password"),
+                        GestureDetector(
+                          onTap: () { Get.to(()=>ForgotPasswordScreen());},
+                          child: AccountOptionButton(
+                              btnIcon: Icons.password,
+                              btnText: "Change Password"),
+                        ),
                         AccountOptionButton(
                             btnIcon: Icons.settings, btnText: "Settings"),
                         Text(
