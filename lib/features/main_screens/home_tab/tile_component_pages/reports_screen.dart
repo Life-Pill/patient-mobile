@@ -20,7 +20,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reports'),
+        title: Text('Reports and Prescriptions'),
       ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(

@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Camera Tab
                 CameraTabScreen(),
                 // People Tab
-                OtherAccountsScreen(),
+              //  OtherAccountsScreen(),
                 // Profile Tab
                 ViewProfileScreen(),
               ],
@@ -57,8 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(Icons.shopping_cart), label: "Cart"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.camera_alt), label: 'Camera'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.people), label: 'People'),
+              // BottomNavigationBarItem(
+              //     icon: Icon(Icons.people), label: 'People'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: 'Profile'),
             ],

@@ -73,11 +73,6 @@ void main() {
 
     expect(find.byType(CameraTabScreen), findsOneWidget);
 
-//Tap on people tab
-    await tester.tap(find.byIcon(Icons.people));
-    await tester.pumpAndSettle(Duration(seconds: 2));
-
-    expect(find.byType(OtherAccountsScreen), findsOneWidget);
 
 //Tap on profile tab
     await tester.tap(find.byIcon(Icons.person));

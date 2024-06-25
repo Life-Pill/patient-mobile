@@ -10,6 +10,7 @@ import 'package:patientmobileapplication/features/main_screens/home_tab/componen
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/reports_screen.dart';
+import 'package:patientmobileapplication/features/sub_screens/prescription_response_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/prescriptions_upload_screen.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -73,6 +74,18 @@ class _HomeState extends State<Home> {
                             description: "Upload your prescription here",
                             bgcolor: Colors.greenAccent.shade200,
                             iconColor: Colors.blueAccent.shade200,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => PrescriptionResponseScreen());
+                          },
+                          child: HomeTile(
+                            icon: Icons.notification_important_outlined,
+                            title: "Prescription responses",
+                            description: "See the responses here",
+                            bgcolor: Colors.blue.shade200,
+                            iconColor: Colors.orangeAccent.shade200,
                           ),
                         ),
                         HomeTile(

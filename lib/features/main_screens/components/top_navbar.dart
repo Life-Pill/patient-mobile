@@ -79,7 +79,7 @@ class TopNavBar extends StatelessWidget {
                           "Hello, ${profileController.currentUser.value.name}",
                           textAlign: TextAlign.left,
                           style: GoogleFonts.poppins(
-                            fontSize: 25.0,
+                            fontSize: 22.0,
                             fontWeight: FontWeight.w700,
                             color: Color(0xFFFDFDFC),
                           ),
@@ -117,7 +117,7 @@ class TopNavBar extends StatelessWidget {
                   TabName,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
-                    fontSize: 30.0,
+                    fontSize: 27.0,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFFFDFDFC),
                   ),

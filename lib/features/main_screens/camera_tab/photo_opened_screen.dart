@@ -27,7 +27,7 @@ class PhotoOpenScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Report Images"),
+        title: Text("Documents"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
