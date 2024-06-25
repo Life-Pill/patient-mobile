@@ -14,7 +14,7 @@ class Profile {
   String addressCity = "";
   String addressDistrict = "";
   String phoneNumber = "";
-  String nic = "";
+  //String nic = "";
 
   List<String> reports = [];
   List<String> prescriptions = [];
@@ -35,7 +35,7 @@ class ProfileController extends GetxController {
     required String addressCity,
     required String addressDistrict,
     required String phoneNumber,
-   // required String nic,
+    required String nic,
   }) {
     currentUser.update((val) {
       val?.name = name;
@@ -57,7 +57,7 @@ class ProfileController extends GetxController {
     required String addressStreet,
     required String addressCity,
     required String addressDistrict,
-   // required String nic,
+    //required String nic,
   }) async {
     try {
       // Prepare the request body with only the required fields
@@ -65,11 +65,11 @@ class ProfileController extends GetxController {
         'customerFullName': name,
         'customerEmail': email,
         'customerMobileNumber': phoneNumber,
-        "customerPassword": "pwd", // TODO: Change this to the actual password
+        "customerPassword": "pwd",
         'customerAddressStreet': addressStreet,
         'customerAddressCity': addressCity,
         'customerAddressDistrict': addressDistrict,
-       // 'customerNIC':nic,
+        'customerNIC':"123456852",
       };
 
       final response = await http.put(
@@ -89,7 +89,7 @@ class ProfileController extends GetxController {
           addressStreet: addressStreet,
           addressCity: addressCity,
           addressDistrict: addressDistrict,
-        //  nic: nic,
+          nic: "852741963",
         );
         print('Profile updated successfully');
        CustomSnackBar(true,"Successful", "Profile Details Changed");
@@ -97,7 +97,7 @@ class ProfileController extends GetxController {
         throw Exception('Failed to update profile: ${response.statusCode}');
       }
     } catch (error) {
-      CustomSnackBar(false,'Error Occured', 'Try again');
+    //  CustomSnackBar(false,'Error Occured', 'Try again');
       throw Exception('Failed to update profile: $error');
     }
   }
@@ -119,7 +119,7 @@ class ProfileController extends GetxController {
 
           addressDistrict: jsonData['customerAddressDistrict'],
           phoneNumber: jsonData['customerMobileNumber'],
-         // nic: jsonData['customerNIC'] ?? '0123456789', // TODO: NIC value is not passed in the API
+          nic: jsonData['customerNIC'] ?? '01236789',
         );
         print('Name: ${currentUser.value.name}');
         print('Email: ${currentUser.value.email}');

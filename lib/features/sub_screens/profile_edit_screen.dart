@@ -14,7 +14,7 @@ class ProfileEditScreen extends StatelessWidget {
   TextEditingController addressStreetController = TextEditingController();
   TextEditingController addressDistrictController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  // TextEditingController nicController = TextEditingController();
+  //TextEditingController nicController = TextEditingController();
 
   ProfileEditScreen() {
     updateControllers();
@@ -118,7 +118,7 @@ class ProfileEditScreen extends StatelessWidget {
                   addressStreet: addressStreetController.text,
                   addressDistrict: addressDistrictController.text,
                   phoneNumber: phoneNumberController.text,
-                  // nic: nicController.text,
+                   //nic: nicController.text,
                 );
                 updateControllers(); // Update text controllers after profile update
               },

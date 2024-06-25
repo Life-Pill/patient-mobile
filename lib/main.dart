@@ -63,10 +63,10 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
 
 
-       // home: SplashScreen(),
+ home: SplashScreen(),
 
-home:  AuthGate(),
-  //    home: const HomeScreen(),
+//home:  AuthGate(),
+     // home: const HomeScreen(),
 
 
     );

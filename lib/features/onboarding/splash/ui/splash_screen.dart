@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(const Duration(seconds: 3), () {
-    //  Get.to(() =>AuthGate());
+      Get.to(() =>AuthGate());
 
     });
   }
