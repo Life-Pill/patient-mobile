@@ -112,6 +112,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
       // Handle response
       if (response.statusCode == 200) {
         print('Prescription uploaded successfully: ${response.data}');
+        await _sendOrderDetails(ConstCustomerID, response.data, "message");
       } else {
         print('Error uploading Prescription: ${response.statusCode}');
       }
@@ -119,6 +120,36 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
       print('Error uploading Prescription: $error');
     }
   }
+
+  Future<void> _sendOrderDetails(int customerId, String prescriptionId, String customerMessage) async {
+    try {
+      // Prepare the request body with the required fields
+      Map<String, dynamic> requestBody = {
+        'customerId': customerId,
+        'prescriptionId': prescriptionId,
+        'customerMessage': customerMessage,
+      };
+
+      // Send POST request with the order details
+      final response = await http.post(
+        Uri.parse(PrescriptionOrderPostAPI),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      // Handle response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Order details sent successfully');
+      } else {
+        print('Error sending order details: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error sending order details: $error');
+    }
+  }
+
 
   Future<void> _saveImageInHive(File imageFile) async {
     try {

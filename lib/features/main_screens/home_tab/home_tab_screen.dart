@@ -88,8 +88,8 @@ class _HomeState extends State<Home> {
                           },
                           child: HomeTile(
                             icon: Icons.file_copy,
-                            title: "My Reports",
-                            description: "View stored reports",
+                            title: "Stored Reports and Prescriptions",
+                            description: "View stored reports and prescriptions",
                             bgcolor: Colors.greenAccent.shade200,
                             iconColor: Colors.blueAccent.shade200,
                           ),
@@ -100,8 +100,8 @@ class _HomeState extends State<Home> {
                           },
                           child: HomeTile(
                             icon: Icons.medical_information_outlined,
-                            title: "Prescriptions",
-                            description: "View stored prescriptions",
+                            title: "Uploaded Prescriptions",
+                            description: "View uploaded prescriptions",
                             bgcolor: Colors.lightBlue.shade200,
                             iconColor: Colors.orangeAccent.shade200,
                           ),

@@ -59,7 +59,7 @@ class TopNavBar extends StatelessWidget {
                             color: Colors.white,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width - 220.0,
+                            width: MediaQuery.of(context).size.width - 210.0,
                             child: Text(
                               " ${profileController.currentUser.value.addressStreet}, ${profileController.currentUser.value.addressCity}, ${profileController.currentUser.value.addressDistrict}",
                               softWrap: true,
@@ -73,13 +73,16 @@ class TopNavBar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text(
-                        "Hello, ${profileController.currentUser.value.name}",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFFFDFDFC),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 210.0,
+                        child: Text(
+                          "Hello, ${profileController.currentUser.value.name}",
+                          textAlign: TextAlign.left,
+                          style: GoogleFonts.poppins(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFFDFDFC),
+                          ),
                         ),
                       ),
                     ],
