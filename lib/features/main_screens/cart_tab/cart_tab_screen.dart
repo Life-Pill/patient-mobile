@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
+import 'package:patientmobileapplication/features/sub_screens/payment_details_screen.dart';
 
 class CartTabScreen extends StatelessWidget {
   final CartController cartController = Get.put(CartController());
@@ -69,7 +70,9 @@ class CartTabScreen extends StatelessWidget {
                 maximumSize: Size(200, 50),
                 backgroundColor: Colors.greenAccent.shade200,
               ),
-              onPressed: () {},
+              onPressed: () {
+
+                Get.to(()=>PaymentDetailsScreen());},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -83,3 +86,4 @@ class CartTabScreen extends StatelessWidget {
     );
   }
 }
+

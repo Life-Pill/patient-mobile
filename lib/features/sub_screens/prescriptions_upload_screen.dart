@@ -256,19 +256,19 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                         SizedBox(
                           height: 40.0,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          onPressed: _resetHiveBoxes,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Space between icon and text
-                              Text("Reset Hive Boxes"),
-                            ],
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: Colors.red,
+                        //   ),
+                        //   onPressed: _resetHiveBoxes,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       // Space between icon and text
+                        //       Text("Reset Hive Boxes"),
+                        //     ],
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 20.0,
                         ),

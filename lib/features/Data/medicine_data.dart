@@ -3,7 +3,7 @@ import 'package:patientmobileapplication/features/DataModel/medicine_data_model.
 
 List<Medicine> medicineData = [
   Medicine(
-    name: 'Panadol',
+    name: 'Paracetamol',
     imageUrl: 'panadol.jpg',
     price: 5.99,
     unit: 'Tablet',
@@ -19,7 +19,7 @@ List<Medicine> medicineData = [
     pharmacy_ids: ['ph3', 'ph4'],
   ),
   Medicine(
-    name: 'Aspirin',
+    name: 'Ciprofloxacin',
     imageUrl: 'aspirin.jpg',
     price: 3.25,
     unit: 'Tablet',
@@ -82,5 +82,5 @@ List<Medicine> medicineData = [
     medicine_id: '10',
     pharmacy_ids: ['ph1', 'ph3'],
   ),
-  // Add more entries here...
+
 ];

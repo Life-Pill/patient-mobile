@@ -84,4 +84,9 @@ class CartController extends GetxController {
       }
     }).whereType<CartItem>().toList());
   }
-}
+  Future<void> clearCart() async {
+    await cartBox.clear(); // Clear Hive box
+    cartItems.clear(); // Clear in-memory items
+  }
+
+  }

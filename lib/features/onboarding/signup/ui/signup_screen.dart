@@ -122,12 +122,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   if (response.statusCode == 200 || response.statusCode == 201) {
   print('Customer created successfully');
-  CustomSnackBar(true, "Successful", "Customer Created Successfully");
+  //CustomSnackBar(true, "Successful", "Customer Created Successfully");
   } else {
   throw Exception('Failed to create customer: ${response.statusCode}');
   }
   } catch (error) {
-  CustomSnackBar(false, 'Error Occured', 'Try again');
+ // CustomSnackBar(false, 'Error Occured', 'Try again');
   throw Exception('Failed to create customer: $error');
   }
   }
