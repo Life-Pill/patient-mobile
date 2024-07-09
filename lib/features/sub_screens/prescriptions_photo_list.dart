@@ -9,7 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/photo_opened_screen.dart';
 
 class PrescriptionPhotosList extends StatefulWidget {
-  final List<String> prescriptions;
+
+   List<Map<String, String>> prescriptions = [];
 
   PrescriptionPhotosList({required this.prescriptions});
 

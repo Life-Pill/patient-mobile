@@ -17,7 +17,7 @@ class Profile {
   //String nic = "";
 
   List<String> reports = [];
-  List<String> prescriptions = [];
+  List<Map<String, String>> prescriptions = [];
 }
 
 class ProfileController extends GetxController {
@@ -140,7 +140,7 @@ class ProfileController extends GetxController {
     currentUser.value.reports.add(imagePath);
   }
 
-  void addPrescription(String imagePath) {
-    currentUser.value.prescriptions.add(imagePath);
-  }
+  // void addPrescription(String imagePath) {
+  //   currentUser.value.prescriptions.add(imagePath);
+  // }
 }
