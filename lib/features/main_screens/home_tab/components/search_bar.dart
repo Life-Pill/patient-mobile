@@ -115,8 +115,57 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms =
-      medicineData.map((medicine) => medicine.name).toList()..sort();
+  List<String> searchTerms = [
+  "Azithromycin",
+  "Clarithromycin",
+  "Montelukast",
+  "Salbutamol",
+  "Warfarin",
+  "Clopidogrel",
+  "Ondansetron",
+  "Metoclopramide",
+  "Ranitidine",
+  "Famotidine",
+  "Sertraline",
+  "Fluoxetine",
+  "Esomeprazole",
+  "Allopurinol",
+  "Colchicine",
+  "Digoxin",
+  "Nitroglycerin",
+  "Metoprolol",
+  "Carvedilol",
+  "Losartan",
+  "Valsartan",
+  "Doxycycline",
+  "Tetracycline",
+  "Insulin Glargine",
+  "Insulin Aspart",
+  "Phenobarbital",
+  "Phenytoin",
+  "Levetiracetam",
+  "Gabapentin",
+  "Paracetamol",
+  "Ibuprofen",
+  "Amoxicillin",
+  "Ciprofloxacin",
+  "Cetirizine",
+  "Loratadine",
+  "Metformin",
+  "Glimepiride",
+  "Amlodipine",
+  "Lisinopril",
+  "Omeprazole",
+  "Pantoprazole",
+  "Furosemide",
+  "Spironolactone",
+  "Diazepam",
+  "Alprazolam",
+  "Atorvastatin",
+  "Simvastatin","Levothyroxine",
+  "Liothyronine"
+  ];
+   //  medicineData.map((medicine) => medicine.name).toList()..sort();
 
   @override
   List<Widget> buildActions(BuildContext context) {

@@ -31,7 +31,7 @@ class _DataCollectScreenState extends State<DataCollectScreen> {
   TextEditingController addressDistrictController = TextEditingController();
 
   TextEditingController phoneNumberController = TextEditingController();
-
+  TextEditingController nicController = TextEditingController();
   bool nameBoxFieldChanged = false;
   bool streetFieldChanged = false;
   bool cityFieldChanged = false;
@@ -233,7 +233,7 @@ class _DataCollectScreenState extends State<DataCollectScreen> {
                   addressStreet: addressStreetController.text,
                   addressDistrict: addressDistrictController.text,
                   phoneNumber: phoneNumberController.text,
-                  // nic: nicController.text,
+                 // nic: nicController.text,
                 );
                 updateControllers();
               }

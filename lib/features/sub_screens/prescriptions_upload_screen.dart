@@ -27,14 +27,15 @@ class PrescriptionsUploadScreen extends StatefulWidget {
 }
 
 class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
+  late Box<List<dynamic>> prescriptionsImageBox;
+  final Profile profileData = Profile();
+  final TextEditingController _messageController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _openPrescriptionImageBox();
   }
-
-  late Box<List<dynamic>> prescriptionsImageBox;
-  final Profile profileData = Profile();
 
   Future<File> _convertImageToPng(File imageFile) async {
     final bytes = await imageFile.readAsBytes();
@@ -58,13 +59,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
 
     if (pickedFile != null) {
       final pngFile = await _convertImageToPng(File(pickedFile.path));
-      setState(() {
-        profileData.prescriptions.add(pngFile.path);
-      });
-      print(pngFile.path);
-      print("All reports: ${profileData.prescriptions}");
-      await _uploadImage(pngFile);
-      await _saveImageInHive(pngFile);
+      await _promptMessageAndUpload(pngFile);
     } else {
       print('No image selected.');
     }
@@ -76,42 +71,71 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
 
     if (pickedFile != null) {
       final pngFile = await _convertImageToPng(File(pickedFile.path));
-      setState(() {
-        profileData.prescriptions.add(pngFile.path);
-      });
-      print(pngFile.path);
-      print("All prescriptions: ${profileData.prescriptions}");
-
-      await _saveImageInHive(pngFile);
-      await _uploadImage(pngFile);
+      await _promptMessageAndUpload(pngFile);
     } else {
       print('No image selected.');
     }
   }
 
-  Future<void> _uploadImage(File imageFile) async {
+  Future<void> _promptMessageAndUpload(File imageFile) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter Message'),
+          content: TextField(
+            controller: _messageController,
+            decoration: InputDecoration(hintText: "Enter any message if needed"),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Upload'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                setState(() {
+                  profileData.prescriptions.add({
+                    'path': imageFile.path,
+                    'message': _messageController.text
+                  });
+                });
+                await _uploadImage(imageFile, _messageController.text);
+                await _saveImageInHive(imageFile, _messageController.text);
+                _messageController.clear();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _uploadImage(File imageFile, String message) async {
     try {
-      // Create Dio instance
       diodart.Dio dio = diodart.Dio();
 
-      // Create FormData object
       diodart.FormData formData = diodart.FormData.fromMap({
         'file': await diodart.MultipartFile.fromFile(
           imageFile.path,
-          filename: 'image.png', // Specify filename with correct extension
-          contentType: MediaType('image', 'png'), // Specify content type as PNG
+          filename: 'image.png',
+          contentType: MediaType('image', 'png'),
         ),
+        'message': message,
       });
 
-      // Send POST request with FormData
       diodart.Response response = await dio.post(
         CustomerPrescriptionsAPI,
         data: formData,
       );
 
-      // Handle response
       if (response.statusCode == 200) {
         print('Prescription uploaded successfully: ${response.data}');
+        await _sendOrderDetails(ConstCustomerID, response.data, message);
       } else {
         print('Error uploading Prescription: ${response.statusCode}');
       }
@@ -120,16 +144,38 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
     }
   }
 
-  Future<void> _saveImageInHive(File imageFile) async {
+  Future<void> _sendOrderDetails(int customerId, String prescriptionId, String customerMessage) async {
+    try {
+      Map<String, dynamic> requestBody = {
+        'customerId': customerId,
+        'prescriptionId': prescriptionId,
+        'customerMessage': customerMessage,
+      };
+
+      final response = await http.post(
+        Uri.parse(PrescriptionOrderPostAPI),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Order details sent successfully');
+      } else {
+        print('Error sending order details: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error sending order details: $error');
+    }
+  }
+
+  Future<void> _saveImageInHive(File imageFile, String message) async {
     try {
       List<int> bytes = await imageFile.readAsBytes();
-
       String dateTime = DateTime.now().toString();
+      final data = [dateTime, bytes, message];
 
-      // Save the image data along with the date and time
-      final data = [dateTime, bytes];
-
-      // Save the data in the prescriptionsImageBox
       await prescriptionsImageBox.add(data);
       print('Prescription saved in Hive');
     } catch (e) {
@@ -142,17 +188,13 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
   }
 
   Future<void> _resetHiveBoxes() async {
-    // Close existing boxes if they are open
     if (prescriptionsImageBox.isOpen) await prescriptionsImageBox.close();
 
-    // Delete existing Hive database files from disk
     final appDocumentDir = await getApplicationDocumentsDirectory();
     final hiveDirectory = Directory(appDocumentDir.path);
     hiveDirectory.deleteSync(recursive: true);
 
-    // Open new Hive boxes
-    prescriptionsImageBox =
-    await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
+    prescriptionsImageBox = await Hive.openBox<List<dynamic>>('prescriptionsImageBox');
 
     print('Hive boxes reset');
   }
@@ -177,9 +219,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 20.0,
-                        ),
+                        SizedBox(height: 20.0),
                         Text(
                           "Send us your prescription to us by taking a photo or uploading it from your gallery",
                           textAlign: TextAlign.justify,
@@ -189,9 +229,7 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
+                        SizedBox(height: 20.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -200,9 +238,8 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.camera_alt), // Icon added here
-                                  SizedBox(
-                                      width: 10), // Space between icon and text
+                                  Icon(Icons.camera_alt),
+                                  SizedBox(width: 10),
                                   Text("Open\nCamera"),
                                 ],
                               ),
@@ -212,37 +249,18 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons
-                                      .photo_size_select_actual_rounded), // Icon added here
-                                  SizedBox(
-                                      width: 10), // Space between icon and text
+                                  Icon(Icons.photo_size_select_actual_rounded),
+                                  SizedBox(width: 10),
                                   Text("Open\nGallery"),
                                 ],
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          onPressed: _resetHiveBoxes,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Space between icon and text
-                              Text("Reset Hive Boxes"),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
+                        SizedBox(height: 40.0),
                         PrescriptionPhotosList(
-                            prescriptions: profileData.prescriptions),
+                          prescriptions: profileData.prescriptions,
+                        ),
                       ],
                     ),
                   ),
@@ -256,12 +274,11 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
               backgroundColor: Colors.greenAccent.shade200,
             ),
             onPressed: () {
-              Get.to(() =>HomeScreen());
+              Get.to(() => HomeScreen());
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Space between icon and text
                 Text("Go Back to Home Page"),
               ],
             ),
@@ -271,3 +288,5 @@ class _PrescriptionsUploadScreenState extends State<PrescriptionsUploadScreen> {
     );
   }
 }
+
+

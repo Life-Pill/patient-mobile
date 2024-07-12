@@ -67,8 +67,7 @@ dependencies:
   photo_view: ^0.14.0
   flutter_dotenv: ^5.1.0
   image: ^4.2.0
-
-
+  geocoding: ^3.0.0
 
 
 

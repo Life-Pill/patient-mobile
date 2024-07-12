@@ -9,7 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:patientmobileapplication/features/main_screens/camera_tab/photo_opened_screen.dart';
 
 class PrescriptionPhotosList extends StatefulWidget {
-  final List<String> prescriptions;
+
+   List<Map<String, String>> prescriptions = [];
 
   PrescriptionPhotosList({required this.prescriptions});
 
@@ -68,20 +69,20 @@ class _PrescriptionPhotosListState extends State<PrescriptionPhotosList> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
-        children: imageDetailsList.map((details) {
+        children: imageDetailsList.map((prescription) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Created: ${details['formattedTime']}',
+                  'Created: ${prescription['formattedTime']}',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 GestureDetector(
                   onTap: () {
                     print("tapped on image");
-                    Get.to(() => PhotoOpenScreen(imageBytes: details['imageBytes']));
+                    Get.to(() => PhotoOpenScreen(imageBytes: prescription['imageBytes']));
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -92,13 +93,27 @@ class _PrescriptionPhotosListState extends State<PrescriptionPhotosList> {
                         width: 1.0,
                       ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.memory(
-                        details['imageBytes'],
-                        fit: BoxFit.fitWidth,
-                      ),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Image.memory(
+                            prescription['imageBytes'],
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                        if (prescription['message'] != null && prescription['message']!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              prescription['message']!, // Get message from map
+                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                      ],
                     ),
+
+
                   ),
                 ),
               ],

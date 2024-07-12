@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:patientmobileapplication/features/Data/pharmacy_locations.dart';
+import 'package:patientmobileapplication/features/Repository/search_results_from_api.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
-
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/home_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/components/search_bar.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/prescriptions_screen.dart';
 import 'package:patientmobileapplication/features/main_screens/home_tab/tile_component_pages/reports_screen.dart';
+import 'package:patientmobileapplication/features/sub_screens/prescription_response_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/prescriptions_upload_screen.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Data/profile_data.dart';
@@ -26,7 +28,7 @@ class _HomeState extends State<Home> {
   final ProfileController profileController = Get.put(ProfileController());
   Profile current_user = new Profile();
 
-void _openGoogleMaps() async {
+  void _openGoogleMaps() async {
     String baseUrl = 'https://www.google.com/maps/search/?api=1';
     String query = pharmacyLocations.map((location) => 'query=$location').join('&');
     String url = '$baseUrl&$query';
@@ -37,7 +39,6 @@ void _openGoogleMaps() async {
       throw 'Could not launch $url';
     }
   }
-
 
 
   @override
@@ -66,7 +67,6 @@ void _openGoogleMaps() async {
                         GestureDetector(
                           onTap: () {
                             Get.to(() => PrescriptionsUploadScreen());
-                       
                           },
                           child: HomeTile(
                             icon: Icons.file_copy,
@@ -74,6 +74,18 @@ void _openGoogleMaps() async {
                             description: "Upload your prescription here",
                             bgcolor: Colors.greenAccent.shade200,
                             iconColor: Colors.blueAccent.shade200,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => PrescriptionResponseScreen());
+                          },
+                          child: HomeTile(
+                            icon: Icons.notification_important_outlined,
+                            title: "Prescription responses",
+                            description: "See the responses here",
+                            bgcolor: Colors.blue.shade200,
+                            iconColor: Colors.orangeAccent.shade200,
                           ),
                         ),
                         HomeTile(
@@ -89,8 +101,8 @@ void _openGoogleMaps() async {
                           },
                           child: HomeTile(
                             icon: Icons.file_copy,
-                            title: "My Reports",
-                            description: "View stored reports",
+                            title: "Stored Reports and Prescriptions",
+                            description: "View stored reports and prescriptions",
                             bgcolor: Colors.greenAccent.shade200,
                             iconColor: Colors.blueAccent.shade200,
                           ),
@@ -101,8 +113,8 @@ void _openGoogleMaps() async {
                           },
                           child: HomeTile(
                             icon: Icons.medical_information_outlined,
-                            title: "Prescriptions",
-                            description: "View stored prescriptions",
+                            title: "Uploaded Prescriptions",
+                            description: "View uploaded prescriptions",
                             bgcolor: Colors.lightBlue.shade200,
                             iconColor: Colors.orangeAccent.shade200,
                           ),

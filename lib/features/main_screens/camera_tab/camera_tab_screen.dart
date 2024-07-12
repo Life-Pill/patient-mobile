@@ -221,7 +221,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                 children: [
                   TopNavBar(
                     NeedSearchBar: false,
-                    TabName: "Your Reports",
+                    TabName: "Your Reports and Prescriptions",
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -229,7 +229,7 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Add a new report by taking a photo or selecting from your gallery",
+                          "Add a new report or prescription by taking a photo or selecting from your gallery",
                           textAlign: TextAlign.justify,
                           style: GoogleFonts.poppins(
                             fontSize: 15.0,
@@ -288,19 +288,19 @@ class _CameraTabScreenState extends State<CameraTabScreen> {
                         SizedBox(
                           height: 40.0,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          onPressed: _resetHiveBoxes,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Space between icon and text
-                              Text("Reset Hive Boxes"),
-                            ],
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: Colors.red,
+                        //   ),
+                        //   onPressed: _resetHiveBoxes,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       // Space between icon and text
+                        //       Text("Reset Hive Boxes"),
+                        //     ],
+                        //   ),
+                        // ),
                         ReportPhotosList(reports: profileData.reports),
                         SizedBox(
                           height: 10.0,
