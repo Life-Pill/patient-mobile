@@ -65,7 +65,7 @@ class SearchTabs extends StatelessWidget {
             PriceSorted(searchedMedicine: searchedText),
             OpenSorted(searchedMedicine: searchedText),
            // DistanceSorted(searchedMedicine: searchedText),
-            Icon(Icons.directions_bike),
+           // Icon(Icons.directions_bike),
           ],
         ),
       ),

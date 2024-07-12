@@ -1,12 +1,99 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:get/get.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_controller.dart';
 import 'package:patientmobileapplication/features/main_screens/cart_tab/components/cart_tab_tile.dart';
 import 'package:patientmobileapplication/features/main_screens/components/top_navbar.dart';
+import 'package:patientmobileapplication/features/sub_screens/checkout_screen.dart';
 import 'package:patientmobileapplication/features/sub_screens/payment_details_screen.dart';
 
-class CartTabScreen extends StatelessWidget {
+import '../../Data/apiLinks.dart';
+
+
+class CartTabScreen extends StatefulWidget {
+  @override
+  State<CartTabScreen> createState() => _CartTabScreenState();
+}
+
+class _CartTabScreenState extends State<CartTabScreen> {
   final CartController cartController = Get.put(CartController());
+
+  Future<void> _createPaymentIntent() async {
+    try {
+      // Call your backend to create a PaymentIntent
+      final response = await http.post(
+        Uri.parse(StripePaymentIntentAPI),
+        body: json.encode({
+          'amount': 5000, // Amount in cents
+          'currency': 'usd',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      final paymentIntentData = jsonDecode(response.body);
+
+      // Initialize the payment sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntentData['clientSecret'],
+          merchantDisplayName: 'LifePill',
+        ),
+      );
+
+      // Present the payment sheet
+      await Stripe.instance.presentPaymentSheet();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Payment successful!')),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Payment failed: $error')),
+      );
+    }
+  }
+  Future<void> initPaymentSheet() async {
+    try {
+      // 1. create payment intent on the server
+      final data = await _createPaymentIntent();
+
+      // 2. initialize the payment sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          // Set to true for custom flow
+          customFlow: false,
+          // Main params
+          merchantDisplayName: 'Flutter Stripe Store Demo',
+          paymentIntentClientSecret: StripePublishableKey,
+          // Customer keys
+          customerEphemeralKeySecret: "",
+          customerId:"1",
+          // Extra options
+          applePay: const PaymentSheetApplePay(
+            merchantCountryCode: 'US',
+          ),
+          googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'US',
+            testEnv: true,
+          ),
+          style: ThemeMode.dark,
+        ),
+      );
+
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+      rethrow;
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +157,10 @@ class CartTabScreen extends StatelessWidget {
                 maximumSize: Size(200, 50),
                 backgroundColor: Colors.greenAccent.shade200,
               ),
-              onPressed: () {
+              onPressed: () async {
 
-                Get.to(()=>PaymentDetailsScreen());},
+                await Stripe.instance.presentPaymentSheet();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -86,4 +174,3 @@ class CartTabScreen extends StatelessWidget {
     );
   }
 }
-

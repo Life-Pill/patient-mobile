@@ -167,7 +167,7 @@ class _ResultsCardState extends State<ResultsCard> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  
+                                  print("Add to cart btn clicked");
                                   // Create a Cart object with sample data
                                   CartItem newCartItem = CartItem(
                                     index: cartItems.length,

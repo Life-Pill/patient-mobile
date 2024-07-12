@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:patientmobileapplication/AuthGate.dart';
+import 'package:patientmobileapplication/features/Data/apiLinks.dart';
 import 'package:patientmobileapplication/features/Data/profile_data.dart';
 import 'package:patientmobileapplication/features/main_screens/main_home/ui/main_home_screen.dart';
 import 'package:patientmobileapplication/features/onboarding/splash/ui/splash_screen.dart';
@@ -12,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
+   Stripe.publishableKey = StripePublishableKey;
 //  await Firebase.initializeApp(
 //    options: DefaultFirebaseOptions.currentPlatform,
 //  );

@@ -1,6 +1,9 @@
-const String CustomerDetailsAPI = 'http://10.0.2.2:8075/customers/1';
-const String CustomerPrescriptionsAPI = 'http://10.0.2.2:8075/prescriptionImages/1';
-const String medicineSearch = 'http://10.0.2.2:8079/lifepill/v1/medicine-finding/find-medicine?itemName=';
-const String CreateNewCustomer = 'http://10.0.2.2:8075/customers';
+const String CustomerDetailsAPI = 'http://52.23.53.102:8075/customers/1';
+const String CustomerPrescriptionsAPI = 'http://52.23.53.102:8075/prescriptionImages/1';
+const String medicineSearch = 'http://54.158.221.104/lifepill/v1/medicine-finding/find-medicine?itemName=';
+const String CreateNewCustomer = 'http://52.23.53.102:8075/customers';
 const int ConstCustomerID = 1;
-const String PrescriptionOrderPostAPI = 'http://10.0.2.2:8075/myOrders';
+const String PrescriptionOrderPostAPI = 'http://52.23.53.102:8075/myOrders';
+const String StripePublishableKey = 'sk_test_51PVdbJRo2yp20fCmAEP5g47kLmGW1I6UTIhG8NmRaEFybnB3yeIYcv4H7eYFairkBTnLn3irXfR73hbp38ZvQBgQ00jkH02WYi';
+const String StripePaymentIntentAPI = 'http://52.23.53.102:8075/payment/paymentIntent';
+const String OrderAPI = 'http://52.23.53.102:8075/orders';
