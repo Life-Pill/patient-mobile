@@ -158,8 +158,7 @@ class _CartTabScreenState extends State<CartTabScreen> {
                 backgroundColor: Colors.greenAccent.shade200,
               ),
               onPressed: () async {
-
-                await Stripe.instance.presentPaymentSheet();
+              Get.to(()=>CheckoutPage());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
